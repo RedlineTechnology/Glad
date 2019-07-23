@@ -1,0 +1,131 @@
+/* dependency: _variables */
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                                   GRID                                     */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+.full-container {
+  display: grid;
+  width: 100%;
+  height: 100vh;
+}
+.col-2 {
+  grid-template-columns: [left] 50% [midline] 50% [right];
+  grid-template-rows: [top] 20% [row-2] 20% [row-3] 20% [row-4] 20% [row-5] 20% [bottom];
+}
+
+.left-column {
+  grid-column: left / midline;
+  grid-row: top / bottom;
+}
+.right-column {
+  grid-column: midline / right;
+  grid-row: top / bottom;
+}
+
+.full-frame {
+  min-height: $fullheight;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  @include breakpoint('desktop') {
+    min-height: $fullheight;
+  }
+}
+
+.vertical-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  & > div {
+    width: 100%;
+
+    @include breakpoint('mobile') {
+      text-align: center;
+    }
+  }
+
+  &-full > div {
+    max-width: 100%;
+  }
+
+  &:after {
+    @include clearfix;
+  }
+}
+
+.col-3, .col-4, .col-6, .col-50, .col-8, .col-9, .col-12, .col-full {
+  width: 100%;
+  position:relative;
+  &.expand {
+    height: 50%;
+    padding: 0 !important;
+  }
+  @include breakpoint('desktop') {
+    margin-bottom:inherit;
+    &.expand {
+      height: 100%;
+    }
+  }
+}
+
+@mixin grid-margin {
+  margin-left: 2.920962199%;
+  float:left;
+}
+
+@include breakpoint('desktop') {
+  .row {
+    .col-3 {
+      width: 22.809278351%;
+      @include grid-margin;
+    }
+    .col-4 {
+      width: 31.386025201%;
+      @include grid-margin;
+    }
+    .col-6 {
+      width: 48.539518901%;
+      @include grid-margin;
+    }
+    .col-50 {
+      width: 50%;
+      float: left;
+    }
+    .col-8 {
+      width: 65.6930126%;
+      @include grid-margin;
+    }
+    .col-9 {
+      width: 74.269759451%;
+      @include grid-margin;
+    }
+  }
+}
+
+*[class*="col-"]:first-child,
+.first {
+  margin-left: 0;
+}
+
+@include breakpoint('desktop') {
+  .row.flow-right {
+    & > div {
+      float: left;
+    }
+    *[class*="col-"] {
+      margin-left: 0;
+      &:first-child {
+        float: right;
+        margin-left: 2.920962199%;
+      }
+    }
+  }
+}

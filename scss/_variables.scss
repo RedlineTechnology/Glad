@@ -1,0 +1,177 @@
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                                VARIABLES                                   */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+$sitewidth: 900px;
+$contentWidth: 60em;
+$fullheight: calc(100vh - 2em);
+
+$pad_sm: 1.125em;
+$pad_md: 1.5em;
+$pad_lg: 2em;
+
+$fontsize: 1em;
+
+$primary: #decc82; /*yellow*/
+$red: $primary;
+$secondary: #444444; /*black*/
+$blue: $secondary;
+$dark: #444444;
+$black: #222222;
+$white: #ffffff;
+
+/* PATHS */
+$themepath:   '/wp-content/themes/Glad/';
+$imagepath:   $themepath + 'images/';
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                                  MIXINS                                    */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+@mixin clearfix {
+  display: block;
+  content: "";
+  clear: both;
+}
+
+@mixin constrain {
+  width: 100%;
+  max-width: $contentWidth;
+  margin: 0 auto;
+}
+
+@mixin breakpoint($point) {
+  @if $point == large {
+    @media only screen and (min-width: 35em) { @content; }
+  }
+  @else if $point == medium {
+    @media only screen and (min-width: 25em) and (max-width:34em){ @content; }
+  }
+  @else if $point == small {
+    @media only screen and (min-width: 0em) and (max-width:24em)  { @content; }
+  }
+  @else if $point == mobile {
+    @media only screen and (min-width: 0em) and (max-width: 47em) { @content; }
+  }
+  @else if $point == desktop {
+    @media only screen and (min-width: 48em ) { @content; }
+  }
+  @else if $point == fullscreen {
+    @media only screen and (min-width: 70em ) { @content; }
+  }
+}
+
+@mixin grid($col,$row,$fullscreen: false) {
+  display: grid;
+  @if $col == 2 {
+    grid-template-columns: [left] 50% [midline] 50% [right];
+  }
+  @if $col == 4 {
+    grid-template-columns: [left] 25% [leftmid] 25% [midline] 25% [rightmid] 25% [right];
+  }
+  @if $row == 4 {
+    grid-template-rows: [top] 25% [topmid] 25% [midline] 25% [bottommid] 25% [bottom];
+  }
+  @if $row == 5 {
+    grid-template-rows: [top] 20% [row-2] 20% [row-3] 20% [row-4] 20% [row-5] 20% [bottom];
+  }
+  @if $fullscreen == true {
+    width: 100%;
+    min-height: 100vh;
+  }
+  html.no-cssgrid & {
+    display: block;
+    & > div {
+      width: 100%;
+      height: 100vh;
+      position: relative !important;
+      div, img, section {
+        max-height: 100%;
+        position: relative !important;
+      }
+    }
+  }
+}
+
+@mixin space-evenly {
+  justify-content: space-evenly;
+  @supports ( -ms-flow-from: space-around ) { /* Edge Only */
+    justify-content: space-around;
+  }
+}
+
+@mixin bgimage($image, $pos: center center, $rep: no-repeat, $size: cover) {
+  background-image: url( $imagepath + $image );
+  background-position: $pos;
+  background-repeat: $rep;
+  background-size: $size;
+}
+
+@mixin bgoverlay($image) {
+  background-image: url( $imagepath + 'overlay.png' ), url( $imagepath + $image );
+  background-position: top left, center center;
+  background-repeat: repeat, no-repeat;
+  background-size: auto, cover;
+}
+
+@mixin bggradient($top: #000000, $bottom: #111111) {
+  background: $top; /* Old browsers */
+  background: -moz-linear-gradient(top, $top 0%, $bottom 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, $top 0%,$bottom 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, $top 0%,$bottom 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$top}', endColorstr='#{$bottom}',GradientType=0 ); /* IE6-9 */
+}
+
+@mixin vertical-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin link_color($color1,$color2) {
+  &, &:link, &:visited {
+    color: $color1;
+  }
+  &:hover, &:focus, &:active {
+    color: $color2;
+  }
+}
+
+@mixin link_underscore($color1,$color2) {
+	&, &:link, &:visited {
+		position: relative;
+		z-index: 1;
+		&:before {
+			content: "";
+			display: block;
+			border-bottom: 1px solid $color1;
+			position: absolute;
+			bottom: 0;
+			z-index: 0;
+			width: 100%;
+		}
+	}
+	&:hover, &:focus, &:active {
+		&:before {
+			border-bottom: 1px solid $color2;
+		}
+	}
+}
+
+@mixin placeholder() {
+  &::-webkit-input-placeholder {
+    @content;
+	}
+
+	&::-moz-placeholder {
+	    @content;
+	}
+
+	&::-ms-placeholder {
+	    @content;
+	}
+
+	&::placeholder {
+	    @content;
+	}
+}

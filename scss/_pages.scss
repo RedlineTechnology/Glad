@@ -1,0 +1,1168 @@
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                                FRONT PAGE                                  */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+// FRONT PAGE - HERO SECTION
+.front-page-hero {
+  .left, .right {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    @include space-evenly;
+  }
+  .right {
+    position: relative;
+    @include bgimage($image:'bg-hero.jpg',$pos:right center);
+    #weareglad-img {
+      z-index: 1;
+      width: 90%;
+      margin: 5%;
+      position: absolute;
+      bottom: 10%;
+    }
+  }
+  @include breakpoint('desktop') {
+    @include grid(2,5,true);
+    position: relative;
+    z-index: 3;
+    .left {
+      grid-column: left / midline;
+      grid-row: top / bottom;
+    }
+    .right {
+      grid-column: midline / right;
+      grid-row: top / bottom;
+      position: relative;
+      @include bgimage($image:'bg-hero-wide.jpg',$pos:right center);
+      background-attachment: fixed;
+      header {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+      }
+    }
+  }
+}
+
+.logo-hero {
+  width: 60%;
+  height: 0;
+  padding-bottom: 50%;
+  margin: 2em auto;
+  @include bgimage($image:'GLAD_logo_tight.png',$size:contain);
+  position: relative;
+  &:after {
+    display: block;
+    width: 100%;
+    height: 1em;
+    font-size: .8em;
+    letter-spacing: .17em;
+    text-align: center;
+    content:"Where Industry Meets Integrity";
+    position: absolute;
+    bottom: -1em;
+  }
+  @include breakpoint('desktop') {
+    margin: 0 auto;
+    &:after {
+      font-size: 1.25em;
+    }
+  }
+}
+
+.values-hero {
+  font-size: .75em;
+  margin: 2em auto;
+  ul {
+    margin: 0;
+    text-align: center;
+  }
+  li {
+    display: inline-block;
+    padding: 1em 1em 0;
+    position: relative;
+    &:before {
+      @include fontawesome(900);
+      content: "\f111";
+      color: $primary;
+      width: .5em;
+      height: .5em;
+      font-size: .5em;
+      display:inline-block;
+      margin: 0;
+      position: absolute;
+      left: -.5em;
+      bottom: 1.25em;
+    }
+    &:first-child {
+      &:before {
+        display: none;
+      }
+    }
+  }
+  @include breakpoint('desktop') {
+    font-size: 1em;
+    margin: 0 auto;
+  }
+}
+
+.info-hero {
+  z-index: 2;
+  padding: 2em;
+  margin: 1em;
+  line-height: 2em;
+  background: rgba($primary,0.75);
+  p {
+    margin: 0;
+  }
+  @include breakpoint('desktop') {
+    width: 100%;
+    position: relative;
+    left: -4em;
+    font-size: 1.25em;
+  }
+}
+
+.lower-arrow::after {
+  @include fontawesome(300);
+  content: "\f078";
+  font-size: 3em;
+  color: $primary;
+  display: block;
+  width: 1em;
+  text-align: center;
+  margin: 0 auto .75em;
+  @include breakpoint('desktop') {
+    margin: 0 auto;
+  }
+}
+
+//FRONT PAGE - ABOUT US
+.about-us {
+  .left, .right {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    @include space-evenly;
+  }
+  .right {
+    background: $black;
+    position: relative;
+    padding: 3em;
+    #aboutus-img {
+      z-index: 0;
+      width: 100%;
+      margin: 0 0 1em;
+      opacity: .2;
+    }
+    .info {
+      z-index: 2;
+      line-height: 2em;
+      color: rgba($white,0.8);
+      p {
+        margin: 0;
+      }
+    }
+  }
+  @include breakpoint('mobile') {
+    &.stuck {
+      .right {
+        padding: 7.5em 3em;
+      }
+    }
+  }
+  @include breakpoint('desktop') {
+    @include grid(2,5,true);
+    .left {
+      grid-column: left / midline;
+      grid-row: top / bottom;
+      justify-content: flex-start;
+    }
+    .right {
+      padding: 0;
+      grid-column: midline / right;
+      grid-row: top / bottom;
+      display: flex;
+      justify-content: flex-end;
+      @include bgimage($image:'bg-aboutus-fixed.jpg',$pos:center center);
+      background-attachment: fixed;
+      #aboutus-img {
+        position: absolute;
+        top: 10%;
+        opacity: 1;
+        width: 90%;
+        margin: 5%;
+      }
+      .info {
+        color: $dark;
+        background: rgba($primary,.75);
+        padding: 2em;
+        margin: 0;
+        font-size: 1.25em;
+        min-height: 65vh;
+        display: flex;
+        align-items: center;
+        p {
+          line-height: 2.75em;
+        }
+      }
+    }
+  }
+}
+
+#people {
+  display: flex;
+  flex-direction: column;
+  .person {
+    display: flex;
+    margin-bottom: 3em;
+    max-width: 500px;
+    .headshot {
+      min-width: 100px;
+      height: 100px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      filter: drop-shadow(-8px 7px 0 rgba($primary,0.65));
+    }
+    .bubble {
+      position: relative;
+      background: rgba($primary,0.65);
+      padding: 1em;
+      margin-left: .5em;
+      .nametitle {
+        h2 {
+          &.title {
+            color: $white;
+            display: block;
+          }
+        }
+      }
+      p {
+        margin-bottom: -3em;
+      }
+      &:before {
+        content:"";
+        display: block;
+        width: 0;
+        height: 0;
+        border-top: 1em solid rgba($primary,0.65);
+        border-left: 1em solid transparent;
+        position: absolute;
+        top: 1em;
+        left: -1em;
+      }
+    }
+    &:nth-child(2n) {
+      align-self: flex-end;
+      .headshot {
+        order: 2;
+        filter: drop-shadow(8px 7px 0 rgba($primary,0.65));
+      }
+      .bubble {
+        order: 1;
+        margin-left: auto;
+        margin-right: .5em;
+        &:before {
+          left: auto;
+          right: -1em;
+          border-left: none;
+          border-right: 1em solid transparent;
+        }
+      }
+    }
+    @include breakpoint('desktop') {
+      align-items: flex-end;
+      .bubble {
+        padding: 1em 1em 0;
+        .nametitle {
+          display: flex;
+          h2 {
+            &.name {
+              white-space: nowrap;
+            }
+            &.title {
+              display: inline-block;
+              margin-left: 1em;
+              font-size: .75em;
+            }
+          }
+        }
+        p {
+          margin-bottom: -1.5em;
+        }
+      }
+    }
+  }
+}
+
+.about-lower {
+  .left, .right {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    @include space-evenly;
+  }
+  .right {
+    height: 100vh;
+    @include bgimage($image:'bg-aboutus.jpg',$pos:center left);
+  }
+  .button {
+    background: rgba($primary,0.75);
+  }
+  @include breakpoint('desktop') {
+    @include grid(2,5,true);
+    .left {
+      grid-column: left / midline;
+      grid-row: top / bottom;
+      justify-content: flex-start;
+    }
+    .right {
+      grid-column: midline / right;
+      grid-row: top / bottom;
+      position: relative;
+      @include bgimage($image:'bg-aboutus-fixed.jpg',$pos:center center);
+      background-attachment: fixed;
+    }
+  }
+}
+
+//FRONT PAGE - VALUES
+.values {
+  .right {
+    padding: 2em;
+    background: $primary;
+    #ourvalues-img {
+      z-index: 0;
+      position: relative;
+      width: 80%;
+    }
+  }
+  @include breakpoint('desktop') {
+    @include grid(2,5,true);
+    .left {
+      grid-column: midline / right;
+      grid-row: top / bottom;
+      padding: 8em 3em 3em;
+    }
+    .right {
+      grid-column: left / midline;
+      grid-row: top / bottom;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 8em 2em 2em;
+      @include bgimage($image:'bg-values.jpg',$pos:center right);
+      #ourvalues-img {
+        width: 100%;
+      }
+    }
+  }
+}
+
+//FRONT PAGE - FOOTER
+.footer-hero {
+  .left {
+    padding: 5em;
+  }
+  .right {
+    background: $black;
+    z-index: 2;
+    #footer-menu {
+      text-align: center;
+      li {
+        display: inline-block;
+        padding: 1em;
+      }
+      a {
+        @include link_color($primary,rgba($white,0.8));
+      }
+    }
+    .footer-contactinfo {
+      padding: 3em 3em 0;
+      color: rgba($white,0.8);
+      a {
+        @include link_color(rgba($white,0.8),$primary);
+      }
+      .email, .phone {
+        margin-bottom: 0;
+      }
+    }
+    .nbaa {
+      @include bgimage($image:'nbaa-white.png', $size: contain, $pos: center left);
+      width: 150px;
+      height: 50px;
+      text-align: center;
+      margin: 0 auto;
+      opacity: .5;
+    }
+    .copyright {
+      padding: 1em;
+      text-align: center;
+      p {
+        margin-bottom: 0;
+        color: rgba($white,0.5);
+      }
+    }
+  }
+  @include breakpoint('desktop') {
+    position: absolute;
+    bottom: 0;
+    @include grid(4,4);
+    width: 100%;
+    z-index: 10;
+    .left {
+      grid-column: midline / right;
+      grid-row: bottommid / bottom;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 0 2em;
+      img {
+        margin: 0 auto;
+        width: 50%;
+      }
+    }
+    .right {
+      grid-column: left / rightmid;
+      grid-row: top / bottommid;
+      background: rgba($primary,0.75);
+      margin-bottom: 2.5em;
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      #footer-menu {
+        padding: 3em 3em 3em 0;
+        li {
+          display: block;
+          padding: 0;
+          margin: 0 0 1em;
+          text-align: right;
+          a {
+            position: relative;
+            @include link_color($dark,$dark);
+            &:after {
+              height: 3px;
+              width: 0%;
+              border-radius: .5px;
+              position: absolute;
+              bottom: -5px;
+              right: 0;
+              content: "";
+              display: block;
+              background: $dark;
+              transition: width .2s ease-in;
+            }
+            &:hover, &:focus, &:active {
+              &:after {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+      .footer-contactinfo {
+        padding: 3em 0 3em 3em;
+        h3 {
+          color: $dark;
+        }
+        p {
+          font-size: 1.25em;
+        }
+        a {
+          @include link_color(rgba($white,0.8),$dark);
+        }
+      }
+      .nbaa {
+        position: absolute;
+        bottom: 2em;
+        right: 3em;
+        opacity: 1;
+      }
+      .copyright {
+        position: absolute;
+        bottom: 0;
+        text-align: left;
+        padding-left: 3em;
+      }
+    }
+  }
+  .no-cssgrid & {
+    .left, .right {
+      height: auto !important;
+    }
+  }
+}
+
+.section-title {
+  color: $primary;
+  margin-bottom: 1em;
+}
+
+.article-img {
+  margin-top: 1em;
+}
+
+.padded {
+  padding: 3em;
+}
+
+.the-deets {
+  @include lightfont;
+  color: $primary;
+  margin-bottom: 1em;
+}
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                           PAGE & POST TEMPLATE                             */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+.page, .post, .single, .archive {
+  header {
+    position: fixed;
+    bottom: 0;
+    &.unstuck {
+      position: static;
+    }
+  }
+  .content-area {
+    margin-bottom: 4.5em;
+    &.unstuck {
+      margin-bottom: 0;
+    }
+  }
+  .hero {
+    @include bgimage('http://placekitten.com/1200/400');
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 3em;
+    h1 {
+      color: white;
+      margin: 0;
+      letter-spacing: .1em;
+    }
+  }
+  .content, .single-post, .archive {
+    padding: 3em;
+    min-height: 100vh;
+  }
+  @include breakpoint('desktop') {
+    #page-wrapper {
+      @include grid(4,5,true);
+      height: 100vh;
+    }
+    .hero {
+      grid-column: left / right;
+      grid-row: top / row-2;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0 3em;
+      .title-wrapper {
+        max-width: 100%;
+      }
+      h1 {
+        display: inline-block;
+        font-size: 7em;
+        letter-spacing: .2em;
+        white-space: nowrap;
+      }
+    }
+    #page, #post, #archive {
+      grid-column: left / right;
+      grid-row: row-2 / bottom;
+      margin: 0;
+      #main, .content, .single-post, .archive, .the-content {
+        height: 100%;
+      }
+      .content, .single-post, .archive {
+        min-height: auto;
+      }
+      .the-content {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding-bottom: 8em;
+      }
+    }
+    header {
+      grid-column: left / midline;
+      grid-row: row-5 / bottom;
+      align-self: end;
+      position: static;
+    }
+  }
+}
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                          LISTING PAGE TEMPLATE                             */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+// inherit from above, then edit:
+.single-listing {
+  .title-secondary {
+    h3 {
+      &.year, &.make, &.model, &.sn, &.reg {
+        display: inline-block;
+      }
+      &.sn {
+        color: $primary;
+        position: relative;
+        margin-right: 2em;
+        &:after {
+          width: 0;
+          height: 1em;
+          content: "//";
+          color: $primary;
+          position: absolute;
+          right: -.5em;
+        }
+      }
+      &.reg {
+        color: $primary;
+      }
+    }
+  }
+  .info-summary {
+    border-top: 1px solid #decc82;
+    margin-top: 1em;
+    padding-top: 1em;
+  }
+  .info-summary, .info-main {
+    border-bottom: 1px solid $primary;
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+    p {
+      @include lightfont;
+      margin-bottom: 0;
+      span {
+        @include headlinefont;
+        letter-spacing: .1em;
+      }
+      .subhead-aftt {
+        text-transform: uppercase;
+      }
+    }
+  }
+  .info-contact {
+    border-bottom: 1px solid $primary;
+    padding-bottom: 1.5em;
+    margin-bottom: 1.5em;
+    h3 {
+      display: block;
+    }
+  }
+  .post-nav {
+    a {
+      @include link_color($primary, $primary);
+    }
+  }
+  @include breakpoint('desktop') {
+    .hero {
+      grid-column: left / midline;
+      grid-row: top / bottom;
+      align-items: flex-start;
+      padding: 3em;
+      background-attachment: local;
+      h1 {
+        font-size: 3em;
+        white-space: normal;
+      }
+    }
+    #post {
+      grid-column: midline / right;
+      grid-row: top / bottom;
+    }
+  }
+}
+
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                           EVENTS PAGE TEMPLATE                             */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+.page-event-directory {
+  .hero {
+    background-attachment: local !important;
+  }
+}
+
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                               MEMBERS PAGE                                 */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+.page-members {
+  .hero {
+    flex-direction: column;
+    .button {
+      margin-bottom: 0;
+    }
+  }
+  &.logged-in {
+    .hero {
+      .button {
+        display: none;
+      }
+    }
+  }
+  .my-listings {
+    padding-top: 1em;
+    border-top: 1px solid $dark;
+    h3 {
+      margin-bottom: 0;
+    }
+  }
+  .becomeamember {
+    .industry-member {
+      margin-bottom: 2em;
+    }
+  }
+  @include breakpoint('desktop') {
+    .hero {
+      grid-column: midline / right;
+      grid-row: top / bottom;
+      background-attachment: local;
+      align-items: center;
+      justify-content: center;
+      padding: 3em;
+      .button {
+        font-size: 2em;
+        margin: 3em;
+      }
+    }
+    &.logged-in {
+      .hero {
+        justify-content: flex-start;
+      }
+    }
+    #page {
+      grid-column: left / midline;
+      grid-row: top / bottom;
+    }
+    .footer-logo {
+      img {
+        opacity: 0;
+      }
+      background-image: url(/wp-content/themes/Glad/images/GLAD_logo_sm_white.png);
+      background-size: 90%;
+      background-repeat: no-repeat;
+      background-position: 1em 1em;
+    }
+  }
+}
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                             THANK YOU PAGE                                 */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+.page-thank-you {
+  @include breakpoint('desktop') {
+    .hero {
+      grid-column: left / midline;
+      grid-row: top / bottom;
+      background-attachment: local;
+      align-items: center;
+      justify-content: center;
+      padding: 3em;
+    }
+    #page {
+      grid-column: midline / right;
+      grid-row: top / bottom;
+      .the-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                          ARCHIVE PAGES LISTING                             */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+#archive {
+  article {
+    .post-list-item {
+
+    }
+    .listing-list-item {
+      margin: 2em 0;
+      @include breakpoint('desktop') {
+        margin:  0;
+        padding: 2em 0 0;
+        &:first-child {
+          padding: 0;
+        }
+      }
+    }
+    .listing-list-item a {
+      @include link_color($dark, $primary);
+      cursor: pointer;
+      display: flex;
+      justify-content: flex-start;
+      flex-direction: column;
+      position: relative;
+      .thumb {
+        order: 1;
+        max-height: 150px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .info {
+        order: 2;
+        margin-top: .5em;
+      }
+      h3 {
+        position: relative;
+        display: inline-block;
+        &.sn, &.reg {
+          color: $primary;
+          margin-left: 3em;
+          &:before {
+            width: 3em;
+            height: 1em;
+            display: inline-block;
+            content: "//";
+            position: absolute;
+            left: -1.5em;
+          }
+        }
+      }
+      .highlight {
+        @include lightfont;
+        color: $dark;
+      }
+      @include breakpoint('desktop') {
+        @include link_color($white,$primary);
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+        max-width: 48em;
+        border-bottom: 1px solid $primary;
+        padding-bottom: 2em;
+        .info {
+          flex-shrink: 0;
+          padding-left: 1em;
+          position: absolute;
+          bottom: 3em;
+        }
+        .thumb {
+          max-width: 400px;
+        }
+      }
+    }
+    .opportunity-list-item {
+      margin-bottom: 1em;
+      padding-bottom: 1em;
+      border-bottom: 1px solid $primary;
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+body.archive.post-type-archive-listing {
+  .the-content {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+  }
+}
+
+/*--------------------------------------------------------------
+# TESTIMONIALS
+--------------------------------------------------------------*/
+
+#testimonials {
+  @include bgimage('ta-ext-75dark.jpg');
+  & > div {
+    max-width: 100%;
+    margin: 0 auto;
+    @include breakpoint('desktop') {
+      max-width: $contentWidth;
+    }
+  }
+  p {
+    @include bodyfont;
+    font-size: 1.1em;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: .5em;
+    span {
+      @include headlinefont;
+      text-transform: uppercase;
+      color: white;
+    }
+  }
+  h6 {
+    color: rgba(255,255,255,0.75);
+    text-align: right;
+  }
+  @include breakpoint('desktop') {
+    height: 80vh;
+    @include bgimage($image: 'http://placekitten.com/1200/400', $pos: center 30%);
+    p {
+      color: black;
+      span { color: $red; }
+    }
+    h6 { color: $red; }
+  }
+}
+
+/*--------------------------------------------------------------
+# FEATURE LIST
+--------------------------------------------------------------*/
+
+.feature-list {
+  @include bodyfont;
+  font-size: 1.2em;
+  display: flex;
+  margin: 0 auto 25px;
+  padding-top: 65px;
+  list-style: none;
+  overflow-y: scroll;
+  li {
+    position: relative;
+    flex-grow: 1;
+    text-align: center;
+    margin: 0 15px;
+    padding: 10px;
+    i {
+      color: $red;
+      position: absolute;
+      top: -55px;
+      left: 50%;
+      width: 50px;
+      line-height: 50px;
+      height: 50px;
+      border-radius: 25px;
+      margin-left: -25px;
+      font-size: 40px;
+    }
+  }
+}
+
+/*--------------------------------------------------------------
+# CONTACT TAG
+--------------------------------------------------------------*/
+
+#people.section > div {
+  width: 100%;
+  display: flex;
+  flex-flow: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.person {
+  a, a:visited, a:link {
+    color: $red;
+  }
+  &:nth-child(2n-1) {
+    h4 {
+      color: $red;
+    }
+  }
+}
+.person.animate.visible {
+    opacity: 1;
+}
+
+.contact-tag {
+  display: inline-flex;
+  align-items: center;
+  background: transparent;
+  border: 1px solid $red;
+  padding: 0 1em !important;
+  text-align: left;
+  margin: 0;
+  @include breakpoint('desktop') {
+    margin: 0 auto;
+  }
+  .thumb {
+    // @include bgimage($image: 'people_test.png', $pos: center top);
+    height: 10em;
+    width: 1px;
+    padding: 0;
+    margin-right: 0;
+    flex-shrink: 0;
+    z-index: 10;
+    @include breakpoint('desktop') {
+      height: 6.5em;
+    }
+  }
+  .info {
+    text-align: left;
+    z-index: 10;
+    p {
+      color: rgba(255,255,255,0.8);
+      font-size: .9em;
+      margin: 0 0 -5px;
+    }
+    h3 {
+      color: white !important;
+      line-height: 1em;
+      margin: .1em 0;
+    }
+    h6 {
+      @include bodyfont;
+      color: white !important;
+      letter-spacing: 0;
+      text-transform: none;
+      font-weight: 400;
+      margin-top: -5px;
+      a {
+        @include link_color(white,white);
+        text-decoration: none;
+      }
+    }
+  }
+  &.dark {
+    border: 1px solid white;
+  }
+  &.light {
+    border: 1px solid white;
+    background: white;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.5);
+    .info {
+      p, h3, h6 {
+        color: $red !important;
+        a {
+          @include link_color($red,$red);
+          text-decoration: none;
+        }
+      }
+    }
+    &:after {
+      display: none;
+    }
+  }
+  &.center {
+    text-align: center;
+    .info {
+      text-align: center;
+    }
+  }
+  &.big {
+    h3 {
+      letter-spacing: 0;
+      font-size: 2.75em;
+    }
+  }
+  &:after {
+    content: "";
+    background: $red;
+    height: 8em;
+    width: 2000%;
+    position: absolute;
+    z-index: 0;
+    left: -500%;
+    @include breakpoint('desktop') {
+      height: 5em;
+    }
+  }
+}
+
+
+
+/*--------------------------------------------------------------
+# SEARCH AND 404
+--------------------------------------------------------------*/
+
+input[type="search"] {
+  width: 100%;
+}
+
+nav.accordion-tabs {
+  width: 80%;
+  margin: 35px auto 0;
+  min-width: 400px;
+  max-width: 800px;
+  .accordion-tab-headings {
+    display: flex;
+    justify-content: space-between;
+    @include lightfont;
+    font-size: 1.4em;
+    margin-bottom: 3px;
+    a {
+      @include link_color(white,white);
+      text-transform: uppercase;
+    }
+    li.ui-state-active {
+      a {
+        font-weight: 500;
+        color: $red;
+      }
+    }
+    @include breakpoint('desktop') {
+      margin: 50px auto 0;
+    }
+  }
+  .accordion-tab-content {
+    background: white;
+    text-align: left;
+    position: relative;
+    section {
+      color: $red;
+      overflow: hidden;
+      & > div {
+        overflow-y: scroll;
+      }
+      h3 {
+        text-align: center;
+        padding: .25em .5em;
+        line-height: 1em;
+        border-top: 1px solid rgba($red, 0.5);
+        &.ui-accordion-header-active {
+          background: $red;
+          color: white;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+      }
+      .ui-accordion-content,
+      .ui-accordion-content-active {
+        height: 400px;
+      }
+      &:after { // lower scroll-helper for accordion
+        @include fontawesome(600);
+        content:"\f107" !important;
+        display: none !important;
+        font-size: 2em;
+        color: white;
+        text-shadow: 0px 1px 1px rgba(0,0,0,0.5);
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 100%;
+        height:50px;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity .2s ease-out;
+        @include bggradient($top: rgba(0,0,0,0), $bottom: rgba(0,0,0,0.5));
+      }
+      &.scroll-helper-show {
+        &:after {
+          opacity: 1;
+        }
+      }
+    }
+    @include breakpoint('desktop') {
+      section {
+        height: 400px;
+        overflow-y: scroll;
+        h3 {
+          display: none;
+        }
+        &:after {
+          display: flex !important;
+        }
+      }
+    }
+  }
+}

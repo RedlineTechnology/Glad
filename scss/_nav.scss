@@ -1,0 +1,313 @@
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                              GENERAL LINKS                                 */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+a {
+  @include link_color( $primary, $dark );
+}
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                            NAV - MOBILE TRAYS                              */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+#page-wrapper {
+  width: 100%;
+  overflow-x: hidden;
+  min-height: 100vh;
+  position: relative;
+  left: 0;
+  right: 0;
+  -webkit-transition: left 0.2s ease-out, right 0.2s ease-out;
+  transition: left 0.2s ease-out, right 0.2s ease-out;
+  &.open {
+    left: 300px;
+    height: 100vh;
+  }
+}
+
+header {
+  width: 100%;
+  z-index: 90;
+}
+
+.tray {
+  width: 300px;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: fixed; /* Stay in place */
+  z-index: 200; /* Stay on top */
+  top: 0;
+  left: -300px;
+  padding: 3em 1.5em 3em 3em;
+  &.left {
+    text-align: center;
+    -webkit-transition: left 0.2s ease-out;
+    transition: left 0.2s ease-out;
+    background: $black;
+    &.open {
+      left: 0;
+      overflow: hidden;
+      overflow-y: scroll;
+    }
+  }
+}
+
+#lefttray-close {
+  position: absolute;
+  right: 0;
+  top: -1em;
+  cursor: pointer;
+  color: $white;
+}
+
+#mobilenav {
+  position:relative;
+  z-index: 201;
+  font-size: 2em;
+  display: inline-block;
+  margin: 0 auto;
+  text-align: left;
+  width: 100%;
+  ul {
+    @include superheavyfont;
+    li {
+      line-height: 1.25em;
+      margin-bottom: .3em;
+      display: block;
+      a {
+        display: block;
+        @include link_color($white, $primary);
+        letter-spacing: .1em;
+        text-shadow: 5px 5px 0 rgba($primary,0.2);
+      }
+    }
+  }
+}
+
+// HAMBURGER BUTTON
+#nav-toggle {
+  position: absolute;
+  padding: .75em 1em .5em;
+  @include headlinefont;
+  a {
+    @include link_color( rgba(0,0,0,0.5), rgba(0,0,0,1));
+  }
+  text-transform: uppercase;
+  a {
+    color: white;
+    display: inline-block;
+    margin-right: .1em;
+    position: relative;
+    z-index: 97;
+    cursor: pointer;
+    i {
+      font-size: 2em;
+    }
+  }
+  @include breakpoint('desktop') {
+    display: none;
+  }
+}
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                            GLOBAL NAV - STYLES                             */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+nav ul {
+  @include superheavyfont;
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+  li {
+    display: inline-block;
+  }
+}
+
+// MAIN Navigation
+#main-navigation {
+  width: 100%;
+  background: $primary;
+  color: $white;
+  .menu-main-menu-container {
+    width: 100%;
+    ul {
+      display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+      display: -ms-flexbox;  /* TWEENER - IE 10 */
+      display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+      display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+      align-items: center;
+      @include space-evenly;
+    }
+    li {
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      padding: 1em 0;
+      font-size: 1.25em;
+      a {
+        @include link_color( $white, $dark);
+      }
+    }
+    @include breakpoint('desktop') {
+      li {
+        font-size: 1.5em;
+      }
+    }
+  }
+}
+
+// STICKY NAV
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: auto;
+  background: $primary;
+  @include breakpoint('desktop') {
+    width: 50%;
+  }
+}
+
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                                 MEMBER NAV                                 */
+/* ////////////////////////////////////////////////////////////////////////// */
+#member-menu, #dealer-member-menu, #industry-member-menu, #mepr-account-nav {
+  @include superheavyfont;
+  font-size: 1.25em;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  li, span.mepr-nav-item {
+    padding: 0 0 .5em;
+    a {
+      @include link_color($primary,$dark);
+    }
+  }
+}
+
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                                NAV - FOOTER                                */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+.footer-logo {
+  padding: 5em;
+  @include breakpoint('desktop') {
+    grid-column: rightmid / right;
+    grid-row: row-5 / bottom;
+    padding: 1em;
+    justify-self: center;
+    align-self: end;
+    position: relative;
+    z-index: 90;
+    img {
+      width: 260px;
+    }
+  }
+}
+footer.site-footer {
+  .info {
+    background: $black;
+    z-index: 2;
+    #footer-menu {
+      text-align: center;
+      li {
+        display: inline-block;
+        padding: 1em;
+      }
+      a {
+        @include link_color($primary,rgba($white,0.8));
+      }
+    }
+    .footer-contactinfo {
+      padding: 3em 3em 0;
+      color: rgba($white,0.8);
+      a {
+        @include link_color(rgba($white,0.8),$primary);
+      }
+      .email, .phone {
+        margin-bottom: 0;
+      }
+    }
+    .copyright {
+      padding: 1em;
+      text-align: center;
+      p {
+        margin-bottom: 0;
+        color: rgba($white,0.5);
+      }
+    }
+  }
+  @include breakpoint('desktop') {
+    width: 100%;
+    height: 300px;
+    position: absolute;
+    bottom: -300px;
+    .info {
+      .footer-nav {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 2em;
+      }
+      #footer-menu {
+        text-align: right;
+        li {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+.site-main .comment-navigation,
+.site-main .posts-navigation,
+.site-main .post-navigation {
+	margin: 0 0 1.5em;
+	overflow: hidden;
+  width: 100%;
+  .nav-links {
+    @include superheavyfont;
+    font-size: 1.5em;
+    a {
+      @include link_color($red,$red);
+    }
+    .nav-previous {
+      position: relative;
+      &:before {
+        @include fontawesome(900);
+        content: "\f355";
+        height: 1em;
+        width: 1.5em;
+        left: -1em;
+      }
+    }
+    .nav-next {
+      position: relative;
+      &:after {
+        @include fontawesome(900);
+        content: "\f356";
+        height: 1em;
+        width: 1.5em;
+        right: -1em;
+      }
+    }
+  }
+}
+
+.comment-navigation .nav-previous,
+.posts-navigation .nav-previous,
+.post-navigation .nav-previous {
+	float: left;
+	width: 50%;
+}
+
+.comment-navigation .nav-next,
+.posts-navigation .nav-next,
+.post-navigation .nav-next {
+	float: right;
+	text-align: right;
+	width: 50%;
+}
