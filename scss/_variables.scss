@@ -19,6 +19,7 @@ $blue: $secondary;
 $dark: #444444;
 $black: #222222;
 $white: #ffffff;
+$light: #efefef;
 
 /* PATHS */
 $themepath:   '/wp-content/themes/Glad/';
@@ -53,6 +54,9 @@ $imagepath:   $themepath + 'images/';
   @else if $point == mobile {
     @media only screen and (min-width: 0em) and (max-width: 47em) { @content; }
   }
+  @else if $point == tablet {
+    @media only screen and (min-width: 48em) and (max-width: 58em) { @content; }
+  }
   @else if $point == desktop {
     @media only screen and (min-width: 48em ) { @content; }
   }
@@ -74,6 +78,9 @@ $imagepath:   $themepath + 'images/';
   }
   @if $row == 5 {
     grid-template-rows: [top] 20% [row-2] 20% [row-3] 20% [row-4] 20% [row-5] 20% [bottom];
+  }
+  @if $row == 6 {
+    grid-template-rows: [nav] 50px [top] 100px [row-1] 10% [row-2] 20% [row-3] 20% [row-4] 20% [row-5] 20% [bottom];
   }
   @if $fullscreen == true {
     width: 100%;
@@ -100,11 +107,18 @@ $imagepath:   $themepath + 'images/';
   }
 }
 
-@mixin bgimage($image, $pos: center center, $rep: no-repeat, $size: cover) {
-  background-image: url( $imagepath + $image );
-  background-position: $pos;
-  background-repeat: $rep;
-  background-size: $size;
+@mixin bgimage($image, $pos: center center, $rep: no-repeat, $size: cover, $i:false) {
+  @if $i == true {
+    background-image: url( $imagepath + $image ) !important;
+    background-position: $pos !important;
+    background-repeat: $rep !important;
+    background-size: $size !important;
+  } @else {
+    background-image: url( $imagepath + $image );
+    background-position: $pos;
+    background-repeat: $rep;
+    background-size: $size;
+  }
 }
 
 @mixin bgoverlay($image) {
@@ -137,6 +151,15 @@ $imagepath:   $themepath + 'images/';
   }
 }
 
+@mixin link_background($color1,$color2) {
+  &, &:link, &:visited {
+    background-color: $color1;
+  }
+  &:hover, &:focus, &:active {
+    background-color: $color2;
+  }
+}
+
 @mixin link_underscore($color1,$color2) {
 	&, &:link, &:visited {
 		position: relative;
@@ -156,6 +179,14 @@ $imagepath:   $themepath + 'images/';
 			border-bottom: 1px solid $color2;
 		}
 	}
+}
+
+@mixin reuben_make_me_a_button( $color1, $color2 ) {
+  background: $color1;
+  color: $color2;
+  border-radius: 5px;
+  padding: .5em 1em;
+  margin: .25em;
 }
 
 @mixin placeholder() {

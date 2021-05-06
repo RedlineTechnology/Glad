@@ -7,54 +7,28 @@
  * @package _glad
  */
 
+header("HTTP/1.1 301 Moved Permanently");
+header("Location: ".get_bloginfo('url'));
+exit();
+
 get_header();
+
+$header_img = has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'full') : get_stylesheet_directory_uri() . '/images/bg-hero-wide.jpg';
+
 ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main">
+ <section class="hero" style="background-image: url(' <?php echo $header_img ?>')">
+	 <?php echo '<div class="title-wrapper mobile-hidden"><h1 id="title">' . get_the_title( $post->ID ) . '</h1></div>'; ?>
+ </section>
 
-			<div class="hero section" style="background-image: url(' <?php echo get_stylesheet_directory_uri() . '/images/mplex_header.jpg'; ?>')">
-				<div class="filter"></div>
-				<div class="content-container">
-					<div class="mobile-hidden">
-						<h1>Page Not Found</h1>
-					</div>
-				</div>
-			</div>
+ <div id="post" class="content-area">
+	 <main id="main" class="site-main">
 
 			<section class="error-404 not-found">
 
 				<div class="page-content">
-					<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', 'ta' ); ?></p>
 
-					<?php
-					get_search_form();
-
-					the_widget( 'WP_Widget_Recent_Posts' );
-					?>
-
-					<div class="widget widget_categories">
-						<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', 'ta' ); ?></h2>
-						<ul>
-							<?php
-							wp_list_categories( array(
-								'orderby'    => 'count',
-								'order'      => 'DESC',
-								'show_count' => 1,
-								'title_li'   => '',
-								'number'     => 10,
-							) );
-							?>
-						</ul>
-					</div><!-- .widget -->
-
-					<?php
-					/* translators: %1$s: smiley */
-					$ta_archive_content = '<p>' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'ta' ), convert_smilies( ':)' ) ) . '</p>';
-					the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$ta_archive_content" );
-
-					the_widget( 'WP_Widget_Tag_Cloud' );
-					?>
+					<h3>Page Not Found</h3>
 
 				</div><!-- .page-content -->
 			</section><!-- .error-404 -->
@@ -63,4 +37,7 @@ get_header();
 	</div><!-- #primary -->
 
 <?php
+
 get_footer();
+
+get_template_part( 'template-parts/resize-hero' );

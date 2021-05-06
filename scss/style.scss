@@ -1,8 +1,8 @@
 /*!
-Theme Name: GLAD.aero Theme
+Theme Name: GLADA.aero Theme
 Author: Jason Subers
 Author URI: https://github.com/jasonsubers
-Description: Custom Theme for GLAD.aero
+Description: Custom Theme for GLADA.aero
 Version: 1.0
 Text Domain: _glad
 
@@ -63,6 +63,7 @@ Y8   Y8   .88    88   Yb.   88   88    88    8P   88   Yb.   88    88   88    8P
 @import 'global';
 @import 'nav';
 @import 'pages';
+@import 'print';
 
 
 /*--------------------------------------------------------------
@@ -308,4 +309,26 @@ object {
 
 .gallery-caption {
 	display: block;
+}
+
+/*--------------------------------------------------------------
+## WP Blocks
+--------------------------------------------------------------*/
+
+.single-post {
+	.wp-block-file__button {
+		@include link_color($white,$white);
+		@include link_background($primary,$dark);
+		margin: 0;
+		border-radius: 0 !important;
+		font-size: 1em !important;
+		&:before {
+			height: 1em;
+			width: 1em;
+			display: block;
+			margin-right: .5em;
+			@include fontawesome(900);
+			content:"\f354";
+		}
+	}
 }

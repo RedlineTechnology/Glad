@@ -14,7 +14,7 @@
  *
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
-function ta_customize_register( $wp_customize ) {
+function glad_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
@@ -22,11 +22,11 @@ function ta_customize_register( $wp_customize ) {
 	if ( isset( $wp_customize->selective_refresh ) ) {
 		$wp_customize->selective_refresh->add_partial( 'blogname', array(
 			'selector'        => '.site-title a',
-			'render_callback' => 'ta_customize_partial_blogname',
+			'render_callback' => 'glad_customize_partial_blogname',
 		) );
 		$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
 			'selector'        => '.site-description',
-			'render_callback' => 'ta_customize_partial_blogdescription',
+			'render_callback' => 'glad_customize_partial_blogdescription',
 		) );
 	}
 
@@ -102,7 +102,7 @@ function ta_customize_register( $wp_customize ) {
 	/* SOCIAL MEDIA SECTION */
 	$wp_customize->add_section( 'social_media', array(
 		'title'       => __( 'Social Media', '_glad' ),
-		'priority'    => 30,
+		'priority'    => 32,
 		'capability'  => 'edit_theme_options'
 	));
 	/* Display Social Media */
@@ -117,18 +117,6 @@ function ta_customize_register( $wp_customize ) {
 		'label'			=> __( 'Display Social Media', '_glad' ),
 	));
 
-	/* YouTube */
-	$wp_customize->add_setting( 'youtube_url', array(
-		'default'			=> '',
-		'sanitize_callback'	=> 'theme_slug_sanitize_url'
-	));
-	$wp_customize->add_control( 'youtube_url', array(
-		'settings'		=> 'youtube_url',
-		'section'		=> 'social_media',
-		'type'			=> 'url',
-		'label'			=> __( 'Youtube Channel URL', '_glad' ),
-	));
-
 	/* Facebook */
 	$wp_customize->add_setting( 'facebook_url', array(
 		'default'			=> '',
@@ -139,6 +127,18 @@ function ta_customize_register( $wp_customize ) {
 		'section'		=> 'social_media',
 		'type'			=> 'url',
 		'label'			=> __( 'Facebook Page URL', '_glad' ),
+	));
+
+	/* LinkedIn */
+	$wp_customize->add_setting( 'linkedin_url', array(
+		'default'			=> '',
+		'sanitize_callback'	=> 'theme_slug_sanitize_url'
+	));
+	$wp_customize->add_control( 'linkedin_url', array(
+		'settings'		=> 'linkedin_url',
+		'section'		=> 'social_media',
+		'type'			=> 'url',
+		'label'			=> __( 'LinkedIn URL', '_glad' ),
 	));
 
 	/* Twitter */
@@ -153,13 +153,25 @@ function ta_customize_register( $wp_customize ) {
 		'label'			=> __( 'Twitter URL', '_glad' ),
 	));
 
-	/* Instagram */
-	$wp_customize->add_setting( 'insta_url', array(
+	/* YouTube */
+	$wp_customize->add_setting( 'youtube_url', array(
 		'default'			=> '',
 		'sanitize_callback'	=> 'theme_slug_sanitize_url'
 	));
-	$wp_customize->add_control( 'insta_url', array(
-		'settings'		=> 'insta_url',
+	$wp_customize->add_control( 'youtube_url', array(
+		'settings'		=> 'youtube_url',
+		'section'		=> 'social_media',
+		'type'			=> 'url',
+		'label'			=> __( 'Youtube Channel URL', '_glad' ),
+	));
+
+	/* Instagram */
+	$wp_customize->add_setting( 'insglad_url', array(
+		'default'			=> '',
+		'sanitize_callback'	=> 'theme_slug_sanitize_url'
+	));
+	$wp_customize->add_control( 'insglad_url', array(
+		'settings'		=> 'insglad_url',
 		'section'		=> 'social_media',
 		'type'			=> 'url',
 		'label'			=> __( 'Instagram Handle URL', '_glad' ),
@@ -168,7 +180,7 @@ function ta_customize_register( $wp_customize ) {
 	/* TRACKING SECTION */
 	$wp_customize->add_section( 'tracking_scripts', array(
 		'title'       => __( 'Tracking Scripts', '_glad' ),
-		'priority'    => 30,
+		'priority'    => 33,
 		'capability'  => 'edit_theme_options'
 	));
 	/* Google Analytics ID */
@@ -221,7 +233,7 @@ function ta_customize_register( $wp_customize ) {
 	/* API KEYS */
 	$wp_customize->add_section( 'api_keys', array(
 		'title'       => __( 'API Keys', '_glad' ),
-		'priority'    => 35,
+		'priority'    => 34,
 		'capability'  => 'edit_theme_options'
 	));
 	/* Google Maps API */
@@ -233,17 +245,86 @@ function ta_customize_register( $wp_customize ) {
 		'settings'		=> 'google_maps_api',
 		'section'		=> 'api_keys',
 		'type'			=> 'text',
-		'label'			=> __( 'Google Maps API Key', '_glad' )
+		'label'			=> __( 'Google Maps Key', '_glad' )
+	));
+	/* CRM API */
+	$wp_customize->add_setting( 'crm_api', array(
+		'default'			=> __( '', '_glad' ),
+		'sanitize_callback'	=> 'sanitize_text_field'
+	));
+	$wp_customize->add_control( 'crm_api', array(
+		'settings'		=> 'crm_api',
+		'section'		=> 'api_keys',
+		'type'			=> 'text',
+		'label'			=> __( 'CRM Key', '_glad' )
+	));
+	/* TextMagic API */
+	$wp_customize->add_setting( 'textmagic_api', array(
+		'default'			=> __( '', '_glad' ),
+		'sanitize_callback'	=> 'sanitize_text_field'
+	));
+	$wp_customize->add_control( 'textmagic_api', array(
+		'settings'		=> 'textmagic_api',
+		'section'		=> 'api_keys',
+		'type'			=> 'text',
+		'label'			=> __( 'TextMagic Key', '_glad' )
+	));
+
+	/* FEATURED ITEMS */
+	$wp_customize->add_section( 'featured', array(
+		'title'       => __( 'Featured', '_glad' ),
+		'priority'    => 30,
+		'capability'  => 'edit_theme_options'
+	));
+	/* Listings Page Featured Deaker Nember */
+	$wp_customize->add_setting( 'feature_listings_dealer', array(
+		'default'			=> '',
+	));
+	$wp_customize->add_control( new User_Dropdown_Custom_Control( $wp_customize, 'feature_listings_dealer', array(
+		'settings'		=> 'feature_listings_dealer',
+		'section'		=> 'featured',
+		'label'			=> __( 'Featured Dealer Member', '_glad' ),
+	), array( 'role__in' => array( 'dealer' )) ));
+	/* Listings Page Featured Deaker Nember */
+	$wp_customize->add_setting( 'feature_listings_dealer_text', array(
+		'default'			=> '',
+		'sanitize_callback'	=> 'sanitize_textarea_field'
+	));
+	$wp_customize->add_control( 'feature_listings_dealer_text', array(
+		'settings'		=> 'feature_listings_dealer_text',
+		'section'		=> 'featured',
+		'type'			=> 'textarea',
+		'label'			=> __( 'Featured Dealer Blurb', '_glad' ),
+	));
+	/* Listings Page Featured Industry Nember */
+	$wp_customize->add_setting( 'feature_listings_industry', array(
+		'default'			=> '',
+	));
+	$wp_customize->add_control( new User_Dropdown_Custom_Control( $wp_customize, 'feature_listings_industry', array(
+		'settings'		=> 'feature_listings_industry',
+		'section'		=> 'featured',
+		'label'			=> __( 'Featured Industry Member', '_glad' ),
+	), array( 'role__in' => array( 'industry' )) ));
+	/* Listings Page Featured Industry Nember */
+	$wp_customize->add_setting( 'feature_listings_industry_text', array(
+		'default'			=> '',
+		'sanitize_callback'	=> 'sanitize_textarea_field'
+	));
+	$wp_customize->add_control( 'feature_listings_industry_text', array(
+		'settings'		=> 'feature_listings_industry_text',
+		'section'		=> 'featured',
+		'type'			=> 'textarea',
+		'label'			=> __( 'Featured Industry Blurb', '_glad' ),
 	));
 }
-add_action( 'customize_register', 'ta_customize_register' );
+add_action( 'customize_register', 'glad_customize_register' );
 
 /**
  * Render the site title for the selective refresh partial.
  *
  * @return void
  */
-function ta_customize_partial_blogname() {
+function glad_customize_partial_blogname() {
 	bloginfo( 'name' );
 }
 
@@ -252,17 +333,17 @@ function ta_customize_partial_blogname() {
  *
  * @return void
  */
-function ta_customize_partial_blogdescription() {
+function glad_customize_partial_blogdescription() {
 	bloginfo( 'description' );
 }
 
 /**
  * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
  */
-function ta_customize_preview_js() {
+function glad_customize_preview_js() {
 	wp_enqueue_script( 'ta-customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), '20151215', true );
 }
-add_action( 'customize_preview_init', 'ta_customize_preview_js' );
+add_action( 'customize_preview_init', 'glad_customize_preview_js' );
 
 /**
  * SANITIZATION CALLBACK functions
@@ -362,3 +443,92 @@ add_action( 'customize_preview_init', 'ta_customize_preview_js' );
  	// If the number is within the valid range, return it; otherwise, return the default
  	return ( $min <= $number && $number <= $max && is_int( $number / $step ) ? $number : $setting->default );
  }
+
+/**
+ * Customize for user select, extend the WP customizer
+ */
+
+if ( ! class_exists( 'WP_Customize_Control' ) )
+    return NULL;
+
+/**
+ * Class to create a custom post type control
+ */
+class Post_Type_Dropdown_Custom_Control extends WP_Customize_Control
+{
+    private $postTypes = false;
+
+    public function __construct($manager, $id, $args = array(), $options = array())
+    {
+        $postargs = wp_parse_args($options, array('public' => true));
+        $this->postTypes = get_post_types($postargs, 'object');
+
+        parent::__construct( $manager, $id, $args );
+    }
+
+    /**
+    * Render the content on the theme customizer page
+    */
+    public function render_content()
+    {
+        if(empty($this->postTypes))
+        {
+            return false;
+        }
+        ?>
+            <label>
+                <span class="customize-post-type-dropdown"><?php echo esc_html( $this->label ); ?></span>
+                <select name="<?php echo $this->id; ?>" id="<?php echo $this->id; ?>">
+                <?php
+                    foreach ( $this->postTypes as $k => $post_type )
+                    {
+                        printf('<option value="%s" %s>%s</option>', $k, selected($this->value(), $k, false), $post_type->labels->name);
+                    }
+                ?>
+                </select>
+            </label>
+        <?php
+    }
+}
+
+class User_Dropdown_Custom_Control extends WP_Customize_Control
+{
+
+    private $users = false;
+
+    public function __construct($manager, $id, $args = array(), $options = array())
+    {
+        $this->users = get_users( $options );
+
+        parent::__construct( $manager, $id, $args );
+    }
+
+    /**
+     * Render the control's content.
+     *
+     * Allows the content to be overriden without having to rewrite the wrapper.
+     *
+     * @return  void
+     */
+    public function render_content()
+    {
+        if(empty($this->users))
+        {
+            return false;
+        }
+    ?>
+        <label>
+            <span class="customize-control-title" ><?php echo esc_html( $this->label ); ?></span>
+            <select <?php $this->link(); ?>>
+            <?php foreach( $this->users as $user ) {
+                                printf('<option value="%s" %s>%s</option>',
+                                $user->data->ID,
+                                selected($this->value(), $user->data->ID, false),
+                                get_user_meta($user->data->ID, 'mepr_company', true));
+                              } ?>
+            </select>
+        </label>
+    <?php
+    }
+} // end class
+?>

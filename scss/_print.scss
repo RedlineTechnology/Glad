@@ -1,0 +1,52 @@
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                                FOR PRINT                                   */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+@media screen, print {
+  .printable {
+    #members-list {
+      list-style: none;
+      margin: 0 0 10px 0;
+      & > li {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+      }
+      .item-wrapper {
+        display: flex;
+        align-items: center;
+        .logo, img {
+          margin: 0 10px;
+          width: 100px;
+          max-width: 100px;
+        }
+        .info {
+          & > div {
+            padding-top: 10px;
+          }
+          margin-left: 10px;
+          border-left: 2px solid #888;
+          padding-left: 10px;
+          ul {
+            margin: 0 10px;
+            list-style: none;
+          }
+          .printable_member {
+            h3, h5 {
+              display: inline-block;
+            }
+            h5 {
+              color: #888;
+              margin-left: 10px;
+            }
+          }
+          .printable_employees {
+            .name {
+              @include headlinefont();
+            }
+          }
+        }
+      }
+    }
+  }
+}

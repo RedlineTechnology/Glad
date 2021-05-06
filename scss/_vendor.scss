@@ -29,6 +29,12 @@
 /*                              FORMS & BUTTONS                               */
 /* ////////////////////////////////////////////////////////////////////////// */
 
+#page-wrapper {
+  .mp_wrapper {
+    overflow: hidden;
+  }
+}
+
 .wpforms, .mp_wrapper {
   &-container, .mepr-form {
     width: 100%;
@@ -43,8 +49,12 @@
       @include headlinefont;
       text-transform: uppercase !important;
       letter-spacing: .1em !important;
+      .cc-error {
+        color: $primary;
+        font-size: .8em;
+      }
     }
-    input:not([type='file']), select, textarea {
+    input:not([type='file']):not([type='checkbox']), select, textarea {
       @include lightfont;
       width: 100% !important;
       max-width: 100% !important;
@@ -55,6 +65,19 @@
       @include superheavyfont;
       color: $primary;
       font-size: 1.25em;
+      text-align: center;
+    }
+    .mepr-checkbox-field, .mepr-getresponse-signup-field {
+      @include headlinefont;
+      font-size: .8em;
+      letter-spacing: 0 !important;
+      input {
+        font-size: 1.25em;
+        margin-right: .5em;
+      }
+    }
+    &-hp {
+      display: none !important;
     }
   }
   .mepr-payment-methods-wrapper {
@@ -66,9 +89,9 @@
   }
   &-submit-container button,
   input[type="submit"] {
+    @include superheavyfont();
     background-color: rgba($primary,0.65) !important;
     color: $white;
-    font-size: 1.25em !important;
     letter-spacing: .1em !important;
     padding: .75em 1.75em !important;
     width: 100% !important;
@@ -79,14 +102,36 @@
       color: $white;
       background-color: rgba($primary,1) !important;
     }
-  }
-  @include breakpoint('desktop') {
-    &-container, .mepr-form {
-      width: 75% !important;
+    @include breakpoint('desktop') {
+      font-size: 1.25em !important;
     }
-    &-submit-container button,
-    input[type="submit"] {
-      width: 50% !important;
+  }
+  &-confirmation-container-full {
+    @include bgimage( 'bg-listings.jpg', $size: cover, $pos: center, $i: true );
+    border: none !important;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h1 {
+      color: $white;
+      margin:0;
+      text-shadow: rgba($dark,0.2);
+    }
+    p {
+      background: $primary;
+      padding: .2em .5em;
+      a {
+        @include link_color($dark, $dark);
+        &:before {
+          @include fontawesome(900);
+          height: 1em;
+          width: 1em;
+          display: inline-block;
+          content: "\f053";
+        }
+      }
     }
   }
 }
@@ -97,7 +142,8 @@ input[type="button"],
 input[type="reset"],
 input[type="submit"],
 a[class*='button'],
-.featherlight #mc_embed_signup .button {
+.featherlight #mc_embed_signup .button,
+.buddypress #page-wrapper .buddypress-wrap button {
 	@include lightfont;
   font-size: 1.25em;
 	text-transform: uppercase;
@@ -124,8 +170,22 @@ a[class*='button'],
 	&.inverted {
 		background: none;
     border: 1px solid $primary;
-		@include link_color($primary,$primary);
+		@include link_color($primary, $white);
+    &:hover, &:active, &:focus {
+      background: $primary;
+    }
 	}
+  &.light {
+    background: $white;
+    border: 2px solid $white;
+    @include link_color( $primary, $white );
+    @include link_background( $white, $primary);
+  }
+}
+.button-sm {
+  margin-top: 0 !important;
+  font-size: 1em !important;
+  padding: .25em .5em !important;
 }
 
 input[type="text"],
@@ -212,17 +272,365 @@ textarea:focus {
 	color: #111;
 }
 
+.mce-toolbar .mce-btn button {
+  margin: 0 !important;
+}
+
+.autocomplete {
+  position: relative;
+  display: block;
+  margin-right: 1em;
+  input {
+    width: 100%;
+  }
+  &-items {
+    position: absolute;
+    border: 1px solid $light;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    top:1.75em;
+    left: 0;
+    right: 0;
+    div {
+      @include headlinefont;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding:8px;
+      cursor: pointer;
+      background-color: $white;
+      border-bottom: 1px solid $light;
+      &:hover, &:active, &:focus {
+        background-color: $light;
+      }
+    }
+  }
+  &-active {
+    background-color: $light;
+  }
+}
+
+.form-hero {
+  display: flex;
+  flex-direction: column;
+  .form-section {
+    width: 100%;
+    margin-bottom: 2em;
+    padding: .5em .5em 0 .5em;
+    background: rgba($primary, 0.25);
+    .select-wrapper {
+      display: flex;
+      align-items: baseline;
+      label {
+        margin-right: .5em;
+        flex-shrink: 0;
+      }
+      select {
+        width: 100%;
+      }
+    }
+    .radio-wrapper {
+      margin-bottom: .5em;
+      label {
+        display: inline-block;
+        padding: 1px 0 0 0;
+      }
+    }
+    &.primary {
+      font-size: 1.25em;
+      .autocomplete-items div {
+        font-size: .8em;
+      }
+    }
+  }
+  .form-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    & > * {
+      flex-grow: 1;
+    }
+  }
+  label {
+    @include headlinefont;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+  }
+  input:not([type='file']):not([type='checkbox']):not([type='radio']),
+  select, textarea {
+    @include headlinefont;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    padding-left: 5px;
+    margin-bottom: .5em;
+    margin-right: 1em;
+    border: 1px solid $primary !important;
+    border-radius: 0 !important;
+    @include placeholder() {
+  		@include headlinefont;
+      opacity: .5;
+  	}
+  }
+  select {
+    padding: 3px 20px 3px 0;
+  }
+  .button-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  input[type='submit'], button {
+    width: 100%;
+    padding: .5em 1em !important;
+    margin: 1em !important;
+  }
+}
 
 /* ////////////////////////////////////////////////////////////////////////// */
 /*                           MEMBER PRESS STYLES                              */
 /* ////////////////////////////////////////////////////////////////////////// */
 
-.mepr-account-change-password {
-  @include bodyfont;
-  a {
-    @include link_color($primary,$dark);
+.mp-membership {
+  .mp_wrapper {
+    margin-top: 2em;
+  }
+  #mepr-account-nav, .mepr-account-table {
+    .mepr-active-nav-tab {
+      a {
+        @include link_color($dark,$dark);
+      }
+    }
+    thead {
+      background: rgba( $primary, 0.4 );
+      text-align: left;
+      @include headlinefont;
+    }
+    tbody {
+      @include headlinefont;
+      .mepr-account-terms {
+        @include lightfont;
+      }
+      td {
+        vertical-align: middle;
+        div {
+          display: flex;
+          &.mepr-account-actions {
+            flex-direction: column;
+          }
+        }
+        a.mepr-account-renew,
+        a.mepr-account-purchase {
+          @include reuben_make_me_a_button( $primary, $white );
+          text-align: center;
+        }
+        a.mepr-account-cancel,
+        a.mepr-acccount-update,
+        a.mepr-account-upgrade {
+          margin-right: .5em;
+        }
+      }
+    }
   }
 }
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                                  LEAFLET                                   */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+#membermap {
+  height: 500px;
+  .leaflet-bar.leaflet-control-geocoder {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 272px;
+    button.leaflet-control-geocoder-icon {
+      // position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 3em;
+      height: 2em;
+      margin: 0;
+      background: $white;
+      &:before {
+        color: $primary;
+        position: absolute;
+        @include fontawesome(900);
+        height:1em;
+        width:1em;
+        content: '\f002';
+      }
+    }
+    &-expanded {
+      button.leaflet-control-geocoder-icon {
+        background: $primary;
+        &:before {
+          color: $white;
+        }
+      }
+    }
+  }
+  .leaflet-control-geocoder-form {
+    margin-left: 5px;
+    flex-shrink: 1;
+    input {
+      width: auto;
+    }
+  }
+  .leaflet-popup {
+    &-content {
+      min-width:200px;
+      display: flex;
+      align-items: center;
+      margin: 1em 2.5em 1em 1.5em;
+      .logo {
+        img {
+          max-height: 80px;
+          max-width: 80px;
+          margin-right: 1.5em;
+        }
+      }
+      .info {
+        span:first-child {
+          @include headlinefont;
+          letter-spacing: .1em;
+          font-weight: 900;
+          font-size: 1.25em;
+        }
+      }
+      button {
+        width: 100%;
+        margin-bottom: 5px;
+      }
+    }
+    &-close-button {
+      margin: 13px 5px;
+      top: -3px;
+    }
+  }
+}
+
+
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                        BUDDYPRESS GLOBAL STYLES                            */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+#page-wrapper {
+  #buddypress {
+    p.warning {
+      background: transparent;
+      border: none;
+      padding: 0;
+      margin: 0;
+      font-size: .9em;
+      color: $primary;
+    }
+    div.bp-avatar-status,
+    div.bp-cover-image-status {
+      margin: .5em 0;
+    }
+  }
+  .buddypress-wrap {
+    .bp-feedback {
+      background: transparent;
+      box-shadow: none;
+      border: 1px solid $primary;
+      color: $primary;
+    }
+    .bp-feedback.help,
+    .bp-feedback.info{
+      .bp-icon {
+        background: $primary;
+        &:before {
+          @include fontawesome(900);
+          content:'\f06a';
+        }
+      }
+    }
+    .bp-feedback.loading {
+      .bp-icon {
+        background: $primary;
+        &:before {
+          @include fontawesome(900);
+          content: "\f017";
+        }
+      }
+    }
+    .subnav-search {
+      float: none;
+      .bp-search, form {
+        float: none;
+      }
+      button {
+        margin: 0;
+        padding: 0;
+      }
+    }
+    .profile {
+      form.profile-edit {
+        ul.button-nav {
+          margin:0;
+          padding:0;
+          background: rgba( $primary, 0.4 );
+          li {
+            @include headlinefont;
+            font-weight: 700;
+            a {
+              padding: .5em 1em;
+              display: block;
+              @include link_color( $dark, $white );
+              @include link_background( transparent, transparent );
+            }
+            &.current {
+              a {
+                @include link_color( $white, $white );
+                @include link_background( transparent, transparent );
+              }
+            }
+          }
+        }
+        fieldset {
+          padding: 0;
+          legend {
+            font-weight: 300;
+            font-size: .9em;
+          }
+        }
+        p {
+          margin-bottom: 0;
+        }
+        button {
+          color: $primary;
+          background: transparent;
+          text-transform: none;
+          letter-spacing: normal;
+          margin-top: .5em;
+          margin-bottom: 0;
+          padding: 0 .5em;
+        }
+        input[type="submit"] {
+          margin: 0;
+          padding: 1em;
+          width: 100%;
+          border: none;
+          @include link_color( $dark, $dark );
+          @include link_background( rgba($primary,0.4), $primary );
+        }
+      }
+    }
+    .bp-list {
+      li {
+        .action {
+          .generic-button {
+            margin-right: 1em;
+          }
+        }
+      }
+    }
+  }
+}
+
 
 
 /* ////////////////////////////////////////////////////////////////////////// */
@@ -510,7 +918,7 @@ html.with-featherlight {
 	/* dimensions: spanning the background from edge to edge */
 	position:fixed;
 	top: 0; right: 0; bottom: 0; left: 0;
-	z-index: 2147483647; /* z-index needs to be >= elements on the site. */
+	z-index: 99999; /* z-index needs to be >= elements on the site. */
 
 	/* position: centering content */
 	text-align: center;
@@ -581,6 +989,7 @@ html.with-featherlight {
     right:-.5em;
     font-size: 2em;
     color: rgba(255,255,255,0.75);
+    cursor: pointer;
 	}
 	&-image {
 		/* styling */
@@ -732,6 +1141,42 @@ p a[title="View previous campaigns"] {
 /*                                EVENT ON                                    */
 /* ////////////////////////////////////////////////////////////////////////// */
 
+.single-ajde_events {
+  .title-wrapper {
+    width: 100%;
+  }
+  .hero {
+    background: $primary !important;
+    h1 {
+      font-size: 3em !important;
+      margin: 0 auto !important;
+      text-align: center;
+      width: 100%;
+    }
+  }
+  .single-post {
+    overflow-x: scroll;
+  }
+  .evo_metarow_rsvp {
+    background: $dark;
+    .evors_information {
+      display: none;
+    }
+  }
+  #evcal_list .eventon_list_event .evcal_eventcard .evo_metarow_rsvp p,
+  .evo_lightboxes .evo_pop_body .evcal_evdata_row.evo_metarow_rsvp .evcal_evdata_cell p,
+  .evo_lightboxes .evo_metarow_rsvp .evcal_evdata_cell p a,
+  .evcal_evdata_row.evo_metarow_rsvp .evors_stat_data p em,
+  .evo_pop_body .evcal_evdata_row.evo_metarow_rsvp .evcal_evdata_cell p,
+  .evcal_evdata_row.evo_metarow_rsvp .evcal_evdata_icons i,
+  .evcal_evdata_row.evo_metarow_rsvp .evcal_evdata_custometa_icons i,
+  .evcal_evdata_row.evo_metarow_rsvp .evcal_evdata_cell h2,
+  .evcal_evdata_row.evo_metarow_rsvp .evcal_evdata_cell h3,
+  .evcal_evdata_row.evo_metarow_rsvp .evcal_evdata_cell h3 a {
+    color: $white !important;
+  }
+}
+
 #evcal_list {
   border: none !important;
   border-radius: 0 !important;
@@ -741,9 +1186,11 @@ p a[title="View previous campaigns"] {
     position: relative;
     padding: 0 !important;
     border-left-style: none !important;
+    display: flex;
+    align-items: center;
     .evcal_cblock {
-      padding: 0 !important;
-      color: $red !important;
+      padding: .5em 0 !important;
+      color: $primary !important;
       .evo_start {
         display: flex;
         flex-direction: column-reverse;
@@ -761,20 +1208,21 @@ p a[title="View previous campaigns"] {
       .evo_end {
         display: none !important;
       }
+      @include breakpoint('desktop') {
+        padding: .5em !important;
+      }
     }
     .evcal_desc {
       position: relative;
       padding: 0 1px 0 4em !important;
       span {
-        color: $red !important;
+        color: $white !important;
         &.evo_above_title {
           display: none !important;
         }
         &.evcal_event_title {
           @include bodyfont;
-          font-weight: 700 !important;
           font-size: 1.75em !important;
-          line-height: 1em !important;
           padding-bottom: .3em !important;
           position: relative;
           top: 0;
@@ -782,12 +1230,12 @@ p a[title="View previous campaigns"] {
           transition: top 0.2s ease-out;
         }
         &.evcal_event_subtitle {
-          @include bodyfont;
+          @include headlinefont;
           color: black !important;
         }
       }
       @include breakpoint('desktop') {
-        padding: 10px 120px 0 4em !important;
+        padding: 1em 5em 0 !important;
       }
     }
     &:after {
@@ -796,20 +1244,23 @@ p a[title="View previous campaigns"] {
     &:before {
       content:"";
       display: block;
-      width: 75%;
-      height: 800px;
-      transform: rotate(20deg);
-      background: $red;
+      width: 100%;
+      height: 100%;
+      background: $primary;
       position: absolute;
-      top: -170px;
       z-index: 0;
-      left: 20px;
-      opacity: 0;
+      left: 4.75em;
+      opacity: 1;
       -webkit-transition: all 0.2s ease-out;
       transition: all 0.2s ease-out;
     }
     &:hover {
       cursor: pointer;
+      .evcal_cblock {
+        .evo_start {
+          color: $white;
+        }
+      }
       .evcal_desc span {
         color: white !important;
         &.evo_above_title {
@@ -820,8 +1271,14 @@ p a[title="View previous campaigns"] {
         }
       }
       &:before {
-        left: 5px;
+        left: 0;
         opacity: 1;
+      }
+    }
+    @include breakpoint('desktop') {
+      &:before {
+        opacity: .4;
+        width: 75%;
       }
     }
   }
@@ -830,12 +1287,18 @@ p a[title="View previous campaigns"] {
   }
 }
 // Repeat Some of these for the Lightbox
+.evo_lightbox {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
 .evo_lightbox_content,
 .evo_lightbox_body {
+  .evopop_top {
+    background: $primary;
+  }
   .evcal_cblock {
-    padding: 0 !important;
-    color: $red !important;
-    left: 12px !important;
+    color: $white !important;
+    padding: .5em !important;
     .evo_start {
       display: flex;
       flex-direction: column-reverse;
@@ -858,32 +1321,58 @@ p a[title="View previous campaigns"] {
     position: relative;
     padding: 0 1px 0 4em !important;
     span {
-      color: $red !important;
+      color: $white !important;
       &.evo_above_title {
         display: none !important;
       }
       &.evcal_event_title {
-        @include bodyfont;
+        @include headlinefont;
         font-weight: 700 !important;
         font-size: 1.75em !important;
         line-height: 1em !important;
         padding-bottom: .3em !important;
-        position: relative;
-        top: 0;
-        -webkit-transition: top 0.2s ease-out;
-        transition: top 0.2s ease-out;
       }
       &.evcal_event_subtitle {
-        @include bodyfont;
+        @include headlinefont;
         color: black !important;
       }
     }
     @include breakpoint('desktop') {
-      padding: 10px 100px 0 4em !important;
+      padding: 1em 5em 0 !important;
     }
   }
   &:after {
     display: none !important;
+  }
+  .evcal_evdata_row {
+    .evo_h3 {
+      font-size: 1.5em;
+    }
+    p {
+      font-size: .9em !important;
+    }
+    .evcal_evdata_icons {
+      i.fa-clock-o {
+        &:before {
+          content: "\f017";
+        }
+      }
+    }
+  }
+  .evcal_evdata_row .evcal_evdata_cell h2, .evcal_evdata_row .evcal_evdata_cell h3, .evorow .evo_clik_row h3, .evcal_evdata_row .evcal_evdata_cell h3 a {
+    color: $primary;
+  }
+  .evcal_col50.dark1 {
+    .evcal_evdata_cell {
+      padding-left: 0 !important;
+      min-height: auto !important;
+    }
+    .evcal_evdata_row .evcal_evdata_cell h2, .evcal_evdata_row .evcal_evdata_cell h3, .evorow .evo_clik_row h3, .evcal_evdata_row .evcal_evdata_cell h3 a {
+      color: $white;
+    }
+    .evo_h3 {
+      font-size: 1em;
+    }
   }
 }
 .evo_lightbox_content {
@@ -893,13 +1382,12 @@ p a[title="View previous campaigns"] {
 .evo_lightbox_content, .evo_page_content {
   div[class*='learn'] {
     .evcal_evdata_row {
-      background: $red;
+      background: $primary;
       display: flex;
       align-items: center;
       justify-content: center;
       .evcal_evdata_icons {
         position: relative !important;
-        height: auto !important;
         i {
           color: white !important;
         }
@@ -979,6 +1467,47 @@ p a[title="View previous campaigns"] {
   display: flex;
   align-items: flex-end;
 }
+
+/* ////////////////////////////////////////////////////////////////////////// */
+/*                                  ZOOM                                      */
+/* ////////////////////////////////////////////////////////////////////////// */
+
+.zoom {
+  &-link {
+    @include headlinefont;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2D8CFF;
+    border-radius: 100px;
+    padding: .5em 2em !important;
+    color: $white !important;
+    text-align: center;
+    width: auto;
+    &:before {
+      content:"";
+      display: inline-block;
+      @include bgimage('zoom.png', $size: cover );
+      height: 2.5em;
+      width: 2.5em;
+      margin-right: .5em;
+    }
+  }
+  &-password {
+    @include headlinefont;
+    display: block;
+    border: 2px solid #2D8CFF;
+    padding: .5em;
+    color: #2D8CFF;
+    margin-bottom: 1em;
+    span {
+      font-weight: 900;
+    }
+  }
+}
+
+
 
 /* ////////////////////////////////////////////////////////////////////////// */
 /*                                TWITTER                                     */

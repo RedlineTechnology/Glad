@@ -13,8 +13,8 @@
  function register_custom_posts() {
 
    $labels = array(
- 		'name'                  => _x( 'Listings', 'Post Type General Name', '_glad' ),
- 		'singular_name'         => _x( 'Listing', 'Post Type Singular Name', '_glad' ),
+ 		'name'                  => __( 'Listings', 'Post Type General Name', '_glad' ),
+ 		'singular_name'         => __( 'Listing', 'Post Type Singular Name', '_glad' ),
  		'menu_name'             => __( 'Listings', '_glad' ),
  		'name_admin_bar'        => __( 'Listings', '_glad' ),
  		'archives'              => __( 'Listings', '_glad' ),
@@ -51,14 +51,14 @@
  		'label'                 => __( 'Listing', '_glad' ),
  		'description'           => __( 'Member-Submitted Aircraft Listings', '_glad' ),
  		'labels'                => $labels,
- 		'supports'              => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', 'page-attributes' ),
+ 		'supports'              => array( 'title', 'author', 'editor', 'excerpt', 'thumbnail', 'custom-fields', 'page-attributes' ),
  		'taxonomies'            => array( 'aircraft', 'marketstatus', 'post_tag' ),
  		'hierarchical'          => false,
  		'public'                => true,
  		'show_ui'               => true,
  		'show_in_menu'          => true,
  		'menu_position'         => 10,
- 		'menu_icon'             => 'dashicons-images-alt',
+ 		'menu_icon'             => 'dashicons-airplane',
  		'show_in_admin_bar'     => true,
  		'show_in_nav_menus'     => true,
  		'can_export'            => true,
@@ -71,11 +71,11 @@
  	register_post_type( 'listing', $args );
 
   $labels = array(
-   'name'                  => _x( 'Aircraft Opportunities', 'Post Type General Name', '_glad' ),
-   'singular_name'         => _x( 'Aircraft Opportunity', 'Post Type Singular Name', '_glad' ),
+   'name'                  => __( 'Opportunities', 'Post Type General Name', '_glad' ),
+   'singular_name'         => __( 'Opportunity', 'Post Type Singular Name', '_glad' ),
    'menu_name'             => __( 'Opportunities', '_glad' ),
    'name_admin_bar'        => __( 'Opportunities', '_glad' ),
-   'archives'              => __( 'Aircraft Opportunities', '_glad' ),
+   'archives'              => __( 'Opportunities', '_glad' ),
    'attributes'            => __( 'Opportunity Details', '_glad' ),
    'parent_item_colon'     => __( 'Parent Listing:', '_glad' ),
    'all_items'             => __( 'All Opportunities', '_glad' ),
@@ -107,9 +107,9 @@
  );
  $args = array(
    'label'                 => __( 'Opportunity', '_glad' ),
-   'description'           => __( 'Member-Submitted Aircraft Opportunity Listings', '_glad' ),
+   'description'           => __( 'Member-Submitted Opportunity Listings', '_glad' ),
    'labels'                => $labels,
-   'supports'              => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields', 'page-attributes' ),
+   'supports'              => array( 'title', 'author', 'editor', 'excerpt', 'thumbnail', 'custom-fields', 'page-attributes' ),
    'taxonomies'            => array( 'aircraft', 'category', 'post_tag' ),
    'hierarchical'          => false,
    'public'                => true,
@@ -128,9 +128,67 @@
  );
  register_post_type( 'opportunity', $args );
 
+ $labels = array(
+   'name'                  => __( 'Comps', 'Post Type General Name', '_glad' ),
+   'singular_name'         => __( 'Comp', 'Post Type Singular Name', '_glad' ),
+   'menu_name'             => __( 'Comps', '_glad' ),
+   'name_admin_bar'        => __( 'Comps', '_glad' ),
+   'archives'              => __( 'Comps', '_glad' ),
+   'attributes'            => __( 'Comp Details', '_glad' ),
+   'parent_item_colon'     => __( 'Parent Comp:', '_glad' ),
+   'all_items'             => __( 'All Comps', '_glad' ),
+   'add_new_item'          => __( 'Add New Comp', '_glad' ),
+   'add_new'               => __( 'Add New', '_glad' ),
+   'new_item'              => __( 'New Comp', '_glad' ),
+   'edit_item'             => __( 'Edit Comp', '_glad' ),
+   'update_item'           => __( 'Update Comp', '_glad' ),
+   'view_item'             => __( 'View Comp', '_glad' ),
+   'view_items'            => __( 'View Comps', '_glad' ),
+   'search_items'          => __( 'Search Comp', '_glad' ),
+   'not_found'             => __( 'Not found', '_glad' ),
+   'not_found_in_trash'    => __( 'Not found in Trash', '_glad' ),
+   'featured_image'        => __( 'Featured Image', '_glad' ),
+   'set_featured_image'    => __( 'Set featured image', '_glad' ),
+   'remove_featured_image' => __( 'Remove featured image', '_glad' ),
+   'use_featured_image'    => __( 'Use as featured image', '_glad' ),
+   'insert_into_item'      => __( 'Insert into item', '_glad' ),
+   'uploaded_to_this_item' => __( 'Uploaded to this item', '_glad' ),
+   'items_list'            => __( 'Items list', '_glad' ),
+   'items_list_navigation' => __( 'Items list navigation', '_glad' ),
+   'filter_items_list'     => __( 'Filter items list', '_glad' ),
+ );
+$rewrite = array(
+ 'slug'                  => 'comps',
+ 'with_front'            => false,
+ 'pages'                 => true,
+ 'feeds'                 => true,
+);
+ $args = array(
+   'label'                 => __( 'Comp', '_glad' ),
+   'description'           => __( 'Member-Submitted Comps', '_glad' ),
+   'labels'                => $labels,
+   'supports'              => array( 'title', 'author', 'editor', 'excerpt', 'custom-fields', 'thumbnail', 'page-attributes' ),
+   'taxonomies'            => array( 'aircraft', 'marketstatus', 'post_tag' ),
+   'hierarchical'          => false,
+   'public'                => true,
+   'show_ui'               => true,
+   'show_in_menu'          => true,
+   'menu_position'         => 10,
+   'menu_icon'             => 'dashicons-portfolio',
+   'show_in_admin_bar'     => true,
+   'show_in_nav_menus'     => true,
+   'can_export'            => true,
+   'has_archive'           => true,
+   'exclude_from_search'   => false,
+   'publicly_queryable'    => true,
+   'rewrite'               => $rewrite,
+   'capability_type'       => 'page',
+ );
+ register_post_type( 'comp', $args );
+
 	$labels = array(
-		'name'                  => _x( 'People', 'Post Type General Name', '_glad' ),
-		'singular_name'         => _x( 'Person', 'Post Type Singular Name', '_glad' ),
+		'name'                  => __( 'People', 'Post Type General Name', '_glad' ),
+		'singular_name'         => __( 'Person', 'Post Type Singular Name', '_glad' ),
 		'menu_name'             => __( 'People', '_glad' ),
 		'name_admin_bar'        => __( 'People', '_glad' ),
 		'archives'              => __( 'Peson Archives', '_glad' ),
@@ -180,6 +238,192 @@
 	);
 	register_post_type( 'people', $args );
 
+  $labels = array(
+ 		'name'                  => __( 'Testimonials', 'Post Type General Name', '_glad' ),
+ 		'singular_name'         => __( 'Testimonial', 'Post Type Singular Name', '_glad' ),
+ 		'menu_name'             => __( 'Testimonials', '_glad' ),
+ 		'name_admin_bar'        => __( 'Testimonials', '_glad' ),
+ 		'archives'              => __( 'Testimonial Archives', '_glad' ),
+ 		'attributes'            => __( 'Testimonial Attributes', '_glad' ),
+ 		'parent_item_colon'     => __( 'Parent Testimonial:', '_glad' ),
+ 		'all_items'             => __( 'All Testimonials', '_glad' ),
+ 		'add_new_item'          => __( 'Add New Testimonial', '_glad' ),
+ 		'add_new'               => __( 'Add New', '_glad' ),
+ 		'new_item'              => __( 'New Testimonial', '_glad' ),
+ 		'edit_item'             => __( 'Edit Testimonial', '_glad' ),
+ 		'update_item'           => __( 'Update Testimonial', '_glad' ),
+ 		'view_item'             => __( 'View Testimonial', '_glad' ),
+ 		'view_items'            => __( 'View Testimonials', '_glad' ),
+ 		'search_items'          => __( 'Search Testimonials', '_glad' ),
+ 		'not_found'             => __( 'Not found', '_glad' ),
+ 		'not_found_in_trash'    => __( 'Not found in Trash', '_glad' ),
+ 		'featured_image'        => __( 'Featured Image', '_glad' ),
+ 		'set_featured_image'    => __( 'Set featured image', '_glad' ),
+ 		'remove_featured_image' => __( 'Remove featured image', '_glad' ),
+ 		'use_featured_image'    => __( 'Use as featured image', '_glad' ),
+ 		'insert_into_item'      => __( 'Insert into Testimonial', '_glad' ),
+ 		'uploaded_to_this_item' => __( 'Uploaded to this item', '_glad' ),
+ 		'items_list'            => __( 'Items list', '_glad' ),
+ 		'items_list_navigation' => __( 'Items list navigation', '_glad' ),
+ 		'filter_items_list'     => __( 'Filter items list', '_glad' ),
+ 	);
+ 	$args = array(
+ 		'label'                 => __( 'Testimonial', '_glad' ),
+ 		'description'           => __( 'Short Client Testimonials', '_glad' ),
+ 		'labels'                => $labels,
+ 		'supports'              => array( 'title', 'author', 'editor' ),
+ 		'taxonomies'            => array( 'category', 'post_tag' ),
+ 		'hierarchical'          => false,
+ 		'public'                => true,
+ 		'show_ui'               => true,
+ 		'show_in_menu'          => true,
+ 		'menu_position'         => 31,
+ 		'menu_icon'             => 'dashicons-format-quote',
+ 		'show_in_admin_bar'     => true,
+ 		'show_in_nav_menus'     => false,
+ 		'can_export'            => true,
+ 		'has_archive'           => false,
+ 		'exclude_from_search'   => true,
+ 		'publicly_queryable'    => true,
+ 		'capability_type'       => 'page',
+ 	);
+ 	register_post_type( 'testimonials', $args );
+
+  $labels = array(
+ 		'name'                  => __( 'Member Referrals', 'Post Type General Name', '_glad' ),
+ 		'singular_name'         => __( 'Referral', 'Post Type Singular Name', '_glad' ),
+ 		'menu_name'             => __( 'Referrals', '_glad' ),
+ 		'name_admin_bar'        => __( 'Referrals', '_glad' ),
+ 		'archives'              => __( 'Referral Archives', '_glad' ),
+ 		'attributes'            => __( 'Referral Attributes', '_glad' ),
+ 		'parent_item_colon'     => __( 'Parent Referral:', '_glad' ),
+ 		'all_items'             => __( 'All Referrals', '_glad' ),
+ 		'add_new_item'          => __( 'Add New Referral', '_glad' ),
+ 		'add_new'               => __( 'Add New', '_glad' ),
+ 		'new_item'              => __( 'New Referral', '_glad' ),
+ 		'edit_item'             => __( 'Edit Referral', '_glad' ),
+ 		'update_item'           => __( 'Update Referral', '_glad' ),
+ 		'view_item'             => __( 'View Referral', '_glad' ),
+ 		'view_items'            => __( 'View Referrals', '_glad' ),
+ 		'search_items'          => __( 'Search Referrals', '_glad' ),
+ 		'insert_into_item'      => __( 'Insert into Referral', '_glad' ),
+ 		'uploaded_to_this_item' => __( 'Uploaded to Referral', '_glad' ),
+ 		'items_list'            => __( 'Referrals list', '_glad' ),
+ 		'items_list_navigation' => __( 'Referrals list navigation', '_glad' ),
+ 		'filter_items_list'     => __( 'Filter Referrals list', '_glad' ),
+ 	);
+ 	$args = array(
+ 		'label'                 => __( 'Referrals', '_glad' ),
+ 		'description'           => __( 'Member Referrals', '_glad' ),
+ 		'labels'                => $labels,
+ 		'supports'              => array( 'title', 'author', 'editor', 'custom-fields' ),
+ 		'taxonomies'            => array( 'referraltype' ),
+ 		'hierarchical'          => false,
+ 		'public'                => true,
+ 		'show_ui'               => true,
+ 		'show_in_menu'          => true,
+ 		'menu_position'         => 32,
+ 		'menu_icon'             => 'dashicons-thumbs-up',
+ 		'show_in_admin_bar'     => true,
+ 		'show_in_nav_menus'     => false,
+ 		'can_export'            => true,
+ 		'has_archive'           => false,
+ 		'exclude_from_search'   => true,
+ 		'publicly_queryable'    => true,
+ 		'capability_type'       => 'page',
+ 	);
+ 	register_post_type( 'referrals', $args );
+
+  $labels = array(
+    'name'                  => __( 'Coupon', 'Post Type General Name', '_glad' ),
+    'singular_name'         => __( 'Coupon', 'Post Type Singular Name', '_glad' ),
+    'menu_name'             => __( 'Coupons', '_glad' ),
+    'name_admin_bar'        => __( 'Coupons', '_glad' ),
+    'archives'              => __( 'Coupon Archives', '_glad' ),
+    'attributes'            => __( 'Coupon Attributes', '_glad' ),
+    'parent_item_colon'     => __( 'Parent Coupon:', '_glad' ),
+    'all_items'             => __( 'All Coupons', '_glad' ),
+    'add_new_item'          => __( 'Add New Coupon', '_glad' ),
+    'add_new'               => __( 'Add New', '_glad' ),
+    'new_item'              => __( 'New Coupon', '_glad' ),
+    'edit_item'             => __( 'Edit Coupon', '_glad' ),
+    'update_item'           => __( 'Update Coupon', '_glad' ),
+    'view_item'             => __( 'View Coupon', '_glad' ),
+    'view_items'            => __( 'View Coupons', '_glad' ),
+    'search_items'          => __( 'Search Coupons', '_glad' ),
+    'insert_into_item'      => __( 'Insert into Coupon', '_glad' ),
+    'uploaded_to_this_item' => __( 'Uploaded to Coupon', '_glad' ),
+    'items_list'            => __( 'Coupons list', '_glad' ),
+    'items_list_navigation' => __( 'Coupons list navigation', '_glad' ),
+    'filter_items_list'     => __( 'Filter Coupons list', '_glad' ),
+  );
+  $args = array(
+    'label'                 => __( 'Coupons', '_glad' ),
+    'description'           => __( 'Member Coupons', '_glad' ),
+    'labels'                => $labels,
+    'supports'              => array( 'title', 'author', 'custom-fields' ),
+    'taxonomies'            => array( 'coupontype' ),
+    'hierarchical'          => false,
+    'public'                => true,
+    'show_ui'               => true,
+    'show_in_menu'          => true,
+    'menu_position'         => 32,
+    'menu_icon'             => 'dashicons-money-alt',
+    'show_in_admin_bar'     => true,
+    'show_in_nav_menus'     => false,
+    'can_export'            => true,
+    'has_archive'           => false,
+    'exclude_from_search'   => true,
+    'publicly_queryable'    => true,
+    'capability_type'       => 'page',
+  );
+  register_post_type( 'coupons', $args );
+
+  $labels = array(
+ 		'name'                  => __( 'Alerts', 'Post Type General Name', '_glad' ),
+ 		'singular_name'         => __( 'Alert', 'Post Type Singular Name', '_glad' ),
+ 		'menu_name'             => __( 'Alerts', '_glad' ),
+ 		'name_admin_bar'        => __( 'Alerts', '_glad' ),
+ 		'archives'              => __( 'Alert Archives', '_glad' ),
+ 		'attributes'            => __( 'Alert Attributes', '_glad' ),
+ 		'parent_item_colon'     => __( 'Parent Alert:', '_glad' ),
+ 		'all_items'             => __( 'All Alerts', '_glad' ),
+ 		'add_new_item'          => __( 'Add New Alert', '_glad' ),
+ 		'add_new'               => __( 'Add New', '_glad' ),
+ 		'new_item'              => __( 'New Alert', '_glad' ),
+ 		'edit_item'             => __( 'Edit Alert', '_glad' ),
+ 		'update_item'           => __( 'Update Alert', '_glad' ),
+ 		'view_item'             => __( 'View Alert', '_glad' ),
+ 		'view_items'            => __( 'View Alerts', '_glad' ),
+ 		'search_items'          => __( 'Search Alerts', '_glad' ),
+ 		'insert_into_item'      => __( 'Insert into Alert', '_glad' ),
+ 		'uploaded_to_this_item' => __( 'Uploaded to Alert', '_glad' ),
+ 		'items_list'            => __( 'Alerts list', '_glad' ),
+ 		'items_list_navigation' => __( 'Alerts list navigation', '_glad' ),
+ 		'filter_items_list'     => __( 'Filter Alerts list', '_glad' ),
+ 	);
+ 	$args = array(
+ 		'label'                 => __( 'Alerts', '_glad' ),
+ 		'description'           => __( 'GLADA Text Alerts', '_glad' ),
+ 		'labels'                => $labels,
+ 		'supports'              => array( 'title', 'author', 'editor', 'custom-fields', 'comments' ),
+ 		'taxonomies'            => array( 'category', 'post_tag' ),
+ 		'hierarchical'          => false,
+ 		'public'                => true,
+ 		'show_ui'               => true,
+ 		'show_in_menu'          => true,
+ 		'menu_position'         => 33,
+ 		'menu_icon'             => 'dashicons-welcome-comments',
+ 		'show_in_admin_bar'     => true,
+ 		'show_in_nav_menus'     => false,
+ 		'can_export'            => true,
+ 		'has_archive'           => false,
+ 		'exclude_from_search'   => true,
+ 		'publicly_queryable'    => true,
+ 		'capability_type'       => 'page',
+ 	);
+ 	register_post_type( 'alert', $args );
+
  }
  add_action( 'init', 'register_custom_posts', 0 );
 
@@ -210,19 +454,16 @@ function show_person_meta_box() {
  <input type="hidden" name="people_meta_box_nonce" value="<?php echo wp_create_nonce( basename(__FILE__) ); ?>">
 
    <!-- All fields will go here -->
-   <div style="width: 100%; padding-left: 1em;">
-     <p class="regular-text" style="margin-bottom:0;">Show on Contact Page</p>
-     <br>
-     <input type="radio" id="person_fields_show_1" name="person_fields[show]" value="Yes" <?php echo $meta['show']=='Yes'?'checked':''; ?>>
-     <label for="person_fields_show_1">Yes</label>
-     <input type="radio" id="person_fields_show_2" name="person_fields[show]" value="No" <?php echo $meta['show']=='No'?'checked':''; ?>>
-     <label for="person_fields_show_2">No</label>
-   </div>
    <div style="display:flex; flex-wrap:wrap;">
      <p style="margin: 1em;">
        <label for="person_fields[jobtitle]">Job Title</label>
        <br>
        <input type="text" name="person_fields[jobtitle]" id="person_fields[jobtitle]" class="regular-text" value="<?php echo $meta['jobtitle']; ?>">
+     </p>
+     <p style="margin: 1em;">
+       <label for="person_fields[location]">Location</label>
+       <br>
+       <input type="text" name="person_fields[location]" id="person_fields[location]" class="regular-text" value="<?php echo $meta['location']; ?>">
      </p>
      <p style="margin: 1em;">
        <label for="person_fields[phone]">Phone Number</label>
@@ -360,10 +601,17 @@ function show_listing_meta_box() {
        <input type="email" name="contactemail" id="contactemail" class="regular-text" value="<?php echo get_post_meta( $post->ID, 'contactemail', true ); ?>">
      </p>
      <p style="margin: 1em;">
-       <label for="url">Specsheet or Website URL</label>
+       <label for="url">Website URL</label>
        <br>
        <input type="url" name="url" id="url" class="regular-text" value="<?php echo get_post_meta( $post->ID, 'url', true ); ?>">
      </p>
+     <p style="margin: 1em;">
+       <label for="pdf">Specsheet</label>
+       <br>
+       <a class="button media-button"> Choose File </a>
+       <input type="hidden" name="pdf" id="pdf" value="<?php echo get_post_meta( $post->ID, 'pdf', true ); ?>" />
+     </p>
+
    </div>
 
  <?php }
@@ -439,7 +687,7 @@ function save_listing_fields_meta( $post_id ) {
 
  // save landings
  $old = get_post_meta( $post_id, 'landings', true );
- $new = $_POST['landings'];
+ $new = intval(str_replace(',','', $_POST['landings'] ));
 
  if ( $new && $new !== $old ) {
    update_post_meta( $post_id, 'landings', $new );
@@ -459,7 +707,7 @@ function save_listing_fields_meta( $post_id ) {
 
  // save aftt-number
  $old = get_post_meta( $post_id, 'aftt-number', true );
- $new = $_POST['aftt-number'];
+ $new = intval(str_replace(',','', $_POST['aftt-number'] ));
 
  if ( $new && $new !== $old ) {
    update_post_meta( $post_id, 'aftt-number', $new );
@@ -507,8 +755,19 @@ function save_listing_fields_meta( $post_id ) {
    delete_post_meta( $post_id, 'url', $old );
  }
 
+ // save specsheet
+ $old = get_post_meta( $post_id, 'pdf', true );
+ $new = $_POST['pdf'];
+
+ if ( $new && $new !== $old ) {
+   update_post_meta( $post_id, 'pdf', $new );
+ } elseif ( '' === $new && $old ) {
+   delete_post_meta( $post_id, 'pdf', $old );
+ }
+
 }
 add_action( 'save_post', 'save_listing_fields_meta' );
+
 
 // CUSTOM TAXONOMIES
 // Register Custom Taxonomy
@@ -545,7 +804,7 @@ function register_custom_taxonomies() {
 		'show_in_nav_menus'          => true,
 		'show_tagcloud'              => true,
 	);
-	register_taxonomy( 'aircraft', array( 'listing', 'opportunity' ), $args );
+	register_taxonomy( 'aircraft', array( 'listing', 'opportunity', 'comp' ), $args );
 
   $labels = array(
     'name'                       => _x( 'Market Status', 'Taxonomy General Name', '_glad' ),
@@ -582,14 +841,60 @@ function register_custom_taxonomies() {
     'show_in_nav_menus'          => true,
     'show_tagcloud'              => true,
   );
-  register_taxonomy( 'marketstatus', array( 'listing' ), $args );
+  register_taxonomy( 'marketstatus', array( 'listing', 'comp' ), $args );
+
+  $labels = array(
+    'name'                       => _x( 'Referral Type', 'Taxonomy General Name', '_glad' ),
+    'singular_name'              => _x( 'Referral Type', 'Taxonomy Singular Name', '_glad' ),
+    'menu_name'                  => __( 'Referral Type', '_glad' ),
+    'all_items'                  => __( 'All Types', '_glad' ),
+    'new_item_name'              => __( 'New Type', '_glad' ),
+    'add_new_item'               => __( 'Add New Type', '_glad' ),
+  );
+  $args = array(
+    'labels'                     => $labels,
+    'hierarchical'               => true,
+    'rewrite'                    => array(
+      'slug' => 'referraltype',
+      'with_front' => false
+    ),
+    'public'                     => true,
+    'show_ui'                    => true,
+    'show_admin_column'          => true,
+    'show_in_nav_menus'          => true,
+    'show_tagcloud'              => true,
+  );
+  register_taxonomy( 'referraltype', array( 'referrals' ), $args );
+
+  $labels = array(
+    'name'                       => _x( 'Coupon Type', 'Taxonomy General Name', '_glad' ),
+    'singular_name'              => _x( 'Coupon Type', 'Taxonomy Singular Name', '_glad' ),
+    'menu_name'                  => __( 'Coupon Type', '_glad' ),
+    'all_items'                  => __( 'All Types', '_glad' ),
+    'new_item_name'              => __( 'New Type', '_glad' ),
+    'add_new_item'               => __( 'Add New Type', '_glad' ),
+  );
+  $args = array(
+    'labels'                     => $labels,
+    'hierarchical'               => true,
+    'rewrite'                    => array(
+      'slug' => 'coupontype',
+      'with_front' => false
+    ),
+    'public'                     => true,
+    'show_ui'                    => true,
+    'show_admin_column'          => true,
+    'show_in_nav_menus'          => true,
+    'show_tagcloud'              => true,
+  );
+  register_taxonomy( 'coupontype', array( 'coupons' ), $args );
 
 }
 add_action( 'init', 'register_custom_taxonomies', 0 );
 
 // Admin Styles
 function admin_style() {
-  wp_enqueue_style('admin-fontawesome', get_template_directory_uri().'/vendor/css/all.css', array(), '20151215', all);
-  wp_enqueue_style('admin-styles', get_template_directory_uri().'/admin.css', array(), '20151222', all);
+  wp_enqueue_style('admin-fontawesome', get_template_directory_uri().'/vendor/css/all.css', array(), '20151215');
+  wp_enqueue_style('admin-styles', get_template_directory_uri().'/admin.css', array(), '20151222');
 }
 add_action('admin_enqueue_scripts', 'admin_style');
