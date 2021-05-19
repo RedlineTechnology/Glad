@@ -78,6 +78,7 @@
  		    $query = new WP_Query( $args ); // make the query
  		    if( $query->have_posts() ) :
  		      // Here's the thing!
+          $addendum = '';
  		      while( $query->have_posts() ): $query->the_post();
 
  					  $headshot = wp_get_attachment_url( get_post_thumbnail_id($post->ID, 'thumbnail') );
@@ -88,7 +89,7 @@
  			          echo '<div class="bubble"><div class="nametitle"><h2 class="name">' . get_the_title() . ' <span>// ' . $person['location'] . '</span></h2></div><p>' . apply_filters( 'the_content', get_the_content() ) . '</p></div>';
  			        echo '</div>';
  						} else {
- 							$addendum = '<div class="person"><p class="section-subtitle">' . $person['jobtitle'] . '</p><div class="bubble"><div class="nametitle"><h2 class="name">' . get_the_title() . '</h2></div><p>' . apply_filters( 'the_content', get_the_content() ) . '</p></div></div>';
+ 							$addendum .= '<div class="person"><p class="section-subtitle">' . $person['jobtitle'] . '</p><div class="bubble"><div class="nametitle"><h2 class="name">' . get_the_title() . '</h2></div><p>' . apply_filters( 'the_content', get_the_content() ) . '</p></div></div>';
  						}
 
  		      endwhile;

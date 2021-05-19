@@ -28,6 +28,7 @@ $header_img = has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'full
 
 			<section class="content">
 				<?php
+
 				while (have_posts()) : the_post();
 					echo '<div class="the-content">';
 
@@ -36,6 +37,8 @@ $header_img = has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'full
             // } catch (Exception $e) {
             //   echo 'Exception: ' . $e->getMessage(), '<br>';
             // }
+
+						echo get_dealers_with_services( 'apprai', 2 );
 
 					echo '</div>';
 				endwhile;

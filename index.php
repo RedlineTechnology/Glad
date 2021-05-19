@@ -26,55 +26,47 @@ $header_img = ( $posttype == 'listing' ) ? '/images/bg-interior.jpg' : '/images/
 
       <section class="archive">
 
+				<?php
+					// UPPER HERO
+					if ( $posttype === 'opportunity' ) { ?>
+						<div class="opportunity-hero">
+							<h1>Services</h1>
+							<p>Discover services and discounts offered by other members.</p>
+							<div class="searchwrapper cursor">
+								<form action="#" method="POST" class="search" id="searchform">
+									<input type="text" id="searchfield" name="searchfield" value="" placeholder="What are you looking for?"><!--<i class="blinky"></i>-->
+									<input type="hidden" name="action" value="oppsearch">
+									<button id="searchsubmit" class="searchsubmit hidden" type="submit"><i class="fas fa-search"></i></button>
+								</form>
+							</div>
+						</div>
+					<?php
+
+					wp_register_script( 'search', get_stylesheet_directory_uri() . '/js/search.js', array('jquery'), '20210521' );
+					// we have to pass parameters to loadmore.js script but we can get the parameters values only in PHP
+					wp_localize_script( 'search', 'query_params', array(
+						'ajaxurl' 			=> site_url() . '/wp-admin/admin-ajax.php',
+						'posts' 				=> json_encode( $wp_query->query_vars ),
+						'input' 				=> '#searchfield',
+						'output' 				=> '#response',
+						'secondary'			=> '#dealerservices',
+					) );
+					wp_enqueue_script( 'search' );
+
+					} ?>
+
         <?php
       	if ( have_posts() ) : ?>
           <article class="the-content">
 
 					<?php
-					// Do a check. Only Dealer Members can view Opportunity Listings.
-					// if ( $posttype === 'opportunity' && !current_user_can('mepr-active','membership:19,232,580,588') ) {
-					//
-					// 	echo '<p>You do not have access to this page.</p>';
-	        //   echo do_shortcode('[mepr-login-form use_redirect="true"]');
-					//
-					// } else {
-					// Everyone can view Listings, and Dealers can view Opportunities
 
-						// OPPORTUNITIES
-						if ( $posttype === 'opportunity' ) {
-							// Let's Sort Opportunities, I guess? ?>
-							<div class="upper">
-								<form action="#" method="POST" id="filter">
-									<?php
+					// OPPORTUNITIES
+					if ( $posttype === 'opportunity' ) {
 
-										if( $terms = get_terms( array( 'taxonomy' => 'category', 'orderby' => 'name' ) ) ) :
-
-											echo '<div class="select"><select name="category">
-											<option value="">Opportunity Type...</option>';
-											foreach ( $terms as $term ) :
-												echo '<option value="' . $term->term_id . '">' . $term->name . '</option>'; // ID of the category as the value of an option
-											endforeach;
-											echo '</select></div>';
-										endif;
-									?>
-									<div class="radio-wrapper">
-										<label>
-											<input type="radio" name="date" value="ASC" /> Date: Ascending
-										</label>
-										<label>
-											<input type="radio" name="date" value="DESC" selected="selected" /> Date: Descending
-										</label>
-									</div>
-									<input type="hidden" name="action" value="sortopportunities">
-									<button>Update</button>
-								</form>
-								<?php
-								if( current_user_can('mepr-active','rule:37') && !current_user_can('mepr-active','membership:1416') ) {
-									echo '<a class="button inverted" id="createopportunity"href="/members/submit-opportunity">Create an Opportunity</a>';
-								}
-								?>
-							</div>
-						<?php
+						echo '<div id="dealerservices" class="dealer_services">';
+							echo get_dealers_with_services( '', 5 );
+						echo '</div>';
 
 						// LISTINGS
 					} elseif ( $posttype === 'listing' ) { ?>
@@ -143,17 +135,20 @@ $header_img = ( $posttype == 'listing' ) ? '/images/bg-interior.jpg' : '/images/
 							$i = 0;
 							while ( have_posts() ) : the_post();
 
-								echo '<div class="' . $posttype . '-list-item">';
 								if ( $posttype === 'listing' ) {
-									get_template_part('template-parts/listing');
+									echo '<div class="' . $posttype . '-list-item">';
+										get_template_part('template-parts/listing');
 								} elseif ( $posttype === 'opportunity' ) {
-									get_template_part('template-parts/opportunity');
-								} else { ?>
-									<a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
-									  <?php echo '<h2 id="post-' . get_the_ID() . '">' . get_the_title() . '</h2>'; ?>
-									</a> <?php
+									echo '<div class="list-item-' . $posttype . '">';
+										get_template_part('template-parts/opportunity');
+								} else {
+									echo '<div class="' . $posttype . '-list-item">'; ?>
+									 <a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
+										 <?php echo '<h2 id="post-' . get_the_ID() . '">' . get_the_title() . '</h2>'; ?>
+									 </a> <?php
 								}
 								echo '</div>';
+
 								if ( $posttype === 'listing' ) {
 									switch( $i ) {
 										case 2:
@@ -197,17 +192,22 @@ $header_img = ( $posttype == 'listing' ) ? '/images/bg-interior.jpg' : '/images/
 		</main><!-- #main -->
 	</div><!-- #primary -->
 
+	<!-- dynamic receptacle for post content -->
+	<div id="postbox"></div>
+
 <?php
 
 // Localize loadmore.js with PHP variables
 global $wp_query;
-wp_register_script( 'loadmore', get_stylesheet_directory_uri() . '/js/loadmore.min.js', array('jquery'), '20210212' );
 // we have to pass parameters to loadmore.js script but we can get the parameters values only in PHP
-wp_localize_script( 'loadmore', 'loadmore_params', array(
-	'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
-	'posts' => json_encode( $wp_query->query_vars ), // everything about your loop is here
-	'current_page' => get_query_var( 'paged' ) ? get_query_var('paged') : 1,
-	'max_page' => $wp_query->max_num_pages
+wp_localize_script( 'loadmore', 'query_params', array(
+	'ajaxurl' 			=> site_url() . '/wp-admin/admin-ajax.php',
+	'posts' 				=> json_encode( $wp_query->query_vars ),
+	'current_page' 	=> get_query_var( 'paged' ) ?: 1,
+	'max_page' 			=> $wp_query->max_num_pages,
+	'input' 				=> '#searchfield',
+	'output' 				=> '#response',
+	'secondary'			=> '#dealerservices',
 ) );
 wp_enqueue_script( 'loadmore' );
 

@@ -171,6 +171,7 @@ function change_profile_menu_tabs() {
 }
 add_action( 'bp_actions', 'change_profile_menu_tabs' );
 
+// We can hide "ACTIVITY" because we changed the default Buddypress Profile page. Otherwise this breaks profiles.
 function hide_some_nav_items() {
   // if ( ! bp_is_group() || ! ( bp_is_current_action( 'admin' ) && bp_action_variable( 0 ) ) || is_super_admin() ) {
   //     return;
@@ -246,7 +247,7 @@ add_filter( 'bp_actions', 'hide_employees' );
 function employees_screen() {
 
     // Add title and content here - last is to call the members plugin.php template.
-    add_action( 'bp_template_title', 'employees_title' );
+    //add_action( 'bp_template_title', 'employees_title' );
     add_action( 'bp_template_content', 'employees_content' );
     bp_core_load_template( 'buddypress/members/single/plugins' );
 }
@@ -269,6 +270,8 @@ function employees_content() {
     'alert_enabled' => false,
   );
   $employees = json_decode( get_user_meta($user_id, 'mepr_employees', true), true ) ? : array( $instanciate );
+
+  echo '<h3 class="screen-heading">Team Members</h3>';
 
   if ( current_user_can('manage_options') || $user_id == $current ) { ?>
 
@@ -419,6 +422,28 @@ function printable_employees( $user_id ) {
   }
 }
 
+function get_company_logo( $user_id ) {
+  // This function is for getting the Company Logo, checking for the deprecated old Logo and returning it if a new one cannot be found
+  $contact = get_user_meta( $user_id );
+
+  $logo = isset($contact['memberpress_avatar']) ? $contact['memberpress_avatar'][0] : false;
+  $newlogo = bp_attachments_get_attachment( 'url', array( 'item_id' => $user_id ) );
+
+  if ( $newlogo ) {
+    return $newlogo;
+  } elseif ( $logo ) {
+    return wp_get_attachment_url( $logo );
+  } else {
+    return '';
+    // Should probably make this a temp image
+  }
+}
+
+function addScheme($url, $scheme = 'http://')
+{
+  return parse_url($url, PHP_URL_SCHEME) === null ?
+    $scheme . $url : $url;
+}
 
 function wordpress_to_buddypress( $user_id ) {
 
@@ -434,12 +459,43 @@ function wordpress_to_buddypress( $user_id ) {
     'Fax Number'      => 'mepr_fax',
     'Mobile Number'   => 'mepr_mobile',
     'Industry Type'   => 'mepr_industry_type',
+    'Services'        => 'mepr_services',
     'Aviation Association Memberships and Affiliations' => 'mepr_aviation_associations_memberships_and_affiliations',
   );
 
   foreach( $buddypressKey as $bp => $wp ) {
     if ( xprofile_get_field_id_from_name( $bp ) ) {
-      $field_value = $userMeta[ $wp ][0];
+
+      if( count( $userMeta[$wp] ) == 1 ) {
+        // Only one item. Could be lots of things.
+        if( filter_var( $userMeta[ $wp ][0], FILTER_VALIDATE_URL ) ) {
+          // This is a URL. Make sure it works
+          $field_value = addScheme( $userMeta[ $wp ][0] );
+        } elseif( is_serialized( $userMeta[ $wp ][0] ) ) {
+          // This is a serialized array. Convert it and check it out.
+          $array = unserialize( $userMeta[ $wp ][0] );
+          // This is an array, let's figure out what kind
+          $firstval = reset( $array );
+          $field_value = array();
+          if( $firstval == "on" ) {
+            // this is probably a checkbox input. make a new array that buddypress will like
+            foreach( $array as $key => $on ) {
+              $field_value[] = ucwords( $key );
+            }
+          } else {
+            // Not checkboxes. Just uppercase the array.
+              $field_value = array_map( 'ucwords', $array );
+          }
+
+        } else {
+          // Not serialized, just a string (probably)
+          $field_value = ucwords( $userMeta[ $wp ][0] );
+        }
+      } else {
+        // More than one item in this array. Uppercase them.
+        $field_value = array_map( 'ucwords', $userMeta[ $wp ] );
+      }
+
       if( $field_value ) {
         //echo 'Set ' . $bp . ' to ' . $field_value . '<br>';
         xprofile_set_field_data($bp, $user_id, $field_value);
@@ -453,6 +509,43 @@ function wordpress_to_buddypress( $user_id ) {
 add_action( 'profile_update', 'wordpress_to_buddypress', 11, 2 );
 add_action( 'personal_options_update', 'wordpress_to_buddypress' );
 add_action( 'edit_user_profile_update', 'wordpress_to_buddypress' );
+
+function buddypress_to_wordpress( $obj ) {
+
+  $dataKey = array(
+    13 => 'mepr_company',
+    5  => 'mepr_title',
+    15 => 'mepr_company_website',
+    7  => 'mepr_phone_number',
+    59 => 'mepr_fax',
+    9  => 'mepr_mobile',
+    17 => 'mepr_industry_type',
+    98 => 'mepr_services',
+    57 => 'mepr_aviation_associations_memberships_and_affiliations',
+  );
+
+  foreach( $dataKey as $bp => $wp ) {
+    if ( $obj->field_id == $bp ) {
+      switch( $wp ) {
+        case 'mepr_industry_type':
+          $value = strtolower( $obj->value );
+          break;
+        case 'mepr_services':
+          $data = unserialize( $obj->value );
+          $value = array();
+          foreach( $data as $key ) {
+            $value[ strtolower( $key ) ] = 'on';
+          }
+          break;
+        default:
+          $value = $obj->value;
+      }
+      update_user_meta( $obj->user_id, $wp, $value );
+      break;
+    }
+  }
+}
+add_action( 'xprofile_data_after_save', 'buddypress_to_wordpress' );
 
 // Can use this to format an xprofile field before save, but replaced with the filter below
 // function format_buddypress_phone( $obj ) {
@@ -495,29 +588,6 @@ function do_it_my_way( $field_value, $field_type = '', $field_id = '' ) {
 //   }
 // }
 // add_filter( 'bp_get_the_profile_field_value', 'display_format_xprofile_phone', 9, 5 );
-
-function buddypress_to_wordpress( $obj ) {
-
-  $dataKey = array(
-    13 => 'mepr_company',
-    5  => 'mepr_title',
-    15 => 'mepr_company_website',
-    7  => 'mepr_phone_number',
-    59 => 'mepr_fax',
-    9  => 'mepr_mobile',
-    17 => 'mepr_industry_type',
-    57 => 'mepr_aviation_associations_memberships_and_affiliations',
-  );
-
-  foreach( $datakey as $bp => $wp ) {
-    if ( $obj->field_id == $bp ) {
-      update_user_meta( $obj->user_id, $wp, $obj->value );
-      break;
-    }
-  }
-}
-add_action( 'xprofile_data_after_save', 'buddypress_to_wordpress' );
-
 
 /* MOBILE ALERTS */
 function profile_settings_tab_mobilealerts() {

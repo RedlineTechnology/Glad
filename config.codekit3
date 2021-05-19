@@ -37,47 +37,47 @@
       "oF" : 0,
       "pg" : 0
     },
-    "\/buddypress\/bp-core\/bp-core-attachments.php" : {
+    "\/buddypress_core\/bp-core\/bp-core-attachments.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-core\/bp-core-attachments.php",
+      "oAP" : "\/buddypress_core\/bp-core\/bp-core-attachments.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-core\/bp-core-avatars.php" : {
+    "\/buddypress_core\/bp-core\/bp-core-avatars.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-core\/bp-core-avatars.php",
+      "oAP" : "\/buddypress_core\/bp-core\/bp-core-avatars.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-core\/classes\/class-bp-attachment-avatar.php" : {
+    "\/buddypress_core\/bp-core\/classes\/class-bp-attachment-avatar.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-core\/classes\/class-bp-attachment-avatar.php",
+      "oAP" : "\/buddypress_core\/bp-core\/classes\/class-bp-attachment-avatar.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-core\/classes\/class-bp-attachment-cover-image.php" : {
+    "\/buddypress_core\/bp-core\/classes\/class-bp-attachment-cover-image.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-core\/classes\/class-bp-attachment-cover-image.php",
+      "oAP" : "\/buddypress_core\/bp-core\/classes\/class-bp-attachment-cover-image.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-core\/classes\/class-bp-attachment.php" : {
+    "\/buddypress_core\/bp-core\/classes\/class-bp-attachment.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-core\/classes\/class-bp-attachment.php",
+      "oAP" : "\/buddypress_core\/bp-core\/classes\/class-bp-attachment.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/admin\/css\/admin-rtl.css" : {
+    "\/buddypress_core\/bp-xprofile\/admin\/css\/admin-rtl.css" : {
       "aP" : 1,
       "bl" : 0,
       "ci" : 0,
@@ -85,11 +85,11 @@
       "ft" : 16,
       "ma" : 0,
       "oA" : 2,
-      "oAP" : "\/buddypress\/bp-xprofile\/admin\/css\/admin-rtl.css",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/admin\/css\/admin-rtl.css",
       "oF" : 0,
       "pg" : 0
     },
-    "\/buddypress\/bp-xprofile\/admin\/css\/admin-rtl.min.css" : {
+    "\/buddypress_core\/bp-xprofile\/admin\/css\/admin-rtl.min.css" : {
       "aP" : 1,
       "bl" : 0,
       "ci" : 0,
@@ -97,11 +97,11 @@
       "ft" : 16,
       "ma" : 0,
       "oA" : 2,
-      "oAP" : "\/buddypress\/bp-xprofile\/admin\/css\/admin-rtl.min.css",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/admin\/css\/admin-rtl.min.css",
       "oF" : 0,
       "pg" : 0
     },
-    "\/buddypress\/bp-xprofile\/admin\/css\/admin.css" : {
+    "\/buddypress_core\/bp-xprofile\/admin\/css\/admin.css" : {
       "aP" : 1,
       "bl" : 0,
       "ci" : 0,
@@ -109,11 +109,11 @@
       "ft" : 16,
       "ma" : 0,
       "oA" : 2,
-      "oAP" : "\/buddypress\/bp-xprofile\/admin\/css\/admin.css",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/admin\/css\/admin.css",
       "oF" : 0,
       "pg" : 0
     },
-    "\/buddypress\/bp-xprofile\/admin\/css\/admin.min.css" : {
+    "\/buddypress_core\/bp-xprofile\/admin\/css\/admin.min.css" : {
       "aP" : 1,
       "bl" : 0,
       "ci" : 0,
@@ -121,390 +121,710 @@
       "ft" : 16,
       "ma" : 0,
       "oA" : 2,
-      "oAP" : "\/buddypress\/bp-xprofile\/admin\/css\/admin.min.css",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/admin\/css\/admin.min.css",
       "oF" : 0,
       "pg" : 0
     },
-    "\/buddypress\/bp-xprofile\/admin\/js\/admin.js" : {
+    "\/buddypress_core\/bp-xprofile\/admin\/js\/admin.js" : {
       "bF" : 0,
       "ft" : 64,
       "ma" : 0,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/admin\/js\/admin.min.js",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/admin\/js\/admin.min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
     },
-    "\/buddypress\/bp-xprofile\/admin\/js\/admin.min.js" : {
+    "\/buddypress_core\/bp-xprofile\/admin\/js\/admin.min.js" : {
       "bF" : 0,
       "ft" : 64,
       "ma" : 0,
       "mi" : 1,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/admin\/js\/admin.min.min.js",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/admin\/js\/admin.min.min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-activity.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-activity.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-activity.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-activity.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-admin.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-admin.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-admin.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-admin.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-cache.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-cache.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-cache.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-cache.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-caps.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-caps.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-caps.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-caps.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-cssjs.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-cssjs.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-cssjs.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-cssjs.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-filters.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-filters.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-filters.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-filters.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-functions.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-functions.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-functions.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-functions.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-loader.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-loader.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-loader.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-loader.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-notifications.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-notifications.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-notifications.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-notifications.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-settings.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-settings.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-settings.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-settings.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/bp-xprofile-template.php" : {
+    "\/buddypress_core\/bp-xprofile\/bp-xprofile-template.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/bp-xprofile-template.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/bp-xprofile-template.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-rest-xprofile-data-endpoint.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-rest-xprofile-data-endpoint.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-rest-xprofile-data-endpoint.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-rest-xprofile-data-endpoint.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-rest-xprofile-field-groups-endpoint.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-rest-xprofile-field-groups-endpoint.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-rest-xprofile-field-groups-endpoint.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-rest-xprofile-field-groups-endpoint.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-rest-xprofile-fields-endpoint.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-rest-xprofile-fields-endpoint.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-rest-xprofile-fields-endpoint.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-rest-xprofile-fields-endpoint.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-component.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-component.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-component.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-component.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-data-template.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-data-template.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-data-template.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-data-template.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-checkbox.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-checkbox.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-checkbox.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-checkbox.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-datebox.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-datebox.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-datebox.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-datebox.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-multiselectbox.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-multiselectbox.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-multiselectbox.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-multiselectbox.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-number.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-number.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-number.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-number.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-placeholder.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-placeholder.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-placeholder.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-placeholder.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-radiobutton.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-radiobutton.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-radiobutton.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-radiobutton.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-selectbox.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-selectbox.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-selectbox.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-selectbox.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-telephone.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-telephone.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-telephone.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-telephone.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-textarea.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-textarea.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-textarea.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-textarea.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-textbox.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-textbox.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-textbox.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-textbox.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-url.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-url.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type-url.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type-url.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field-type.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field-type.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-field.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-field.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-group.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-group.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-group.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-group.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-meta-query.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-meta-query.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-meta-query.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-meta-query.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-profiledata.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-profiledata.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-profiledata.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-profiledata.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-query.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-query.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-query.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-query.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-user-admin.php" : {
+    "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-user-admin.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/classes\/class-bp-xprofile-user-admin.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/classes\/class-bp-xprofile-user-admin.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/screens\/edit.php" : {
+    "\/buddypress_core\/bp-xprofile\/screens\/edit.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/screens\/edit.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/screens\/edit.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/screens\/public.php" : {
+    "\/buddypress_core\/bp-xprofile\/screens\/public.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/screens\/public.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/screens\/public.php",
       "oF" : 0
     },
-    "\/buddypress\/bp-xprofile\/screens\/settings-profile.php" : {
+    "\/buddypress_core\/bp-xprofile\/screens\/settings-profile.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/bp-xprofile\/screens\/settings-profile.php",
+      "oAP" : "\/buddypress_core\/bp-xprofile\/screens\/settings-profile.php",
       "oF" : 0
     },
-    "\/buddypress\/common\/filters\/directory-filters.php" : {
+    "\/buddypress_core\/common\/filters\/directory-filters.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/common\/filters\/directory-filters.php",
+      "oAP" : "\/buddypress_core\/common\/filters\/directory-filters.php",
       "oF" : 0
     },
-    "\/buddypress\/common\/filters\/groups-screens-filters.php" : {
+    "\/buddypress_core\/common\/filters\/groups-screens-filters.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/common\/filters\/groups-screens-filters.php",
+      "oAP" : "\/buddypress_core\/common\/filters\/groups-screens-filters.php",
       "oF" : 0
     },
-    "\/buddypress\/common\/filters\/user-screens-filters.php" : {
+    "\/buddypress_core\/common\/filters\/user-screens-filters.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/common\/filters\/user-screens-filters.php",
+      "oAP" : "\/buddypress_core\/common\/filters\/user-screens-filters.php",
       "oF" : 0
     },
-    "\/buddypress\/common\/js-templates\/activity\/form.php" : {
+    "\/buddypress_core\/common\/js-templates\/activity\/form.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/common\/js-templates\/activity\/form.php",
+      "oAP" : "\/buddypress_core\/common\/js-templates\/activity\/form.php",
       "oF" : 0
     },
-    "\/buddypress\/common\/js-templates\/group-members\/index.php" : {
+    "\/buddypress_core\/common\/js-templates\/group-members\/index.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/common\/js-templates\/group-members\/index.php",
+      "oAP" : "\/buddypress_core\/common\/js-templates\/group-members\/index.php",
       "oF" : 0
     },
-    "\/buddypress\/common\/js-templates\/invites\/index.php" : {
+    "\/buddypress_core\/common\/js-templates\/invites\/index.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/common\/js-templates\/invites\/index.php",
+      "oAP" : "\/buddypress_core\/common\/js-templates\/invites\/index.php",
       "oF" : 0
     },
-    "\/buddypress\/common\/js-templates\/messages\/index.php" : {
+    "\/buddypress_core\/common\/js-templates\/messages\/index.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/common\/js-templates\/messages\/index.php",
+      "oAP" : "\/buddypress_core\/common\/js-templates\/messages\/index.php",
       "oF" : 0
     },
-    "\/buddypress\/common\/js-templates\/messages\/search-form.php" : {
+    "\/buddypress_core\/common\/js-templates\/messages\/search-form.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
-      "oAP" : "\/buddypress\/common\/js-templates\/messages\/search-form.php",
+      "oAP" : "\/buddypress_core\/common\/js-templates\/messages\/search-form.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/common\/nav\/directory-nav.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/common\/nav\/directory-nav.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/common\/notices\/template-notices.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/common\/notices\/template-notices.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/common\/search-and-filters-bar.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/common\/search-and-filters-bar.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/common\/search\/search-form.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/common\/search\/search-form.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/activate.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/activate.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/index.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/index.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/members-loop.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/members-loop.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/register.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/register.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/activity.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/activity.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/blogs.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/blogs.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/cover-image-header.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/cover-image-header.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/default-front.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/default-front.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/friends.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/friends.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/friends\/requests-loop.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/friends\/requests-loop.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/friends\/requests.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/friends\/requests.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/groups.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/groups.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/groups\/invites.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/groups\/invites.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/home.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/home.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/member-header.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/member-header.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/messages.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/messages.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/notifications.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/notifications.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/notifications\/notifications-loop.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/notifications\/notifications-loop.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/parts\/item-nav.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/parts\/item-nav.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/parts\/item-subnav.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/parts\/item-subnav.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/parts\/profile-visibility.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/parts\/profile-visibility.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/plugins.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/plugins.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/profile.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/profile.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/profile\/change-avatar.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/profile\/change-avatar.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/profile\/change-cover-image.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/profile\/change-cover-image.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/profile\/edit.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/profile\/edit.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/profile\/profile-loop.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/profile\/profile-loop.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/profile\/profile-wp.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/profile\/profile-wp.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/settings.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/settings.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/settings\/capabilities.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/settings\/capabilities.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/settings\/data.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/settings\/data.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/settings\/delete-account.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/settings\/delete-account.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/settings\/general.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/settings\/general.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/settings\/group-invites.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/settings\/group-invites.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/settings\/notifications.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/settings\/notifications.php",
+      "oF" : 0
+    },
+    "\/buddypress_core\/members\/single\/settings\/profile.php" : {
+      "cB" : 0,
+      "ft" : 8192,
+      "hM" : 0,
+      "oA" : 0,
+      "oAP" : "\/buddypress_core\/members\/single\/settings\/profile.php",
       "oF" : 0
     },
     "\/buddypress\/common\/nav\/directory-nav.php" : {
@@ -515,76 +835,12 @@
       "oAP" : "\/buddypress\/common\/nav\/directory-nav.php",
       "oF" : 0
     },
-    "\/buddypress\/common\/notices\/template-notices.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/common\/notices\/template-notices.php",
-      "oF" : 0
-    },
-    "\/buddypress\/common\/search-and-filters-bar.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/common\/search-and-filters-bar.php",
-      "oF" : 0
-    },
-    "\/buddypress\/common\/search\/search-form.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/common\/search\/search-form.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/activate.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/activate.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/index.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/index.php",
-      "oF" : 0
-    },
     "\/buddypress\/members\/members-loop.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/buddypress\/members\/members-loop.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/register.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/register.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/activity.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/activity.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/blogs.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/blogs.php",
       "oF" : 0
     },
     "\/buddypress\/members\/single\/cover-image-header.php" : {
@@ -595,132 +851,12 @@
       "oAP" : "\/buddypress\/members\/single\/cover-image-header.php",
       "oF" : 0
     },
-    "\/buddypress\/members\/single\/default-front.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/default-front.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/friends.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/friends.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/friends\/requests-loop.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/friends\/requests-loop.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/friends\/requests.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/friends\/requests.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/groups.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/groups.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/groups\/invites.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/groups\/invites.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/home.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/home.php",
-      "oF" : 0
-    },
     "\/buddypress\/members\/single\/member-header.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/buddypress\/members\/single\/member-header.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/messages.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/messages.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/notifications.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/notifications.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/notifications\/notifications-loop.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/notifications\/notifications-loop.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/parts\/item-nav.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/parts\/item-nav.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/parts\/item-subnav.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/parts\/item-subnav.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/parts\/profile-visibility.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/parts\/profile-visibility.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/plugins.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/plugins.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/profile.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/profile.php",
       "oF" : 0
     },
     "\/buddypress\/members\/single\/profile\/change-avatar.php" : {
@@ -739,92 +875,12 @@
       "oAP" : "\/buddypress\/members\/single\/profile\/change-cover-image.php",
       "oF" : 0
     },
-    "\/buddypress\/members\/single\/profile\/edit.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/profile\/edit.php",
-      "oF" : 0
-    },
     "\/buddypress\/members\/single\/profile\/profile-loop.php" : {
       "cB" : 0,
       "ft" : 8192,
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/buddypress\/members\/single\/profile\/profile-loop.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/profile\/profile-wp.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/profile\/profile-wp.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/settings.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/settings.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/settings\/capabilities.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/settings\/capabilities.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/settings\/data.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/settings\/data.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/settings\/delete-account.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/settings\/delete-account.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/settings\/general.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/settings\/general.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/settings\/group-invites.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/settings\/group-invites.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/settings\/notifications.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/settings\/notifications.php",
-      "oF" : 0
-    },
-    "\/buddypress\/members\/single\/settings\/profile.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/buddypress\/members\/single\/settings\/profile.php",
       "oF" : 0
     },
     "\/comments.php" : {
@@ -857,14 +913,6 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/footer.php",
-      "oF" : 0
-    },
-    "\/front-page-legacy.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/front-page-legacy.php",
       "oF" : 0
     },
     "\/front-page.php" : {
@@ -1421,6 +1469,19 @@
       "q" : 100,
       "rq" : 75
     },
+    "\/images\/gradient.png" : {
+      "ft" : 32768,
+      "iS" : 1102,
+      "oA" : 0,
+      "oAP" : "\/images\/gradient.png",
+      "oF" : 0,
+      "oIPL" : 0,
+      "opt" : 0,
+      "oT" : 1,
+      "ou" : "lpckwebp-none",
+      "q" : 100,
+      "rq" : 75
+    },
     "\/images\/hai-white.png" : {
       "ft" : 32768,
       "iS" : 6841,
@@ -1884,14 +1945,6 @@
       "oAP" : "\/inc\/Textmagic\/textmagic.php",
       "oF" : 0
     },
-    "\/inc\/user-profiles-legacy.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/inc\/user-profiles-legacy.php",
-      "oF" : 0
-    },
     "\/inc\/user-profiles.php" : {
       "cB" : 0,
       "ft" : 8192,
@@ -2279,6 +2332,28 @@
       "sC" : 3,
       "tS" : 0
     },
+    "\/js\/search.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/search.min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
+    "\/js\/search.min.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/search.min.min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
     "\/js\/skip-link-focus-fix.js" : {
       "bF" : 0,
       "ft" : 64,
@@ -2462,14 +2537,6 @@
       "oF" : 0,
       "pg" : 0
     },
-    "\/page-aboutus-legacy.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/page-aboutus-legacy.php",
-      "oF" : 0
-    },
     "\/page-add-comp.php" : {
       "cB" : 0,
       "ft" : 8192,
@@ -2484,14 +2551,6 @@
       "hM" : 0,
       "oA" : 0,
       "oAP" : "\/page-canvas.php",
-      "oF" : 0
-    },
-    "\/page-directory-legacy.php" : {
-      "cB" : 0,
-      "ft" : 8192,
-      "hM" : 0,
-      "oA" : 0,
-      "oAP" : "\/page-directory-legacy.php",
       "oF" : 0
     },
     "\/page-library.php" : {

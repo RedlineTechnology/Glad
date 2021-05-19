@@ -9,20 +9,6 @@
           <input type="hidden" name="post_id" value="<?php echo $post->ID; ?>" />
 
           <h3>Edit Listing</h3>
-          <div>
-            <label for="post_title">Listing Headline</label>
-            <input type="text" id="post_title" name="post_title" placeholder="<?php echo $title; ?>">
-          </div>
-
-          <div class="select">
-            <label for="marketstatus">Market Status</label>
-            <select id="marketstatus" name="marketstatus" data-selected=<?php echo $status[0]->term_id; ?>>
-              <option value="7" <?php selected( $status[0]->term_id, '7' ); ?>>For Lease</option>
-              <option value="6" <?php selected( $status[0]->term_id, '6' ); ?>>For Sale</option>
-              <option value="5" <?php selected( $status[0]->term_id, '5' ); ?>>Sold</option>
-              <option value="8" <?php selected( $status[0]->term_id, '8' ); ?>>Under Contract</option>
-            </select>
-          </div>
 
           <div class="select">
             <label for="aircraft">Aircraft Type</label>
@@ -115,20 +101,16 @@
             <input type="hidden" name="action" value="updatelisting">
             <input type="hidden" name="post_id" value="<?php echo $post->ID; ?>" />
 
-            <h3>Change Market Status</h3>
+            <h3>Suspended Listing</h3>
             <div class="select">
-              <label for="marketstatus">Select One:</label>
+              <label for="marketstatus">Actions:</label>
               <select id="marketstatus" name="marketstatus" data-selected=<?php echo $status[0]->term_id; ?>>
-                <option value="7" <?php selected( $status[0]->term_id, '7' ); ?>>For Lease</option>
-                <option value="6" <?php selected( $status[0]->term_id, '6' ); ?>>For Sale</option>
-                <option value="5" <?php selected( $status[0]->term_id, '5' ); ?>>Sold</option>
-                <option value="8" <?php selected( $status[0]->term_id, '8' ); ?>>Under Contract</option>
-                <option value="30" <?php selected( $status[0]->term_id, '30' ); ?>>Off Market</option>
+                <option value="6" <?php selected( $status[0]->term_id, '6' ); ?>>Restore to Market</option>
+                <option value="5" <?php selected( $status[0]->term_id, '5' ); ?>>Mark as Sold</option>
+                <option value="30" <?php selected( $status[0]->term_id, '30' ); ?>>Withdraw Aircraft</option>
               </select>
             </div>
-            <p class="info">* Under Contract and Off-Market aircraft will be hidden on the Listings page. Off-Market aircraft here will not appear to other GLADA members. To create an Opportunity for an Off-Market aircraft visible to other members, <a href="/members/submit-opportunity/">Click Here</a>.</p>
-
-            <button id="edit-marketstatus-submit" value="updatelisting">Update Status</button>
+            <button id="edit-marketstatus-submit" value="updatelisting">Submit</button>
             <a href="#" class="closeform">Cancel</a>
           </form>
 
@@ -178,9 +160,18 @@
             <input type="hidden" name="post_id" value="<?php echo $post->ID; ?>" />
             <input type="hidden" id="delete_post" name="delete_post" value="29" />
 
-            <h3>Delete Listing</h3>
+            <h3>Remove Listing</h3>
 
-            <button id="delete-form-submit" value="updatelisting">Confirm Deletion</button>
+            <div class="select">
+              <label for="marketstatus">Please Select an Option:</label>
+              <select id="marketstatus" name="marketstatus" data-selected=<?php echo $status[0]->term_id; ?>>
+                <option value="5" <?php selected( $status[0]->term_id, '5' ); ?>>Mark as Sold</option>
+                <option value="8" <?php selected( $status[0]->term_id, '8' ); ?>>Suspend</option>
+                <option value="30" <?php selected( $status[0]->term_id, '30' ); ?>>Withdraw from Market</option>
+              </select>
+            </div>
+
+            <button id="delete-form-submit" value="updatelisting">Submit</button>
             <a href="#" class="closeform">Cancel</a>
           </form>
 

@@ -5,11 +5,11 @@ jQuery(function($){
 	 */
 	$('#loadmore').click(function(){
 		$.ajax({
-			url : loadmore_params.ajaxurl, // AJAX handler
+			url : query_params.ajaxurl, // AJAX handler
 			data : {
 				'action': 'loadmore', // the parameter for admin-ajax.php
-				'query': loadmore_params.posts, // loop parameters passed by wp_localize_script()
-				'page' : loadmore_params.current_page // current page
+				'query': query_params.posts, // loop parameters passed by wp_localize_script()
+				'page' : query_params.current_page // current page
 			},
 			type : 'POST',
 			beforeSend : function ( xhr ) {
@@ -20,9 +20,9 @@ jQuery(function($){
 
 					$('#loadmore').text( 'More Listings' );
 					$('#response').append( posts ); // insert new posts
-					loadmore_params.current_page++;
+					query_params.current_page++;
 
-					if ( loadmore_params.current_page == loadmore_params.max_page )
+					if ( query_params.current_page == query_params.max_page )
 						$('#loadmore').hide(); // if last page, HIDE the button
 
 				} else {
@@ -34,20 +34,22 @@ jQuery(function($){
 		return false;
 	});
 
-
-	var canBeLoaded = true, // this param allows to initiate the AJAX call only if necessary
-	    bottomOffset = 700; // the distance (in px) from the page bottom when you want to load more posts
+	var canBeLoaded = false,
+			bottomOffset = 700;
+	if( $('body.post-type-archive').length ) {
+		canBeLoaded = true;
+	}
 
 	$('#page-wrapper').scroll(function(){
 		var data = {
 			'action': 'loadmore',
-			'query': loadmore_params.posts,
-			'page' : loadmore_params.current_page
+			'query': query_params.posts,
+			'page' : query_params.current_page
 		};
 		if( $('#page-wrapper').scrollTop() > ( $('#response').height() - bottomOffset ) && canBeLoaded == true ){
 			console.log('made it to the thing!');
 			$.ajax({
-				url : loadmore_params.ajaxurl,
+				url : query_params.ajaxurl,
 				data:data,
 				type:'POST',
 				beforeSend: function( xhr ){
@@ -61,10 +63,10 @@ jQuery(function($){
 						$('#loadmore').text( 'Show More' ).show();
 						$('.loaderwrapper').hide();
 						$('#response').append( posts ); // insert new posts
-						loadmore_params.current_page++;
+						query_params.current_page++;
 						canBeLoaded = true; // the ajax is completed, now we can run it again
 
-						if ( loadmore_params.current_page == loadmore_params.max_page )
+						if ( query_params.current_page == query_params.max_page )
 							$('#loadmore').hide(); // if last page, HIDE the button
 
 					} else {
@@ -82,7 +84,7 @@ jQuery(function($){
 	 */
 	$('#filter').submit(function(){
 		$.ajax({
-			url : loadmore_params.ajaxurl,
+			url : query_params.ajaxurl,
 			data : $('#filter').serialize().replace(/&?[^=]+=&|&[^=]+=$/g,''), // form data, removing null values
 			dataType : 'json', // this data type allows us to receive objects from the server
 			type : $('#filter').attr('method'), // POST
@@ -93,11 +95,11 @@ jQuery(function($){
 			success : function( data ){
 				// when filter applied:
 				// set the current page to 1
-				loadmore_params.current_page = 1;
+				query_params.current_page = 1;
 				// set the new query parameters
-				loadmore_params.posts = data.posts;
+				query_params.posts = data.posts;
 				// set the new max page parameter
-				loadmore_params.max_page = data.max_page;
+				query_params.max_page = data.max_page;
 
 				$('#filter').find('button').text('Update'); // change the button label back
 				$('#response').html(data.content); // the thing
@@ -113,4 +115,72 @@ jQuery(function($){
 		return false;
 	});
 
+	/*
+	 * This is the OPPORTUNITY SIDEBAR ICON click handler. Nearly identical to the Search function. Look into consolidating
+	 */
+	$(document).on('click','.opp-sidebar i',function(){
+
+		$.ajax({
+			url : query_params.ajaxurl, // AJAX handler
+			type : $('#searchform').attr('method'),
+			dataType : 'json',
+			data : {
+				'action': 'search',
+				'searchfield': $(this).attr('type'), // we'll be spoofing a search for this category
+				'posts': query_params.posts
+			},
+			beforeSend : function(xhr){
+				$( query_params.output ).html( '<div style="text-align:center; width: 100%;"><center><img style="width:25px; height: 25px; margin:100px auto;" src="https://glad.aero/wp-content/themes/Glad/images/ajax-loader.gif"></center></div>' )
+			},
+			success : function( data ){
+				$( query_params.output ).html(data.content); // the thing
+				$( query_params.output ).addClass('ajaxed'); // add this class so we can style based on filtered or not
+				$('#loadmore').hide();
+			}
+		});
+		return false;
+	});
+
+	$(document).on('click','.opp-main',function(){
+
+		var box = $(this);
+		var post = $(this).attr('id');
+
+		$.ajax({
+			url : query_params.ajaxurl, // AJAX handler
+			type : 'POST',
+			dataType : 'json',
+			data : {
+				'action': 'expandpost',
+				'post': post
+			},
+			beforeSend : function(xhr){
+				$( box ).addClass('loading');
+			},
+			success : function( data ){
+				$( '#postbox' ).html(data.content); // the thing
+				$( '#postbox' ).addClass('active');
+				$( box ).removeClass('loading');
+        $("#page-wrapper").toggleClass( "noscroll" );
+			}
+		});
+		return false;
+	});
+
+	$(document).on('click','.closebox',function(e){
+		e.preventDefault();
+		$( '#postbox' ).removeClass('active'),
+		$("#page-wrapper").toggleClass( "noscroll" )
+	});
+	$(document).on('click',function(e){
+		if ( (!$(e.target).closest('#postbox .inner').length) && (!$(e.target).closest('.closebox').length) ) {
+			if ( $( '#postbox' ).hasClass( 'active' ) ) {
+				$( '#postbox' ).removeClass( 'active' ),
+        $("#page-wrapper").toggleClass( "noscroll" )
+			}
+		}
+	});
+
 });
+
+// add scroll back

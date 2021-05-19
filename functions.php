@@ -142,6 +142,8 @@ function glad_scripts() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
+	// We'll Register this here so we can use it later on different pages
+	wp_register_script( 'loadmore', get_stylesheet_directory_uri() . '/js/loadmore.min.js', array('jquery'), '20210521' );
 }
 add_action( 'wp_enqueue_scripts', 'glad_scripts' );
 
@@ -305,11 +307,14 @@ function loadmore_ajax_handler(){
 		// run the loop
 		while ( have_posts() ) : the_post();
 
-			echo '<div class="' . $posttype . '-list-item">';
 			if ( $posttype === 'listing' ) {
-				get_template_part('template-parts/listing');
+				echo '<div class="' . $posttype . '-list-item">';
+					get_template_part('template-parts/listing');
+			} elseif ( $posttype === 'opportunity' ) {
+				echo '<div class="list-item-' . $posttype . '">';
+					get_template_part('template-parts/opportunity');
 			} else {
-				get_template_part('template-parts/opportunity');
+				echo '<div class="' . $posttype . '-list-item">';
 			}
 			echo '</div>';
 
@@ -486,188 +491,209 @@ function get_meta_values( $key = '', $type = 'post', $status = 'publish' ) {
     return $r;
 }
 
+
 /**
- * Opportunity Filter Function
- *
- * @link https://rudrastyh.com/wordpress/ajax-post-filters.html
- * @link https://rudrastyh.com/wordpress/ajax-load-more-with-filters.html
+ * Very very Custom Search.
+ * We are bypassing the WP Query altogether and going to the DB with our own SQL Query.
+ * This will not return any query arguments, rather it will return an array of Post objects
  */
-function opportunity_filter_function(){
-	$args = array(
-		'post_type' => 'opportunity',
-		'orderby' => 'date', // we will sort posts by date
-		'order'	=> $_POST['date'] // ASC or DESC
-	);
 
-	// for CATEGORY
-	if( isset( $_POST['category'] ) ) {
-		$args['cat'] = $_POST['category'];
-	}
+// EXCLUDING tag _deleted is NOT WORKING.  For now, I'm just hiding them in CSS as a stop-gap.
+// Yay for Permanent Temporary Solutions
+ function search_posts( $value, $posttype = 'opportunity' ) {
+    global $wpdb;
+    $value = '%'.$wpdb->esc_like($value).'%';
+		$deleted = '%deleted%';
+    $sql = $wpdb->prepare("SELECT p.ID
+        FROM {$wpdb->prefix}posts p
+        LEFT JOIN {$wpdb->prefix}postmeta m ON m.post_id = p.ID
+        LEFT JOIN {$wpdb->prefix}term_relationships r ON r.object_id = p.ID
+        LEFT JOIN {$wpdb->prefix}term_taxonomy tt ON tt.term_taxonomy_id = r.term_taxonomy_id AND tt.taxonomy = 'opptype'
+        LEFT JOIN {$wpdb->prefix}terms t ON t.term_id = tt.term_id
+        LEFT JOIN {$wpdb->prefix}term_relationships cr ON cr.object_id = p.ID
+				LEFT JOIN {$wpdb->prefix}term_taxonomy ct ON ct.term_taxonomy_id = cr.term_taxonomy_id AND ct.taxonomy = 'post_tag'
+				LEFT JOIN {$wpdb->prefix}terms c ON c.term_id = ct.term_id
+        WHERE p.post_status = 'publish' AND p.post_type = %s
+            AND ((m.meta_key = 'services' AND m.meta_value LIKE %s)
+                OR (t.name LIKE %s)
+							  OR (t.slug LIKE %s)
+							  OR (p.post_content LIKE %s)
+							  OR (p.post_title LIKE %s))
+						AND ( COALESCE(c.name,'valid') NOT LIKE %s )
+        GROUP BY p.ID", $posttype, $value, $value, $value, $value, $value, $deleted);
+    $ids = $wpdb->get_col($sql);
+    if (is_array($ids) && count($ids) > 0)
+        return array_map('get_post', $ids);
+    else
+        return []; // or whatever you like
+ }
 
-	//instanciate Taxonomy query
-	if( isset( $_POST['marketstatus'] ) || isset( $_POST['aircrafttype'] ) ) {
-		$args['tax_query'] = array( 'relation' => 'AND' );
-	}
+ // We're Going to Use these custom filters to help make the default Wordpress
+ // Search a little better.
+ // https://wordpress.stackexchange.com/questions/99849/search-that-will-look-in-custom-field-post-title-and-post-content
 
-	// We need to exclude "_deleted" posts
-	$args['tax_query'][] = array(
-		'taxonomy' => 'post_tag',
-		'field'		 => 'term_id',
-		'terms'		 => array('29'),
-		'operator' => 'NOT IN'
-	);
+ // These will also search the meta key "services" belonging to Opportunity Types
+ // function add_join_wpse_99849($joins) {
+	//  global $wpdb;
+	//  return $joins . " INNER JOIN {$wpdb->postmeta} ON ({$wpdb->posts}.ID = {$wpdb->postmeta}.post_id)";
+	// }
+ //
+	// function alter_search_opportunity($search,$qry) {
+	//  global $wpdb;
+	//  $add = $wpdb->prepare("({$wpdb->postmeta}.meta_key = 'services' AND CAST({$wpdb->postmeta}.meta_value AS CHAR) LIKE '%%%s%%')",$qry->get('s'));
+	//  $pat = '|\(\((.+)\)\)|';
+	//  $search = preg_replace($pat,'(($1 OR '.$add.'))',$search);
+	//  return $search;
+	// }
 
-	// for AIRCRAFT TYPE
-	if( isset( $_POST['aircrafttype'] ) ) {
-		$args['tax_query'][] = array(
-			'taxonomy' => 'aircraft',
-			'field' => 'id',
-			'terms' => $_POST['aircrafttype']
-		);
-	}
+ function opp_search() {
 
-	// create $args['meta_query'] array if one of the following fields is filled
-	if( isset( $_POST['price_min'] ) && $_POST['price_min'] || isset( $_POST['price_max'] ) && $_POST['price_max'] || isset( $_POST['featured_image'] ) && $_POST['featured_image'] == 'on' )
-		$args['meta_query'] = array( 'relation'=>'AND' ); // AND means that all conditions of meta_query should be true
+	 $vars = json_decode( stripslashes( $_POST['posts'] ), true);
+	 $args = array();
 
-	// if both minimum price and maximum price are specified we will use BETWEEN comparison
-	if( isset( $_POST['price_min'] ) && $_POST['price_min'] && isset( $_POST['price_max'] ) && $_POST['price_max'] ) {
-		$args['meta_query'][] = array(
-			'key' => '_price',
-			'value' => array( $_POST['price_min'], $_POST['price_max'] ),
-			'type' => 'numeric',
-			'compare' => 'between'
-		);
-	} else {
-		// if only min price is set
-		if( isset( $_POST['price_min'] ) && $_POST['price_min'] )
-			$args['meta_query'][] = array(
-				'key' => '_price',
-				'value' => $_POST['price_min'],
-				'type' => 'numeric',
-				'compare' => '>'
-			);
+	 foreach( $vars as $key => $var) {
+		 if( $var ) {
+			 $args[ $key ] = $var;
+		 }
+	 }
 
-		// if only max price is set
-		if( isset( $_POST['price_max'] ) && $_POST['price_max'] )
-			$args['meta_query'][] = array(
-				'key' => '_price',
-				'value' => $_POST['price_max'],
-				'type' => 'numeric',
-				'compare' => '<'
-			);
-	}
+	 $posttype = $args['post_type'];
+	 $dealers = get_dealers_with_services( $_POST['searchfield'], 10 );
+	 $customsearch = search_posts( $_POST['searchfield'], $posttype );
+	 $count = count( $customsearch );
 
-	// if post thumbnail is set
-	if( isset( $_POST['featured_image'] ) && $_POST['featured_image'] == 'on' )
-		$args['meta_query'][] = array(
-			'key' => '_thumbnail_id',
-			'compare' => 'EXISTS'
-		);
-	// if you want to use multiple checkboxed, just duplicate the above 5 lines for each checkbox
+	 ob_start();
 
-	query_posts( $args );
+	 if( !empty( $customsearch )) {
+		 while ( list($i, $postobj) = each( $customsearch ) ) :
+			 global $post;
+			 $post = $postobj;
+			 setup_postdata($post);
 
-	global $wp_query;
-	if( have_posts() ) :
- 		ob_start(); // start buffering because we do not need to print the posts now
+			 // TODO
+			 // is this returning drafts? need to check if non-published posts are being returned
+			 // yes it is but we're just going to hide them for now. SQL query is misbehaving (i.e., I don't know what I'm doing)
 
-		while( have_posts() ): the_post();
-			echo '<div class="opportunity-list-item">';
-				get_template_part('template-parts/opportunity');
-			echo '</div>';
-		endwhile;
+			 $tags = get_the_tags($post->ID);
+			 $tag = $tags ? $tags[0]->slug : '';
 
- 		$posts_html = ob_get_contents(); // we pass the posts to variable
-   	ob_end_clean(); // clear the buffer
-	else:
-		$posts_html = '<p>Nothing found for your criteria.</p>';
-	endif;
+			 echo '<div class="list-item-' . $posttype . $tag . '">';
+				 get_template_part('template-parts/' . $posttype );
+			 echo '</div>';
+		 endwhile;
+		 wp_reset_postdata();
+	 } else {
+		 echo 'No Service Listings for Search Term "' . $_POST['searchfield'] . '"';
+	 }
+
+	 $html = ob_get_contents(); // we pass the posts to variable
+	 ob_end_clean(); // clear the buffer
+
+	 echo json_encode( array(
+	 	'content' => $html,
+		'secondary' => $dealers,
+		'count' => $count
+	 ));
+
+	 die();
+ }
+ add_action('wp_ajax_oppsearch', 'opp_search');
+ add_action('wp_ajax_nopriv_oppsearch', 'opp_search');
+
+
+ function get_dealers_with_services( $service, $number ) {
+
+	 // Get a List of Dealers and Return them along with their Services
+	 $args = array(
+		 'role__in' => array('Dealer'),
+		 'role__not_in' => array('Managed'),
+		 'number' => $number,
+		 'meta_query' => array(
+			 array(
+				 'key' => 'mepr_services',
+				 'value' => $service,
+				 'compare' => 'LIKE'
+			 )
+		 )
+	 );
+	 $user_query = new WP_User_Query( $args );
+
+	 ob_start();
+
+	 if ( ! empty( $user_query->get_results() ) ) {
+		 foreach ( $user_query->get_results() as $user ) {
+
+			 $id = $user->ID;
+			 $services = get_user_meta( $id, 'mepr_services', true );
+
+			 if( !empty( $services )) {
+				 $logo = get_company_logo( $id );
+				 $url = get_user_meta( $id, 'mepr_company_website', true );
+
+				 echo '<a href="' . $url . '" target="_blank"><div class="dealer_wrapper">
+							 <div class="logo_wrapper"><img src="' . $logo . '"></div>';
+				 echo '<ul>';
+				 foreach( $services as $key => $service ) {
+					 echo '<li>' . ucwords( $key ) . '</li>';
+				 }
+				 echo '</ul>
+							 </div></a>';
+			 }
+		 }
+	 }
+
+	 $html = ob_get_contents(); // we pass the posts to variable
+	 ob_end_clean(); // clear the buffer
+
+	 return $html;
+
+ }
+
+function expandpost() {
+	global $post;
+	$postid = preg_split( '/-/', $_POST['post'] );
+	$post = get_post( $postid[1] );
+
+	$user_id = $post->post_author;
+	$date = new DateTime( $post->post_date );
+	$user = get_userdata($user_id);
+	$company = get_user_meta($user_id, 'mepr_company', true);
+	$name = get_post_meta( $post->ID, 'contactname', true ) ?: $user->first_name . ' ' . $user->last_name;
+  $phone = get_post_meta( $post->ID, 'contactnumber', true ) ?: get_user_meta( $user_id, 'mepr_phone_number', true );
+  $email = get_post_meta( $post->ID, 'contactemail', true ) ?: $user->user_email;
+
+	ob_start();
+
+	echo '<div class="inner">';
+
+		echo '<a href="#" class="closebox"><i class="fas fa-times"></i></a>';
+		echo '<div>';
+			echo '<h4>' . get_the_title() . '</h4>';
+			echo '<p class="dateposted">posted ' . $date->format('F jS, Y') . '</p>';
+			echo '<p class="thestuff">' . get_the_content() . '</p>';
+
+			echo '<h4>Contact</h4>';
+			echo '<p>' . $name . ' // ' . formatPhoneNumber( $phone ) . '<br><a href="mailto:' . $email . '">' . $email . '</a></p>';
+		echo '</div>';
+		echo '<ul class="tags">';
+	  $types = get_the_terms($post->ID, 'opptype');
+	  foreach( $types as $type ){
+	    echo '<li class="' . $type->slug . '" type="' . $type->slug . '">' . $type->name . '</li>';
+	  }
+		echo '</ul>';
+	echo '</div>';
+
+	$html = ob_get_contents(); // we pass the posts to variable
+	ob_end_clean(); // clear the buffer
 
 	echo json_encode( array(
-			'posts' => json_encode( $wp_query->query_vars ),
-			'max_page' => $wp_query->max_num_pages,
-			'found_posts' => $wp_query->found_posts,
-			'content' => $posts_html
-		) );
+	 'content' => $html,
+	));
 
 	die();
 }
-add_action('wp_ajax_sortopportunities', 'opportunity_filter_function'); // wp_ajax_{ACTION HERE}
-add_action('wp_ajax_nopriv_sortopportunities', 'opportunity_filter_function');
-
-
-/**
- * Directory Filter Function
- *
- * @link https://rudrastyh.com/wordpress/ajax-post-filters.html
- * @link https://rudrastyh.com/wordpress/ajax-load-more-with-filters.html
- */
-// function directory_filter_function(){
-//
-// 	// $args = array(
-// 	// 	'orderby' => 'date', // we will sort posts by date
-// 	// 	'order'	=> $_POST['date'] // ASC or DESC
-// 	// );
-//
-// 	$args = array(
-// 		'role__not_in' => array( 'Managed', 'Administrator' ),
-// 		'number' => 100
-// 	);
-//
-// 	//instanciate Meta Query
-// 	if( isset( $_POST['membershiptype'] ) && isset( $_POST['industrytype'] ) ) {
-// 		$args['meta_query'] = array( 'relation' => 'AND' );
-// 	}
-//
-// 	// for MEMBERSHIP TYPE
-// 	if( isset( $_POST['merbershiptype'] ) ) {
-// 		$args['meta_query'][] = array(
-// 			'key' => 'mepr_membership_type',
-// 			'value' => $_POST['membershiptype'],
-// 			'compare' => 'LIKE'
-// 		);
-// 	}
-// 	// for INDUSTRY TYPE
-// 	if( isset( $_POST['industrytype'] ) ) {
-// 		$args['meta_query'][] = array(
-// 			'key' => 'mepr_industry_type',
-// 			'value' => $_POST['industrytype'],
-// 			'compare' => 'LIKE'
-// 		);
-// 	}
-//
-// 	$GLOBALS['wp_query'] = new WP_User_Query( $args );
-// 	global $wp_query;
-//
-// 	if ( ! empty( $wp_query->get_results() ) ) {
-// 		ob_start(); // start buffering because we do not need to print the posts now
-//
-// 		foreach ( $wp_query->get_results() as $user ) {
-//
-// 			// Use INCLUDE and LOCATE_TEMPLATE instead of GET_TEMPLATE_PART since
-// 			// we need the included template to recognize the $user variable
-// 			include( locate_template( 'template-parts/directory-listing.php', false, false ) );
-//
-// 		}
-//
-// 		$posts_html = ob_get_contents(); // we pass the posts to variable
-//    	ob_end_clean(); // clear the buffer
-// 	} else {
-// 		$posts_html = '<p>Nothing found for your criteria.</p>';
-// 	}
-//
-// 	echo json_encode( array(
-// 			'posts' => json_encode( $wp_query->query_vars ),
-// 			'max_page' => $wp_query->max_num_pages,
-// 			'found_posts' => $wp_query->found_posts,
-// 			'content' => $posts_html
-// 		) );
-//
-// 	die();
-// }
-// add_action('wp_ajax_sortdirectory', 'directory_filter_function'); // wp_ajax_{ACTION HERE}
-// add_action('wp_ajax_nopriv_sortdirectory', 'directory_filter_function');
+add_action( 'wp_ajax_expandpost', 'expandpost' );
+add_action( 'wp_ajax_nopriv_expandpost', 'expandpost' );
 
 // Insert Ad on Listings Page
 function insert_ad( $who, $blurb, $cta = 'Click Here', $url = '' ) {
@@ -789,24 +815,48 @@ add_action( 'wp_ajax_achievementget', 'achievementget' );
 add_action( 'wp_ajax_nopriv_achievementget', 'achievementget' );
 
 
-// A THING. I can't think
+// When a user makes edits to their posts on the members dashboard,
+// The dynamic forms call this function to save information
 function update_listing_function() {
 
     $post_id = $_POST['post_id'];
 
-		// Thing for Deleted Posts
-		if( $_POST['delete_post'] ) {
-			$tag = intval( $_POST['delete_post'] );
-			wp_set_object_terms( $post_id, $tag, 'post_tag' );
-			// We don't need to be here anymore
+		// Off-Market is the new Delete
+		if( isset( $_POST['marketstatus'] )) {
+			$status = intval( $_POST['marketstatus'] );
+			wp_set_object_terms( $post_id, $status, 'marketstatus' );
+			switch( $status ) {
+				case 5:
+					wp_die( $post_id );
+					break;
+				case 8:
+					wp_die( $post_id );
+					break;
+				case 30:
+					// Set to the DELETED tag and bounce
+					wp_set_object_terms( $post_id, 29, 'post_tag' );
+					wp_die( $post_id );
+					break;
+				default:
+					// continue
+			}
+		}
+
+		// Backup Delete, also for non-listings
+		if( isset( $_POST['delete_post'] )) {
+			wp_set_object_terms( $post_id, 29, 'post_tag' );
 			wp_die( $post_id );
 		}
 
-		// Set Taxonomies here since users won't be able to in wp_update_post() without role capabilities
-		$aircraft = intval( $_POST['aircraft'] );
-		wp_set_object_terms( $post_id, $aircraft, 'aircraft' );
-		$status = intval( $_POST['marketstatus'] );
-		wp_set_object_terms( $post_id, $status, 'marketstatus' );
+		// Set the Other Taxonomies here since users won't be able to in wp_update_post() without role capabilities
+		if( isset( $_POST['aircraft'] )) {
+			$aircraft = intval( $_POST['aircraft'] );
+			wp_set_object_terms( $post_id, $aircraft, 'aircraft' );
+		}
+		if( isset( $_POST['opptype'] )) {
+			$types = $_POST['opptype'];
+			wp_set_object_terms( $post_id, $types, 'opptype' );
+		}
 
 		// Build the array for wp_update_post
 		$updated_post = array(
@@ -1785,6 +1835,7 @@ function strip_sigs($post, $headers) {
 		'Thank You[.,!\r\n]?',
 		'President & CEO[.,!\r\n]?',
 		'Vice President[.,!\r\n]?',
+		'VP of Aircraft Sales and Acquisitions[.,!\r\n]?',
 		'^Sent from my iPhone',
 		'^Enviado desde mi iPhone',
 	);
@@ -2113,7 +2164,7 @@ function modify_members_loop( $qs=false, $object=false ) {
 
   $members =  get_users(
 		array(
-			'fields' => ID,
+			'fields' => 'ID',
 			'role__in' => array(
 				'industry',
 				'dealer',
@@ -2417,12 +2468,13 @@ function exclude_deleted_posts( $query ) {
 add_action( 'pre_get_posts', 'exclude_deleted_posts' );
 
 // Exclude Off-Market Listings on Listings Page
+// Turn off Pagination of Opps page
 function exclude_offmarket_listings( $query ) {
     if ( !is_admin() && is_post_type_archive('listing') && $query->is_main_query() ) {
 				$query->set( 'tax_query', array(
 							array(
 								'taxonomy' => 'marketstatus',
-								'terms' => array('contract', 'sold', 'offmarket'),
+								'terms' => array('contract', 'offmarket'),
 								'field' => 'slug',
 								'operator' => 'NOT IN'
 							),
@@ -2438,6 +2490,12 @@ function exclude_offmarket_listings( $query ) {
 						)
 				);
     }
+		if ( is_post_type_archive('opportunity') && $query->is_main_query() ) {
+				$query->query_vars['paged'] = false;
+				$query->query_vars['posts_per_page'] = 50;
+				$query->query_vars['order'] = 'DESC';
+				$query->query_vars['orderby'] = 'date';
+		}
 }
 add_action( 'pre_get_posts', 'exclude_offmarket_listings' );
 
@@ -2445,6 +2503,13 @@ add_action( 'pre_get_posts', 'exclude_offmarket_listings' );
 add_filter( 'password_reset_expiration', function( $expiration ) {
     return MONTH_IN_SECONDS;
 });
+
+// Admin Styles
+function admin_style() {
+  wp_enqueue_style('admin-fontawesome', get_template_directory_uri().'/vendor/css/all.css', array(), '20151215');
+  wp_enqueue_style('admin-styles', get_template_directory_uri().'/admin.css', array(), '20151222');
+}
+add_action('admin_enqueue_scripts', 'admin_style');
 
 // test stuff
 // add_filter( 'body_class', function( $classes ) {

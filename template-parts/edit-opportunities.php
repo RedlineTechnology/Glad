@@ -8,113 +8,47 @@
           <input type="hidden" name="action" value="updatelisting">
           <input type="hidden" name="post_id" value="<?php echo $post->ID; ?>" />
 
-          <h3>Edit Opportunity</h3>
+          <h3>Edit Post</h3>
           <div>
-            <label for="post_title">Listing Headline</label>
-            <input type="text" id="post_title" name="post_title" placeholder="<?php echo $title; ?>">
+            <label for="post_title">Title</label>
+            <input type="text" id="post_title" name="post_title" value="<?php echo $title; ?>">
           </div>
 
           <?php
-          // Is this an Off-Market aircraft?
-          if( $cat_id == '18' ) { ?>
 
-              <div>
-                <label for="marketstatus">Type of Opportunity</label>
-                <select id="marketstatus" name="marketstatus" data-selected=<?php echo $status[0]->term_id; ?>>
-                  <option value="7" <?php selected( $status[0]->term_id, '7' ); ?>>For Lease</option>
-                  <option value="6" <?php selected( $status[0]->term_id, '6' ); ?>>For Sale</option>
-                  <option value="5" <?php selected( $status[0]->term_id, '5' ); ?>>Sold</option>
-                  <option value="8" <?php selected( $status[0]->term_id, '8' ); ?>>Under Contract</option>
-                </select>
-              </div>
+          $types = get_terms( array(
+            'taxonomy' => 'opptype',
+            'hide_empty' => false,
+          ));
 
-              <div>
-                <label for="marketstatus">Market Status</label>
-                <select id="marketstatus" name="marketstatus" data-selected=<?php echo $status[0]->term_id; ?>>
-                  <option value="7" <?php selected( $status[0]->term_id, '7' ); ?>>For Lease</option>
-                  <option value="6" <?php selected( $status[0]->term_id, '6' ); ?>>For Sale</option>
-                  <option value="5" <?php selected( $status[0]->term_id, '5' ); ?>>Sold</option>
-                  <option value="8" <?php selected( $status[0]->term_id, '8' ); ?>>Under Contract</option>
-                </select>
-              </div>
+          $checkboxes = '<fieldset class="checkboxgroup">';
+          $checkboxes .= '<legend>Service Categories<span> Choose all that apply</span></legend>';
+          foreach( $types as $type ) {
+            $checked = in_array( $type->slug, $checkedterms ) ? 'checked="checked"' : '';
+            $checkboxes .= '<label for="' . $type->taxonomy . '">
+              <input ' . $checked . ' type="checkbox" id="' . $type->slug . '" name="' . $type->taxonomy . '[]" value="' . $type->slug . '"> ' . $type->name . '</label>';
+          }
+          $checkboxes .= '</fieldset>';
 
-              <div>
-                <label for="aircraft">Aircraft Type</label>
-                <select id="aircraft" name="aircraft" data-selected=<?php echo $type[0]->term_id; ?>>
-                  <option value="3" <?php selected( $type[0]->term_id, '3' ); ?>>Business Jet</option>
-                  <option value="2" <?php selected( $type[0]->term_id, '2' ); ?>>Helicopter</option>
-                  <option value="15" <?php selected( $type[0]->term_id, '15' ); ?>>Multi-Engine Piston</option>
-                  <option value="14" <?php selected( $type[0]->term_id, '14' ); ?>>Single-Engine Piston</option>
-                  <option value="4" <?php selected( $type[0]->term_id, '4' ); ?>>Turboprop</option>
-                </select>
-              </div>
+          echo $checkboxes; ?>
 
-              <div>
-                <label for="year">Model Year</label>
-                <input type="text" name="year" id="year" class="regular-text" placeholder="<?php echo $year; ?>">
-              </div>
+          <div class="vertical">
+            <label for="details">Details</label>
+            <textarea name="details" id="details" class="regular-text" placeholder=""><?php echo $details ?></textarea>
+            <?php
+            // $settings = array(
+            //   'wpautop' => false,
+            //   'media_buttons' => false,
+            //   'teeny' => true
+            // )
+            // wp_editor( $details, 'details', $settings );
+            ?>
+          </div>
 
-              <div>
-                <label for="make">Make</label>
-                <input type="text" name="make" id="make" class="regular-text" placeholder="<?php echo $make; ?>">
-              </div>
-
-              <div>
-                <label for="model">Model</label>
-                <input type="text" name="model" id="model" class="regular-text" placeholder="<?php echo $model; ?>">
-              </div>
-
-              <div>
-                <label for="serialnumber">Serial Number</label>
-                <input type="text" name="serialnumber" id="serialnumber" class="regular-text" placeholder="<?php echo $sn; ?>">
-              </div>
-
-              <div>
-                <label for="registration">Registration</label>
-                <input type="text" name="registration" id="registration" class="regular-text" placeholder="<?php echo $reg; ?>">
-              </div>
-
-              <div>
-                <label for="aftt">Total Time</label>
-                <select name="aftt" id="aftt">
-                  <option value="aftt" <?php selected( $aftt, 'aftt' ); ?>>Aircraft Frame Total Time</option>
-                  <option value="ttsn" <?php selected( $aftt, 'ttsn' ); ?>>Total Time Since New</option>
-                  <option value="tsoh" <?php selected( $aftt, 'tsoh' ); ?>>Time Since Overhaul</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="aftt-number">Hours</label>
-                <input type="text" name="aftt_number" id="aftt_number" class="regular-text" placeholder="<?php echo $aftt_hrs; ?>">
-              </div>
-
-              <div>
-                <label for="landings">Landings</label>
-                <input type="text" name="landings" id="landings" class="regular-text" placeholder="<?php echo $lndgs; ?>">
-              </div>
-
-              <div>
-                <label for="url">Link URL</label>
-                <input type="url" name="url" id="url" class="regular-text" placeholder="<?php echo $url; ?>">
-              </div>
-
-          <?php } else { // End Off-Market Aircraft  ?>
-
-              <div class="vertical">
-                <label for="details">Details</label>
-                <textarea name="details" id="details" class="regular-text" placeholder=""><?php echo $details ?></textarea>
-                <?php
-                // $settings = array(
-                //   'wpautop' => false,
-                //   'media_buttons' => false,
-                //   'teeny' => true
-                // )
-                // wp_editor( $details, 'details', $settings );
-                ?>
-              </div>
-
-          <?php
-          } ?>
+          <div>
+            <label for "url">URL</label>
+            <input type="text" id="oppurl" name="url" value="<?php echo $url; ?>">
+          </div>
 
           <h3>Contact Details</h3>
           <div>
@@ -137,24 +71,6 @@
         </form>
 
         <?php echo '</div>'; /* end main formbox */
-
-        echo '<div id="upload-specsheet-formbox" class="formbox">'; ?>
-
-          <form name="specsheet_form" id="spechsheet_form" action="<?php echo site_url(); ?>/wp-admin/admin-post.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="post_id" value="<?php echo $post->ID; ?>" />
-            <input type="hidden" name="action" value="upload_specsheet" />
-
-            <h3>Specsheet</h3>
-            <div>
-              <input class="fancyfileinput" type="file" id="pdf" name="pdf" multiple="false" />
-              <label for="pdf"><span>Choose a File</span></label>
-            </div>
-
-            <input id="uploadpdf" type="submit" name="uploadpdf" value="Upload" />
-            <a href="#" class="closeform">Cancel</a>
-          </form>
-
-        <?php echo '</div>'; /* end specsheet formbox */
 
         echo '<div id="upload-featuredimage-formbox" class="formbox">'; ?>
 
@@ -182,9 +98,9 @@
             <input type="hidden" name="post_id" value="<?php echo $post->ID; ?>" />
             <input type="hidden" id="delete_post" name="delete_post" value="29" />
 
-            <h3>Delete Listing</h3>
+            <h3>Remove Post</h3>
 
-            <button id="delete-form-submit" value="updatelisting">Confirm Deletion</button>
+            <button id="delete-form-submit" value="updatelisting">Yes, Delete it</button>
             <a href="#" class="closeform">Cancel</a>
           </form>
 

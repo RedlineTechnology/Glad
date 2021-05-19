@@ -14,6 +14,7 @@
 
 get_header();
 
+$current_user = wp_get_current_user();
 $header_img = has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'full') : get_stylesheet_directory_uri() . '/images/bg-members.jpg'; ?>
 
 	<section class="hero" style="background-image: url(' <?php echo $header_img ?>')">
@@ -76,130 +77,106 @@ $header_img = has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'full
             $test_query = new WP_Query( $args );
             $testimonials = $test_query->found_posts;
 
-            load_accordion_tabs(); ?>
+          	if( current_user_can('mepr-active','membership:19,232,580,588,1268,1499,1307') || current_user_can('mepr-active','membership:1416') ): ?>
+						<section class="mylistings manage" id="mylistings">
+							<h3>My Listings</h3>
+							<div class="listings">
+								<div class="mypost_wrapper">
 
-            <nav class="mylistings accordion-tabs">
-              <ul class="accordion-tab-headings">
-                <?php // Dealer Member Content - My Listings
-                if( current_user_can('mepr-active','membership:19,232,580,588,1268,1499,1307') || current_user_can('mepr-active','membership:1416') ): ?>
-                <li><a href="#section-1"><span>My Listings</span></a></li>
-                <?php endif; ?>
-                <li><a href="#section-2"><span>My Opportunities</span></a></li>
-              </ul>
+									<?php
+									// Display Active Listings. New Query excluding Deleted Posts
+									$args = array(
+										'post_type'			=> 'listing',
+										'author__in'    =>  $icanhaz,
+										'orderby'       =>  'date',
+										'order'         =>  'ASC',
+										'nopaging'			=> 	true,
+										'tag__not_in'   => array('29'),
+										'tax_query'			=> array( array(
+											'taxonomy' => 'marketstatus',
+											'terms' => array('sold'),
+											'field' => 'slug',
+											'operator' => 'NOT IN'
+										))
+									);
+									$listing_query = new WP_Query( $args );
 
-              <?php
-                // The following structure is required for the script to build the accordion
-                // <section>
-                //   <h1>header</h1>
-                //   <div>content as immediate sibling</div>
-                // </section>
-              ?>
+									if( $listing_query->have_posts() ) :
+										while( $listing_query->have_posts() ): $listing_query->the_post();
 
-              <?php // Dealer Member Content - My Listings
-              if( current_user_can('mepr-active','membership:19,232,580,588,1268,1499,1307') || current_user_can('mepr-active','membership:1416') ): ?>
+											$marketstatus = get_the_terms( $post->ID, 'marketstatus');
+											$title = get_post_meta( get_the_ID(), 'year', true ) . ' ' . get_post_meta( get_the_ID(), 'model', true );
+											$sr = get_post_meta( get_the_ID(), 'serialnumber', true ) ?: '';
+											$background = "url('" . get_stylesheet_directory_uri() . "/images/gradient.png') left top/1px 170px repeat-x, url('" . get_the_post_thumbnail_url($post->ID, 'medium') . "') center/cover no-repeat";
 
-                <section id="section-1">
-                  <h3>My Listings</h3>
-                  <div class="listings">
-                    <a class="addnew" href="/members/submit-a-listing/">Add New</a>
-                    <?php
+											echo '<div class="mypost ' . $marketstatus[0]->slug . '" data-post="' . $post->ID . '" style="background: ' . $background . '" data-form="edit-marketstatus-formbox" href="' . get_permalink() . '">';
+												echo '<h6>' . $title . '<br>' . $sr . '</h6>';
+												echo '<p>' . the_modified_date( 'n/j/y', 'last updated ', '', false ) . '</p>';
+												echo '<a href="' . get_permalink() . '" data-postid="' . $post->ID . '" class="delete" data-form="delete-listing-formbox"></a>';
+												echo '<a href="' . get_permalink() . '" data-postid="' . $post->ID . '" class="edit button" data-form="edit-listing-formbox">edit listing</a>';
+											echo '</div>';
 
-                    // Display Active Listings. New Query excluding Deleted Posts
-                    $args = array(
-                      'post_type'			=> 'listing',
-                      'author__in'    =>  $icanhaz,
-                      'orderby'       =>  'date',
-                      'order'         =>  'ASC',
-                      'nopaging'			=> 	true,
-                      'tag__not_in'   => array('29')
-                    );
-                    $listing_query = new WP_Query( $args );
+										endwhile;
+									endif;
+									?>
 
-                    // We already created this Query above in Next Steps
-                    if( $listing_query->have_posts() ) :
-                      echo '<ul>';
-                      while( $listing_query->have_posts() ): $listing_query->the_post();
+									<div id="addnew_listings" class="mypost addnew">
+										<a href="/members/submit-a-listing/"><i class="fas fa-plus-circle"></i></a>
+									</div>
 
-                        $marketstatus = get_the_terms( $post->ID, 'marketstatus'); ?>
-                        <li data-post="<?php echo $post->ID; ?>">
-                          <a href="<?php echo get_permalink(); ?>" data-postid="<?php echo $post->ID; ?>" class="status" data-form="edit-marketstatus-formbox" data-status="<?php echo $marketstatus[0]->slug; ?>"><?php echo $marketstatus[0]->name; ?></a>
-                          <a href="<?php echo get_permalink(); ?>">
-                            <h6 class="title <?php echo $marketstatus[0]->slug; ?>">
-                              <?php echo get_post_meta( get_the_ID(), 'year', true ) . ' ' . get_post_meta( get_the_ID(), 'make', true ) . ' ' . get_post_meta( get_the_ID(), 'model', true ); ?>
-                            </h6>
-                          </a>
-                          <div class="editblock">
-                          <?php
-                            echo '<a href="' . get_permalink() . '" data-postid="' . $post->ID . '" class="edit" data-form="edit-listing-formbox">Edit</a>';
-                            echo '<a href="' . get_permalink() . '" data-postid="' . $post->ID . '" class="edit" data-form="upload-featuredimage-formbox">Featured Image</a>';
-                            echo '<a href="' . get_permalink() . '" data-postid="' . $post->ID . '" class="edit" data-form="upload-specsheet-formbox">Specsheet</a>';
-                            echo '<a href="' . get_permalink() . '" data-postid="' . $post->ID . '" class="edit remove" data-form="delete-listing-formbox">Remove</a>';
-                          ?>
-                          </div>
-                        </li>
-                      <?php
+								</div>
 
-                      endwhile;
-                      echo '</ul>';
-                    else:
-                      echo '<p>You do not have any active listings.</p>';
-                      $nolistings = true;
-                    endif;
-                    ?>
-                  </div>
-                  <?php if( $nolistings ) {
-                    echo '<div class="tips"><p>To add a new listing, click on "Add New" above.</p></div>';
-                  } ?>
-                </section>
+							</div>
+						</section>
+            <?php endif; ?>
 
-              <?php endif; ?>
+						<?php if( current_user_can('mepr-active','rule:37') ) :
+							// ALL MEMBERS - OPPORTUNITIES ?>
+							<section class="myservices manage" id="myservices">
+								<h3>My Services<?php if( current_user_can('mepr-active','membership:19,232,580,588,1268,1499,1307') ) { echo '<span><a href="' . bp_loggedin_user_domain() . 'profile/edit/group/2/">edit services list</a></span>'; }?></h3>
+								<div class="services">
+									<h4>Industry: <span><?php echo get_user_meta( $current_user->ID, 'mepr_industry_type', true ); ?></span></h4>
+									<h4>Services: <span><?php echo implode(', ', array_keys( get_user_meta( $current_user->ID, 'mepr_services', true ) )); ?></span></h4>
 
-              <section id="section-2">
-                <h3>My Opportunities</h3>
-                <div class="opportunities">
-                  <a class="addnew" href="/members/submit-opportunity/">Add New</a>
-                  <?php
+									<div class="mypost_wrapper">
 
-                  // Display Active Ops. New Query excluding Deleted Posts
-                  $args = array(
-                    'post_type'			=> 'opportunity',
-                    'author__in'    =>  $icanhaz,
-                    'orderby'       =>  'date',
-                    'order'         =>  'ASC',
-                    'nopaging'			=> 	true,
-                    'tag__not_in'   => array('29')
-                  );
-                  $opportunity_query = new WP_Query( $args );
+										<?php
+										// Display Active Opportunities. New Query excluding Deleted Posts
+										$args = array(
+											'post_type'			=> 'opportunity',
+											'author__in'    =>  $icanhaz,
+											'orderby'       =>  'date',
+											'order'         =>  'ASC',
+											'nopaging'			=> 	true,
+											'tag__not_in'   => array('29')
+										);
+										$opp_query = new WP_Query( $args );
 
-                  // We already created this Query above in Next Steps
-                  if( $opportunity_query->have_posts() ) :
-                    echo '<ul>';
-                    while( $opportunity_query->have_posts() ): $opportunity_query->the_post();
+										if( $opp_query->have_posts() ) :
+											while( $opp_query->have_posts() ): $opp_query->the_post();
 
-                    $cat = get_the_category();
-                    ?>
+												// probably template part, but for now:
 
-                    <li data-post="<?php echo $post->ID ?>"><a href="<?php echo get_permalink(); ?>">
-                      <h6 class="title"><?php echo '<span class="' . $cat[0]->slug . '">' . $cat[0]->name . '</span> ' . get_the_title(); ?></h6>
-                      </a>
-                      <div class="editblock">
-                      <?php
-                        echo '<a href="' . get_permalink() . '" data-postid="' . $post->ID . '" class="edit" data-form="edit-listing-formbox">Edit</a>';
-                        echo '<a href="' . get_permalink() . '" data-postid="' . $post->ID . '" class="edit remove" data-form="delete-listing-formbox">Remove Listing</a>';
-                       ?>
-                      </div>
-                    </li>
+												echo '<div class="mypost" data-post="' . $post->ID . '">';
+													echo '<h6>' . get_the_title() . '</h6>';
+													echo '<p>' . the_modified_date( 'n/j/y', 'last updated ', '', false ) . '</p>';
+													echo '<a href="' . get_permalink() . '" data-postid="' . $post->ID . '" class="delete" data-form="delete-listing-formbox"></a>';
+													echo '<a href="' . get_permalink() . '" data-postid="' . $post->ID . '" class="edit button" data-form="edit-listing-formbox">edit post</a>';
+												echo '</div>';
 
-                    <?php
-                    endwhile;
-                    echo '</ul>';
-                  else:
-                    echo '<p>Create an Opportunity Listing to advertise Wanted or Off-Market Aircraft, or to offer incentives to Fellow Members. Opportunity Listings are exclusive to GLADA Members.</p>';
-                  endif;
-                  ?>
-                </div>
-              </section>
-            </nav>
+											endwhile;
+										endif;
+										?>
+
+										<div id="addnew_services" class="mypost addnew">
+											<a href="/members/submit-opportunity/"><i class="fas fa-plus-circle"></i></a>
+										</div>
+
+									</div>
+
+								</div>
+							</section>
+						<?php endif; ?>
 
             <!-- Here's where the Magic Happens -->
             <div class="edit-forms formbox"></div>
@@ -304,7 +281,6 @@ $header_img = has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'full
 						echo '<!-- User is an Applicant -->';
             // For Applicants
 
-            $current_user = wp_get_current_user();
             $roles = $current_user->roles;
             $meta = get_user_meta( $current_user->ID );
             $membership = $meta['mepr_membership_type'][0];
@@ -333,8 +309,6 @@ $header_img = has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'full
             // For Non-Members who are Logged in
 						echo '<!-- User is not a Member and not an Applicant, but they are Logged in -->';
 
-            global $current_user;
-            $current_user = wp_get_current_user();
             $userMeta = get_user_meta( $current_user->ID );
             $userObj = get_userdata( $current_user->ID );
 
@@ -520,6 +494,6 @@ $header_img = has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'full
 
 <?php
 
-wp_enqueue_script( 'editlistings', get_template_directory_uri() . '/js/editlistings.min.js', array('jquery'), '20191205', true);
+wp_enqueue_script( 'editlistings', get_template_directory_uri() . '/js/editlistings.min.js', array('jquery'), '20201205', true);
 
 get_footer();

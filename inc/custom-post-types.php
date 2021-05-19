@@ -71,33 +71,17 @@
  	register_post_type( 'listing', $args );
 
   $labels = array(
-   'name'                  => __( 'Opportunities', 'Post Type General Name', '_glad' ),
-   'singular_name'         => __( 'Opportunity', 'Post Type Singular Name', '_glad' ),
-   'menu_name'             => __( 'Opportunities', '_glad' ),
-   'name_admin_bar'        => __( 'Opportunities', '_glad' ),
-   'archives'              => __( 'Opportunities', '_glad' ),
-   'attributes'            => __( 'Opportunity Details', '_glad' ),
+   'name'                  => __( 'Service Listings', 'Post Type General Name', '_glad' ),
+   'singular_name'         => __( 'Service Listing', 'Post Type Singular Name', '_glad' ),
+   'menu_name'             => __( 'Services', '_glad' ),
+   'name_admin_bar'        => __( 'Services', '_glad' ),
+   'archives'              => __( 'Services', '_glad' ),
+   'attributes'            => __( 'Service Listing Details', '_glad' ),
    'parent_item_colon'     => __( 'Parent Listing:', '_glad' ),
-   'all_items'             => __( 'All Opportunities', '_glad' ),
-   'add_new_item'          => __( 'Add New Opportunity', '_glad' ),
+   'all_items'             => __( 'All Service Listings', '_glad' ),
+   'add_new_item'          => __( 'Add New Listing', '_glad' ),
    'add_new'               => __( 'Add New', '_glad' ),
-   'new_item'              => __( 'New Opportunity', '_glad' ),
-   'edit_item'             => __( 'Edit Opportunity', '_glad' ),
-   'update_item'           => __( 'Update Opportunity', '_glad' ),
-   'view_item'             => __( 'View Opportunity', '_glad' ),
-   'view_items'            => __( 'View Opportunities', '_glad' ),
-   'search_items'          => __( 'Search Opportunity', '_glad' ),
-   'not_found'             => __( 'Not found', '_glad' ),
-   'not_found_in_trash'    => __( 'Not found in Trash', '_glad' ),
-   'featured_image'        => __( 'Featured Image', '_glad' ),
-   'set_featured_image'    => __( 'Set featured image', '_glad' ),
-   'remove_featured_image' => __( 'Remove featured image', '_glad' ),
-   'use_featured_image'    => __( 'Use as featured image', '_glad' ),
-   'insert_into_item'      => __( 'Insert into item', '_glad' ),
-   'uploaded_to_this_item' => __( 'Uploaded to this item', '_glad' ),
-   'items_list'            => __( 'Items list', '_glad' ),
-   'items_list_navigation' => __( 'Items list navigation', '_glad' ),
-   'filter_items_list'     => __( 'Filter items list', '_glad' ),
+   'search_items'          => __( 'Search Service Listings', '_glad' ),
  );
  $rewrite = array(
    'slug'                  => 'opportunities',
@@ -106,11 +90,11 @@
    'feeds'                 => true,
  );
  $args = array(
-   'label'                 => __( 'Opportunity', '_glad' ),
-   'description'           => __( 'Member-Submitted Opportunity Listings', '_glad' ),
+   'label'                 => __( 'Services', '_glad' ),
+   'description'           => __( 'Member-Submitted Service Listings', '_glad' ),
    'labels'                => $labels,
-   'supports'              => array( 'title', 'author', 'editor', 'excerpt', 'thumbnail', 'custom-fields', 'page-attributes' ),
-   'taxonomies'            => array( 'aircraft', 'category', 'post_tag' ),
+   'supports'              => array( 'title', 'author', 'editor', 'thumbnail', 'custom-fields', 'page-attributes' ),
+   'taxonomies'            => array( 'type', 'post_tag' ),
    'hierarchical'          => false,
    'public'                => true,
    'show_ui'               => true,
@@ -804,7 +788,7 @@ function register_custom_taxonomies() {
 		'show_in_nav_menus'          => true,
 		'show_tagcloud'              => true,
 	);
-	register_taxonomy( 'aircraft', array( 'listing', 'opportunity', 'comp' ), $args );
+	register_taxonomy( 'aircraft', array( 'listing', 'comp' ), $args );
 
   $labels = array(
     'name'                       => _x( 'Market Status', 'Taxonomy General Name', '_glad' ),
@@ -842,6 +826,29 @@ function register_custom_taxonomies() {
     'show_tagcloud'              => true,
   );
   register_taxonomy( 'marketstatus', array( 'listing', 'comp' ), $args );
+
+  $labels = array(
+    'name'                       => _x( 'Types', 'Taxonomy General Name', '_glad' ),
+    'singular_name'              => _x( 'Type', 'Taxonomy Singular Name', '_glad' ),
+    'menu_name'                  => __( 'Types', '_glad' ),
+    'all_items'                  => __( 'All Types', '_glad' ),
+    'new_item_name'              => __( 'New Type', '_glad' ),
+    'add_new_item'               => __( 'Add New Type', '_glad' ),
+  );
+  $args = array(
+    'labels'                     => $labels,
+    'hierarchical'               => true,
+    'rewrite'                    => array(
+      'slug' => 'type',
+      'with_front' => false
+    ),
+    'public'                     => true,
+    'show_ui'                    => true,
+    'show_admin_column'          => true,
+    'show_in_nav_menus'          => true,
+    'show_tagcloud'              => true,
+  );
+  register_taxonomy( 'opptype', array( 'opportunity' ), $args );
 
   $labels = array(
     'name'                       => _x( 'Referral Type', 'Taxonomy General Name', '_glad' ),
@@ -892,9 +899,15 @@ function register_custom_taxonomies() {
 }
 add_action( 'init', 'register_custom_taxonomies', 0 );
 
-// Admin Styles
-function admin_style() {
-  wp_enqueue_style('admin-fontawesome', get_template_directory_uri().'/vendor/css/all.css', array(), '20151215');
-  wp_enqueue_style('admin-styles', get_template_directory_uri().'/admin.css', array(), '20151222');
+// Set default Market Status
+function set_default_marketstatus($post_id, $post)
+{
+    if ( 'publish' === $post->post_status ) {
+        $marketstatus = wp_get_post_terms( $post_id, 'marketstatus' );
+
+        if ( empty($marketstatus) ) {
+            wp_set_object_terms( $post_id, 6, 'marketstatus' );
+        }
+    }
 }
-add_action('admin_enqueue_scripts', 'admin_style');
+add_action('save_post_listing', 'set_default_marketstatus', 10, 3);

@@ -65,18 +65,7 @@ bp_nouveau_before_loop(); ?>
 						}
 						?>
 
-						<?php
-						$services = get_user_meta(bp_get_member_user_id(), 'mepr_services', true);
-						if( isset($services) && !empty($services) ) {
-							echo '<ul class="services">';
-							foreach( $services as $service => $on ) {
-								echo '<li>' . ucwords( $service ) . '</li>';
-							}
-							echo '</ul>';
-						}
-						?>
-
-						<?php if ( is_admin() && bp_nouveau_member_has_meta() ) : ?>
+						<?php if ( bp_nouveau_member_has_meta() ) : ?>
 							<p class="item-meta last-activity">
 								<?php bp_nouveau_member_meta(); ?>
 							</p><!-- .item-meta -->
@@ -113,18 +102,16 @@ bp_nouveau_before_loop(); ?>
 						$opportunity_query = new wp_Query( $args );
 
 						if( $opportunity_query->have_posts() ) :
-							echo '<h4>Services Listings <i class="fas fa-chevron-down"></i></h4>';
+							echo '<h4>Opportunities <i class="fas fa-chevron-down"></i></h4>';
 							echo '<div class="opportunity_listings">';
 							while( $opportunity_query->have_posts() ): $opportunity_query->the_post();
-								echo '<div><a class="opp-main" id="post-' . $post->ID . '" href="#">' . get_the_title() . '</a></div>';
+								$cat = get_the_category();
+								echo '<div><a class="opp ' . $cat[0]->slug . '" href="#" data-href="' . get_permalink() . '">' . get_the_title() . '</a></div>';
+
 							endwhile;
 							echo '</div>';
 						endif;
-					?>
-					</div>
 
-					<div class="listings-block">
-						<?php $id = bp_get_member_user_id();
 						// EMPLOYEES
 					  $instanciate = array(
 					    'name' => '',
@@ -167,59 +154,49 @@ bp_nouveau_before_loop(); ?>
 
 	</ul>
 
-	<?php
-	bp_nouveau_pagination( 'bottom' );
+	<div class="opportunity-box" id="oppbox">
+		<div class="wrapper">
+			<div class="inner"></div>
+			<i class="close fas fa-times"></i>
+		</div>
+	</div>
 
+	<script>
+		jQuery(document).ready(function($){
+			// Load the form!
+			$('.opp').click(function(e){
+					$('.opportunity-box .inner').html("<div class='the-content'><p>loading...<br></p><img style='width:25px;height:25px;margin:2em auto;' src='/wp-content/themes/Glad/images/ajax-loader.gif'></div>");
+
+					$('.opportunity-box').addClass( 'open' );
+
+					var $post_link = $(this).data("href") + ' .the-content';
+					$('.opportunity-box .inner').load( $post_link );
+
+				return false;
+			});
+			$('.close').click(function(e){
+				$('.opportunity-box').removeClass('open');
+				$('.opportunity-box .inner').html('');
+			});
+			$(document).on('click', function(event) {
+				if ( (!$(event.target).closest('.opportunity-box .inner').length) && (!$(event.target).closest('.close').length) ) {
+					if ( $('.opportunity-box').hasClass( 'open' ) ) {
+						$('.opportunity-box').removeClass('open');
+					}
+				}
+			});
+		});
+	</script>
+
+	<?php bp_nouveau_pagination( 'bottom' ); ?>
+
+<?php
 else :
 
 	bp_nouveau_user_feedback( 'members-loop-none' );
 
 endif;
 
-bp_nouveau_after_loop();
+?>
 
-?><!-- dynamic receptacle for post content -->
-<div id="postbox"></div>
-<?php // For whatever reason this refuses to enqueue a script. Fuck it, just gonna copy it here. ?>
-<script type="text/javascript">
-jQuery(function($){
-	$(document).on('click','.opp-main',function(){
-		var box = $(this);
-		var post = $(this).attr('id');
-
-		$.ajax({
-			url: 'https://www.glada.aero/wp-admin/admin-ajax.php',
-			type: 'POST',
-			dataType: 'json',
-			data: {
-				'action': 'expandpost',
-				'post': post
-			},
-			beforeSend: function(xhr){
-				$( box ).addClass('loading');
-			},
-			success: function( data ){
-				$( '#postbox' ).html(data.content); // the thing
-				$( '#postbox' ).addClass('active');
-				$( box ).removeClass('loading');
-				$("#page-wrapper").toggleClass( "noscroll" );
-			}
-		});
-		return false;
-	});
-
-	$(document).on('click','.closebox',function(e){
-		e.preventDefault();
-		$( '#postbox' ).removeClass('active'),
-		$("#page-wrapper").toggleClass( "noscroll" )
-	});
-	$(document).on('click',function(e){
-		if ( (!$(e.target).closest('#postbox .inner').length) && (!$(e.target).closest('.closebox').length) ) {
-			if ( $( '#postbox' ).hasClass( 'active' ) ) {
-				$( '#postbox' ).removeClass( 'active' ),
-				$("#page-wrapper").toggleClass( "noscroll" )
-			}
-		}
-	});
-});
-</script>
+<?php bp_nouveau_after_loop(); ?>

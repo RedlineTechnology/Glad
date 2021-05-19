@@ -516,6 +516,14 @@ textarea:focus {
 /*                        BUDDYPRESS GLOBAL STYLES                            */
 /* ////////////////////////////////////////////////////////////////////////// */
 
+body,
+.profile {
+  &.edit {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 #page-wrapper {
   #buddypress {
     p.warning {
@@ -535,25 +543,45 @@ textarea:focus {
     .bp-feedback {
       background: transparent;
       box-shadow: none;
-      border: 1px solid $primary;
+      border: 3px solid $primary;
+      border-radius: 50px;
       color: $primary;
-    }
-    .bp-feedback.help,
-    .bp-feedback.info{
       .bp-icon {
         background: $primary;
-        &:before {
-          @include fontawesome(900);
-          content:'\f06a';
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 50px;
+        position: relative;
+        left: -1px;
+      }
+      p {
+        font-weight: 700;
+      }
+      &.help,
+      &.info {
+        .bp-icon {
+          background: $primary;
+          &:before {
+            @include fontawesome(900);
+            content:'\f06a';
+          }
         }
       }
-    }
-    .bp-feedback.loading {
-      .bp-icon {
-        background: $primary;
-        &:before {
-          @include fontawesome(900);
-          content: "\f017";
+      &.loading {
+        .bp-icon {
+          background: $primary;
+          &:before {
+            @include fontawesome(900);
+            content: '\f017';
+          }
+        }
+      }
+      &.success {
+        .bp-icon {
+          background: $primary;
+          &:before {
+            @include fontawesome(900);
+            content: '\f00c';
+          }
         }
       }
     }
@@ -567,7 +595,18 @@ textarea:focus {
         padding: 0;
       }
     }
+    .item-body {
+      .screen-heading {
+        font-size: 1.25em;
+        font-weight: 700;
+        border-bottom: 4px solid $primary;
+        margin-bottom: 10px;
+      }
+    }
     .profile {
+      h2.view-profile-screen {
+        display: none;
+      }
       form.profile-edit {
         ul.button-nav {
           margin:0;
@@ -585,16 +624,41 @@ textarea:focus {
             &.current {
               a {
                 @include link_color( $white, $white );
-                @include link_background( transparent, transparent );
+                @include link_background( $dark, $dark );
               }
             }
           }
+          & + h3 {
+            display: none;
+          }
+        }
+        .editfield {
+          background: none;
+          border: none;
+          margin: 10px 0;
+          padding: 0;
         }
         fieldset {
           padding: 0;
           legend {
+            @include headlinefont;
             font-weight: 300;
             font-size: .9em;
+          }
+          input {
+            background-color: $white;
+            border: 1px solid $primary;
+          }
+          .field-visibility-settings-header {
+            display: none;
+          }
+          .checkbox-options {
+            label {
+              display: inline-block;
+              margin-right: 2em;
+              margin-top: 0;
+              margin-bottom: 1em;
+            }
           }
         }
         p {
@@ -611,11 +675,25 @@ textarea:focus {
         }
         input[type="submit"] {
           margin: 0;
-          padding: 1em;
-          width: 100%;
+          padding: 1em 2em;
           border: none;
           @include link_color( $dark, $dark );
-          @include link_background( rgba($primary,0.4), $primary );
+          @include link_background( rgba($primary,0.65), $primary );
+        }
+      }
+      .profile-fields {
+        tr {
+          background: #fff;
+        }
+        .label {
+          font-weight: 300;
+          border-radius: 1px solid $primary;
+        }
+        .data p{
+          @include headlinefont;
+          font-size: 1.2em;
+          line-height: 1em;
+          letter-spacing: .05em;
         }
       }
     }

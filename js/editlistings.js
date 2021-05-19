@@ -11,6 +11,7 @@ jQuery(document).ready( function($){
 
     return false;
   });
+
   // Submit the Data. FOR SINGLE PAGES ONLY
   $('body.single #edit-listing-form, body.single #edit-marketstatus-form').submit( function() {
 
@@ -63,17 +64,20 @@ jQuery(document).ready( function($){
 
   // ARCHIVE PAGES
   // Load the Form we need, do things on callback.
-  $('body.page .edit, body.page .status').on('click', function(e) {
+  $('body.page').find('.edit, .contract, .delete').on('click', function(e) {
     e.preventDefault();
+    var $wrapper = $(this).parents('.mypost_wrapper');
+    $( $wrapper ).addClass('loading');
 
-    var $url = $(this).attr('href'),
-        $formbox = '#' + $(this).data('form');
-    var $form = $url + ' ' + $formbox;
+    var $button = $(this),
+        $url = $(this).attr('href'),
+        $formbox = '#' + $(this).data('form'),
+        $form = $url + ' ' + $formbox;
 
-    // console.log('Debug: ' + $form);
+    // console.log( 'Debug: ' + $form );
 
     $('.edit-forms').load( $form, function() {
-      // CALLBACK. AFTER THE THING LOADS, WE NEED THESE THINGS
+      $( $wrapper ).removeClass('loading');
       $( $formbox ).parent().addClass('active');
 
       // Close all the Forms
@@ -89,7 +93,22 @@ jQuery(document).ready( function($){
         // Get these for the Update Callback
         $id = $(this).find('input[name="post_id"]').val();
         $status = $(this).find('#marketstatus').children("option:selected").val();
-        $statusname = $(this).find('#marketstatus').children("option:selected").text();
+        switch( $status ) {
+          case '5':
+            $statusname = 'sold';
+            break;
+          case '6':
+            $statusname = 'forsale';
+            break;
+          case '8':
+            $statusname = 'contract';
+            break;
+          case '30':
+            $statusname = 'offmarket';
+            break;
+          default:
+            $statusname = '';
+        }
 
         // console.log( 'id: ' + $id + ' status: ' + $status + ' statusname: ' + $statusname );
 
@@ -104,14 +123,10 @@ jQuery(document).ready( function($){
               $('#edit-listing-submit, #edit-marketstatus-submit').addClass('loading').text('Sending...');
             },
             success: function( data ) {
-              $('.formbox').html('<div><h1>Success!</h1><p>Your listing has been updated.</p></div>');
+              $('.manage').find(".mypost[data-post='" + $id + "']").attr('class', 'mypost ' + $statusname);
 
-              $('.listings ul').find("li[data-post='" + $id + "'] .status").attr('data-status', $status).text( $statusname );
-
-              setTimeout(function() {
-                  $('.formbox').removeClass('active');
-                  $('.edit-forms').removeClass('active').empty();
-              }, 2000);
+              $('.formbox').removeClass('active');
+              $('.edit-forms').removeClass('active').empty();
             }
         });
         return false;
@@ -120,9 +135,8 @@ jQuery(document).ready( function($){
       // Delete the Data.
       $('#delete-form').submit( function() {
 
-        $post = $('#delete-form input[name=post_id]').val();
-
-        $('.mylistings').find('li[data-post="' + $post + '"]').remove();
+        $id = $(this).find('input[name="post_id"]').val();
+        $status = $(this).find('#marketstatus').children("option:selected").val();
 
         $.ajax({
             url: 'https://glada.aero/wp-admin/admin-ajax.php',
@@ -132,15 +146,18 @@ jQuery(document).ready( function($){
                   }).serialize(),
             dataType: 'json',
             beforeSend: function( xhr ) {
-              $('#delete-form-submit').addClass('loading').text('Deleting...');
+              $('#delete-form-submit').addClass('loading').text('Please Wait...');
             },
             success: function( data ) {
-              $('.formbox').html('<div><h1>Success!</h1><p>Your listing has been successfully removed.</p></div>');
+              // if Marketstatus == 8 // Suspend
+              if( $status && $status == '8') {
+                $('.manage').find('.mypost[data-post="' + $id + '"]').attr('class', 'mypost contract');
+              } else {
+                $('.manage').find('.mypost[data-post="' + $id + '"]').remove();
+              }
 
-              setTimeout(function() {
-                $('.formbox').removeClass('active');
-                $('.edit-forms').removeClass('active').empty();
-              }, 2000);
+              $('.formbox').removeClass('active');
+              $('.edit-forms').removeClass('active').empty();
             }
         });
         return false;
