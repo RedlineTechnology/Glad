@@ -23,6 +23,47 @@
 // }
 // add_action('mepr-event-transaction-completed', 'mepr_transaction_complete');
 
+
+/** ********************************************************
+ *                  REFERRAL DISCOUNTS                     *
+ ********************************************************* */
+
+function update_referrals( $verbose = false ) {
+  // Instanciate Stripe Gateway
+  // Doing it out here and passing it to the discount function saves us some work
+  // I have no clue how MEPR grabs the API Keys when it uses this.
+  // I've dug and dug through the source files to no avail, so I'm just going to do it manually here by grabbing the Options and extracting them
+  $mepr_options = MeprOptions::fetch();
+  foreach( $mepr_options->integrations as $gateway ) {
+    if( $gateway['gateway'] == 'MeprStripeGateway' ) {
+      $keys = $gateway['api_keys'];
+      break;
+    }
+  }
+  $stripe = new MeprStripeGateway();
+  $stripe->settings->public_key = $keys['live']['public'];
+  $stripe->settings->secret_key = $keys['live']['secret'];
+
+  // Grab Each Member who has an active referral on their account
+  $coupons = they_did_the_math();
+
+  $diagnostic = array();
+  foreach( $coupons as $user_id => $user ) {
+    if( $user['active'] ) {
+      try {
+        $diagnostic[] = apply_referral_discount( $stripe, $user_id, $user['stripecode'], $verbose );
+      } catch ( Exception $e ) {
+        $diagnostic[] = $e->getMessage();
+      }
+    }
+  }
+
+  if( !empty( $diagnostic )) {
+    return $diagnostic;
+  }
+  return;
+}
+
 // Referral Discount Calculator
 function they_did_the_math() {
   // Stripe Coupon Codes
@@ -186,45 +227,10 @@ function apply_referral_discount( $stripe, $user_id, $coupon_id, $verbose = fals
 
 }
 
-function update_referrals( $verbose = false ) {
 
-  // Instanciate Stripe Gateway
-  // Doing it out here and passing it to the discount function
-  // Saves us some work
-  // I have no clue how MEPR grabs the API Keys when it uses this.
-  // I've dug and dug through the source files to no avail, so I'm
-  // just going to do it manually here by grabbing the Options
-  // and extracting them
-  $mepr_options = MeprOptions::fetch();
-  foreach( $mepr_options->integrations as $gateway ) {
-    if( $gateway['gateway'] == 'MeprStripeGateway' ) {
-      $keys = $gateway['api_keys'];
-      break;
-    }
-  }
-  $stripe = new MeprStripeGateway();
-  $stripe->settings->public_key = $keys['live']['public'];
-  $stripe->settings->secret_key = $keys['live']['secret'];
-
-  // Grab Each Member who has an active referral on their account
-  $coupons = they_did_the_math();
-
-  $diagnostic = array();
-  foreach( $coupons as $user_id => $user ) {
-    if( $user['active'] ) {
-      try {
-        $diagnostic[] = apply_referral_discount( $stripe, $user_id, $user['stripecode'], $verbose );
-      } catch ( Exception $e ) {
-        $diagnostic[] = $e->getMessage();
-      }
-    }
-  }
-
-  if( !empty( $diagnostic )) {
-    return $diagnostic;
-  }
-  return;
-}
+/** ********************************************************
+ *                 MEMBERSHIPS MANAGEMENT                  *
+ ********************************************************* */
 
 // Payment has been Completed
 // We want to get rid of the "Applicant" Membership once a successful Membership is Completed
@@ -253,11 +259,6 @@ function maybe_cancel_application($txn) {
       }
     }
   }
-
-  // tell wildapricot what's going on
-  // sync_memberships( $txn->user_id );
-  // sync_finances( $txn->user_id );
-
 }
 add_action('mepr-txn-status-complete', 'maybe_cancel_application');
 

@@ -76,7 +76,7 @@ bp_nouveau_before_loop(); ?>
 						}
 						?>
 
-						<?php if ( is_admin() && bp_nouveau_member_has_meta() ) : ?>
+						<?php if ( current_user_can('manage_options') && bp_nouveau_member_has_meta() ) : ?>
 							<p class="item-meta last-activity">
 								<?php bp_nouveau_member_meta(); ?>
 							</p><!-- .item-meta -->

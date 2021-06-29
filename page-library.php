@@ -27,7 +27,7 @@ $header_img = '/images/bg-engine.jpg'; ?>
 				$args = array(
 					'post_type'			=> 'post',
 					'orderby'       =>  'date',
-					'order'         =>  'ASC',
+					'order'         =>  'DESC',
 					'nopaging'			=> 	true
 				);
 				$posts = new WP_Query( $args );
@@ -84,6 +84,30 @@ $header_img = '/images/bg-engine.jpg'; ?>
 								<div class="video container">
 									<!-- item -->
 									<div class="meeting-list-item meeting">
+										<p class="replay"><a href="https://us02web.zoom.us/rec/share/TX-yladr5Fv8P8cbDJU0PSkSIJ_QgXeYyiS2dFiC1NHFIO8Pf5p78DDEokbi7TqG.Ch_zv0s3R83XNwTi" class="womenescrow" target="_blank"><i class="fas fa-play"></i></a>Women in Aircraft Sales - Escrow Best Practices <br><span class="password"><em>Password:</em> $Hq6XH4u</span></p>
+										<a href="#" class="womenescrow" data-featherlight="#womenescrow">Watch Now</a>
+									</div>
+									<!-- item -->
+									<div class="meeting-list-item meeting">
+										<p class="replay"><a href="#" class="amstat2105" data-featherlight="#amstat2105"><i class="fas fa-play"></i></a>AMSTAT Webinar - Navigating the New Normal</p>
+										<a href="#" class="amstat2105" data-featherlight="#amstat2105">Watch Now</a>
+									</div>
+									<div class="featherlight" id="amstat2105">
+										<iframe src="https://play.vidyard.com/ykEHNoTM3NvYvsCnzyqapz?disable_popouts=1&amp;v=4.2.30&amp;viral_sharing=0&amp;embed_button=1&amp;hide_playlist=1&amp;color=FFFFFF&amp;playlist_color=FFFFFF&amp;play_button_color=000000&amp;gdpr_enabled=1&amp;type=inline&amp;autoplay=0&amp;loop=0&amp;muted=0&amp;hidden_controls=0&amp;pomo=2&amp;vydata%5Butk%5D=b5a2e93bad5dbed273a4d78f8f44c67d&amp;vydata%5Bportal_id%5D=8551824&amp;vydata%5Bcontent_type%5D=landing-page&amp;vydata%5Bcanonical_url%5D=http%3A%2F%2Famstatcorp-8551824.hs-sites.com%2Fquarterly-report-2021-thank-you&amp;vydata%5Bpage_id%5D=47939299584&amp;vydata%5Bcontent_page_id%5D=47939299584&amp;vydata%5Blegacy_page_id%5D=47939299584&amp;vydata%5Bcontent_folder_id%5D=null&amp;vydata%5Bcontent_group_id%5D=null&amp;vydata%5Bab_test_id%5D=null&amp;vydata%5Blanguage_code%5D=null" style="width:100%; min-height:400px;" frameborder="0"></iframe>
+									</div>
+									<!-- item -->
+									<!-- <div class="meeting-list-item meeting">
+										<p class="replay"><a href="#" class="jsfirmjobs" data-featherlight="#jsfirmjobs"><i class="fas fa-play"></i></a>JSfirm.com Webinar - Job Posting and Hiring</p>
+										<a href="#" class="jsfirmjobs" data-featherlight="#jsfirmjobs">Watch Now</a>
+									</div>
+									<div class="featherlight" id="jsfirmjobs">
+										<video controls preload="none" style="width:600px; max-width: 100%; height:380px;">
+											<source src="https://www.glada.aero/assets/meetings/jsfirm_job_posting.mp4" type="video/mp4">
+											Your browser does not support the HTML5 video tag.
+										</video>
+									</div> -->
+									<!-- item -->
+									<!-- <div class="meeting-list-item meeting">
 										<p class="replay"><a href="#" class="jsfirmcareers" data-featherlight="#jsfirmcareers"><i class="fas fa-play"></i></a>JSfirm.com Webinar - Careers in Aviation</p>
 										<a href="#" class="jsfirmcareers" data-featherlight="#jsfirmcareers">Watch Now</a>
 									</div>
@@ -92,7 +116,7 @@ $header_img = '/images/bg-engine.jpg'; ?>
 											<source src="https://www.glada.aero/assets/meetings/jsfirm_careers_in_aviation.mp4" type="video/mp4">
 											Your browser does not support the HTML5 video tag.
 										</video>
-									</div>
+									</div> -->
 									<!-- item -->
 									<div class="meeting-list-item meeting">
 										<p class="replay"><a href="#" class="glada0720" data-featherlight="#glada0720"><i class="fas fa-play"></i></a>GLADA Zoom Call - July 2020</p>

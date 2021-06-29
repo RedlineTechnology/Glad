@@ -10,7 +10,6 @@
 get_header();
 
 $posttype = get_queried_object()->name;
-
 $header_img = ( $posttype == 'listing' ) ? '/images/bg-interior.jpg' : '/images/bg-engine.jpg';
 
 	?>
@@ -26,40 +25,32 @@ $header_img = ( $posttype == 'listing' ) ? '/images/bg-interior.jpg' : '/images/
 
       <section class="archive">
 
-				<?php
-					// UPPER HERO
+				<?php // UPPER HERO
+				if( $posttype === 'opportunity' || $posttype === 'listing') { ?>
+				<div class="<?php echo $posttype; ?>-hero"> <?php
 					if ( $posttype === 'opportunity' ) { ?>
-						<div class="opportunity-hero">
-							<h1>Services</h1>
-							<p>Discover services and discounts offered by other members.</p>
-							<div class="searchwrapper cursor">
-								<form action="#" method="POST" class="search" id="searchform">
-									<input type="text" id="searchfield" name="searchfield" value="" placeholder="What are you looking for?"><!--<i class="blinky"></i>-->
-									<input type="hidden" name="action" value="oppsearch">
-									<button id="searchsubmit" class="searchsubmit hidden" type="submit"><i class="fas fa-search"></i></button>
-								</form>
-							</div>
-						</div>
-					<?php
-
-					wp_register_script( 'search', get_stylesheet_directory_uri() . '/js/search.js', array('jquery'), '20210521' );
-					// we have to pass parameters to loadmore.js script but we can get the parameters values only in PHP
-					wp_localize_script( 'search', 'query_params', array(
-						'ajaxurl' 			=> site_url() . '/wp-admin/admin-ajax.php',
-						'posts' 				=> json_encode( $wp_query->query_vars ),
-						'input' 				=> '#searchfield',
-						'output' 				=> '#response',
-						'secondary'			=> '#dealerservices',
-					) );
-					wp_enqueue_script( 'search' );
-
+						<h1>Services</h1>
+						<p>Discover services and discounts offered by other members.</p>
+					<?php }
+					if ( $posttype === 'listing' ) { ?>
+						<h1>Listings</h1>
+						<p>Aircraft Listed by Trusted GLADA Members.</p>
+						<?php
+						wp_enqueue_script( 'autocomplete', get_template_directory_uri() . '/js/autocomplete.min.js', array('jquery'), '20210621', true);
 					} ?>
+					<div class="searchwrapper cursor">
+						<form action="#" method="POST" class="search" id="searchform">
+							<input type="text" id="searchfield" name="searchfield" value="" placeholder="What are you looking for?"><!--<i class="blinky"></i>-->
+							<input type="hidden" name="action" value="listingsearch">
+							<button id="searchsubmit" class="searchsubmit hidden" type="submit"><i class="fas fa-search"></i></button>
+						</form>
+					</div>
+				</div>
+				<?php }
 
-        <?php
       	if ( have_posts() ) : ?>
           <article class="the-content">
-
-					<?php
+					<!-- UPPER POST AREA --> <?php
 
 					// OPPORTUNITIES
 					if ( $posttype === 'opportunity' ) {
@@ -70,7 +61,8 @@ $header_img = ( $posttype == 'listing' ) ? '/images/bg-interior.jpg' : '/images/
 
 						// LISTINGS
 					} elseif ( $posttype === 'listing' ) { ?>
-						<div class="upper">
+
+						<div class="upper" style="display:none;">
 							<form action="#" method="POST" id="filter">
 								<?php
 									if( $terms = get_terms( array( 'taxonomy' => 'aircraft', 'orderby' => 'name' ) ) ) :
@@ -115,68 +107,57 @@ $header_img = ( $posttype == 'listing' ) ? '/images/bg-interior.jpg' : '/images/
 								<input type="hidden" name="action" value="sortlistings">
 								<button>Update</button>
 							</form>
-							<?php
-							if( current_user_can('mepr-active','rule:37') && !current_user_can('mepr-active','membership:1416') ) {
-								echo '<a class="button inverted" id="submitalisting" href="/members/submit-a-listing">Submit a Listing</a>';
-							}
-							?>
 						</div>
 
 						<?php
 						// Regular Post
-						} else {
-							// Do Nothing
-						} ?>
+					} else {
+						// Do Nothing
+					}
 
-						<div id="response">
-							<?php
-							$posttype = get_queried_object()->name;
-							/* Start the Loop */
-							$i = 0;
-							while ( have_posts() ) : the_post();
+					// if( is_dealer() ) {
+					// 	echo '<a class="button inverted" id="submitalisting" href="/members/submit-a-listing">Submit a Listing</a>';
+					// } ?>
 
-								if ( $posttype === 'listing' ) {
-									echo '<div class="' . $posttype . '-list-item">';
-										get_template_part('template-parts/listing');
-								} elseif ( $posttype === 'opportunity' ) {
-									echo '<div class="list-item-' . $posttype . '">';
-										get_template_part('template-parts/opportunity');
-								} else {
-									echo '<div class="' . $posttype . '-list-item">'; ?>
-									 <a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
-										 <?php echo '<h2 id="post-' . get_the_ID() . '">' . get_the_title() . '</h2>'; ?>
-									 </a> <?php
+					<!-- MAIN POST AREA -->
+					<div id="response"> <?php
+						/* Start the Loop */
+						$i = 0;
+						while ( have_posts() ) : the_post();
+
+							$expanded = '';
+							if( $i == 0 ) { $expanded = ' expanded'; }
+
+							if ( $posttype === 'listing' || $posttype === 'opportunity' ) {
+								echo '<div class="list-item-' . $posttype . $expanded . '">';
+									get_template_part('template-parts/' . $posttype );
+							} else {
+								echo '<div class="' . $posttype . '-list-item">'; ?>
+								 <a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
+									 <?php echo '<h2 id="post-' . get_the_ID() . '">' . get_the_title() . '</h2>'; ?>
+								 </a> <?php
+							}
+							echo '</div>';
+
+							if ( $posttype === 'listing' ) {
+								switch( $i ) {
+									case 2:
+										insert_ad( get_theme_mod('feature_listings_dealer'), get_theme_mod('feature_listings_dealer_text') );
+										break;
+									case 8:
+										insert_ad( get_theme_mod('feature_listings_industry'), get_theme_mod('feature_listings_industry_text') );
+										break;
 								}
-								echo '</div>';
+							}
+							$i++;
+						endwhile; ?>
+					</div>
 
-								if ( $posttype === 'listing' ) {
-									switch( $i ) {
-										case 2:
-											insert_ad( get_theme_mod('feature_listings_dealer'), get_theme_mod('feature_listings_dealer_text') );
-											break;
-										case 8:
-											insert_ad( get_theme_mod('feature_listings_industry'), get_theme_mod('feature_listings_industry_text') );
-											break;
-									}
-								}
-								$i++;
-							endwhile; ?>
+					<div class="post-response">
+						<div class="loaderwrapper">
+							<img src="<?php echo get_stylesheet_directory_uri() . '/images/ajax-loader.gif'; ?>">
 						</div>
-
-						<div class="post-response">
-
-							<div class="loaderwrapper">
-								<img src="<?php echo get_stylesheet_directory_uri() . '/images/ajax-loader.gif'; ?>">
-							</div>
-
-							<?php
-								if (  $wp_query->max_num_pages > 1 ) :
-									echo '<a class="button" style="margin-right:2em;" id="loadmore"><i class="fas fa-arrow-to-bottom"></i> Load More...</a>';
-								endif;
-
-						//	} ?>
-
-						</div>
+					</div>
 
 				</article>
 
@@ -199,17 +180,19 @@ $header_img = ( $posttype == 'listing' ) ? '/images/bg-interior.jpg' : '/images/
 
 // Localize loadmore.js with PHP variables
 global $wp_query;
+wp_register_script( 'search', get_stylesheet_directory_uri() . '/js/search.js', array('jquery'), '20210624' );
 // we have to pass parameters to loadmore.js script but we can get the parameters values only in PHP
-wp_localize_script( 'loadmore', 'query_params', array(
+wp_localize_script( 'search', 'query_params', array(
 	'ajaxurl' 			=> site_url() . '/wp-admin/admin-ajax.php',
 	'posts' 				=> json_encode( $wp_query->query_vars ),
+	'manual'				=> false,
 	'current_page' 	=> get_query_var( 'paged' ) ?: 1,
 	'max_page' 			=> $wp_query->max_num_pages,
 	'input' 				=> '#searchfield',
 	'output' 				=> '#response',
 	'secondary'			=> '#dealerservices',
 ) );
-wp_enqueue_script( 'loadmore' );
+wp_enqueue_script( 'search' );
 
 get_footer();
 

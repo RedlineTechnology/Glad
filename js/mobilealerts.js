@@ -1,7 +1,7 @@
 jQuery(document).ready( function($){
   $.ajaxSetup({cache:false});
 
-  // Submit the Data.
+  // Save Alert & SMS Settings
   $('#mobile-alert-form').submit( function() {
 
     $.ajax({
@@ -25,7 +25,7 @@ jQuery(document).ready( function($){
     return false;
   });
 
-  // Submit the Data.
+  // Submit a new Alert from the Alerts Sidebar
   $('#alert-form').submit( function() {
 
     $.ajax({
@@ -46,6 +46,41 @@ jQuery(document).ready( function($){
           }, 4000);
         }
     });
+    return false;
+  });
+
+  var canSend = true;
+
+  // Submit a new Alert from the Alerts Sidebar
+  $('.alert-display').click(function(e){
+    e.preventDefault();
+
+    var $this = $(this);
+        name = $(this).attr('id'),
+        user_id = $('.dealer-alerts-wrapper').attr('id');
+
+    if( canSend == true ) {
+      $.ajax({
+          url: 'https://www.glada.aero/wp-admin/admin-ajax.php',
+          type: 'POST',
+          data : {
+    				'action': 'togglesms', // the parameter for admin-ajax.php
+    				'name' : name,
+            'user' : user_id,
+    			},
+          dataType: 'json',
+          beforeSend: function( xhr ) {
+            $('.dealer-alerts-wrapper').addClass('loading');
+            canSend = false;
+          },
+          success: function( data ) {
+            $('.dealer-alerts-wrapper').removeClass('loading');
+            $this.toggleClass('enabled');
+            canSend = true;
+          }
+      });
+    }
+
     return false;
   });
 

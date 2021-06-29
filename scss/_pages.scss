@@ -790,20 +790,12 @@ section.trusted {
 /*                           PAGE & POST TEMPLATE                             */
 /* ////////////////////////////////////////////////////////////////////////// */
 
+// This is broken. Need to totally re-evaluate.
+
 .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library),
-.post, .single, .archive {
-  header {
-    position: fixed;
-    bottom: 0;
-    &.unstuck {
-      position: static;
-    }
-  }
+.archive, .single, .post {
   .content-area {
-    margin-bottom: 4.5em;
-    &.unstuck {
-      margin-bottom: 0;
-    }
+    order: 2;
   }
   .hero {
     @include bgimage('http://placekitten.com/1200/400');
@@ -1387,20 +1379,9 @@ section.trusted {
 .page-account,
 .page-library,
 .post-type-archive-opportunity,
-.groups {
-  header {
-    position: fixed;
-    bottom: 0;
-    &.unstuck {
-      position: static;
-    }
-  }
-  .content-area {
-    margin-bottom: 4.5em;
-    &.unstuck {
-      margin-bottom: 0;
-    }
-  }
+.groups,
+.single,
+.post {
   .hero {
     @include bgimage('http://placekitten.com/1200/400');
     display: flex;
@@ -1424,7 +1405,7 @@ section.trusted {
   @include breakpoint('desktop') {
     #page-wrapper {
       @include grid(4,6,true);
-      height: 100vh;
+      min-height: 100vh;
     }
     .footer-logo {
       bottom: 50px;
@@ -1463,6 +1444,7 @@ section.trusted {
         min-height: auto;
         padding-right: 1em;
         position: static;
+        width: 100%;
       }
       .the-content {
         overflow: hidden;
@@ -1624,6 +1606,18 @@ section.trusted {
           border-top: 10px solid $primary;
         }
       }
+      &.charter {
+        background: rgba( $primary, .4);
+        &:after {
+          border-top: 10px solid rgba( $primary, .4);
+        }
+        h5 {
+          text-align: left;
+          font-size: 1em;
+          color: white;
+          font-weight: 700;
+        }
+      }
     }
     #alert-form {
       input {
@@ -1679,8 +1673,7 @@ section.trusted {
       margin: 1em 0;
     }
   }
-  .mylistings,
-  .myservices {
+  .manage {
     h3 {
       &:hover, &:active, &:focus {
         span {
@@ -1701,22 +1694,60 @@ section.trusted {
         bottom: 3px;
       }
     }
+    h4 {
+      margin-right: 1em;
+      display: inline-block;
+      font-size: .9em;
+      font-weight: 900;
+      letter-spacing: .075em;
+      span {
+        color: $primary;
+      }
+      a {
+        margin-left: .5em;
+      }
+    }
+    p {
+      margin-bottom: 0;
+    }
+    &.myprofile {
+      margin-bottom: 2em;
+    }
+    .bubbles {
+      padding: .5em 0;
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        li {
+          display: flex;
+          align-items: center;
+          background: rgba( $primary, 0.5 );
+          border-radius:50px;
+          padding: .4em 1em .4em .4em;
+          @include headlinefont;
+          font-weight: 700;
+          letter-spacing: .1em;
+          margin-right: .5em;
+          span {
+            background: $white;
+            border-radius: 50px;
+            height: 1.5em;
+            line-height: 1.5em;
+            min-width: 1.5em;
+            margin-right: .25em;
+            text-align: center;
+          }
+        }
+      }
+    }
     .listings,
     .services {
       margin: 0 0 1em;
       border-top: 3px solid $primary;
       padding: .5em 1em 1em 0;
       position: relative;
-      h4 {
-        margin-right: 1em;
-        display: inline-block;
-        font-size: .9em;
-        font-weight: 900;
-        letter-spacing: .05em;
-        span {
-          color: $primary;
-        }
-      }
     }
     .listings {
       .mypost {
@@ -2566,7 +2597,14 @@ section.trusted {
 
 // GLADA ALERTS
 .my-account, .bp-user {
-  .alerts-notice,
+  .alerts-notice {
+    margin-bottom: 5em;
+    a {
+      @include headlinefont;
+      font-weight: 700;
+      letter-spacing: .05em;
+    }
+  }
   .alerts-vcard {
     margin-bottom: 0;
   }
@@ -2574,11 +2612,13 @@ section.trusted {
     position: relative;
     background: $dark;
     padding: 1em;
+    @include loading;
     p {
       margin: 0;
       line-height: 1.2em;
       padding-bottom: .5em;
       color: rgba( $white, 0.8 );
+      font-size: 1.2em;
       a {
         @include link_color( $white, $primary );
       }
@@ -2587,6 +2627,9 @@ section.trusted {
       display: flex;
       align-items: center;
       margin: 1em;
+      &:hover {
+        background-color: rgba(255,255,255,0.2);
+      }
       .alert-display-icon {
         height: 30px;
         width: 36px;
@@ -2605,6 +2648,32 @@ section.trusted {
         font-size: .8em;
         h4 {
           margin: 0;
+          span{
+            color: $white;
+            font-weight: 700;
+            opacity: .9;
+          }
+        }
+      }
+      &.enabled {
+        .enabled {
+          display: block;
+        }
+        .disabled {
+          display: none;
+        }
+      }
+      &:not(.enabled) {
+        .alert-display-icon {
+          i:before {
+            content: "\f00d" !important;
+          }
+        }
+        .enabled {
+          display: none;
+        }
+        .disabled {
+          display: block;
         }
       }
     }
@@ -2624,7 +2693,7 @@ section.trusted {
       margin-right: 0;
       padding: 1em 250px 1em 1em;
       .iphone {
-        bottom: -9em;
+        bottom: -4em;
         right: 0;
         max-height: 400px;
         height: 300%;
@@ -2653,7 +2722,6 @@ section.trusted {
       @include headlinefont;
       text-transform: uppercase !important;
       letter-spacing: .1em !important;
-      margin-left: 35px;
     }
     input[type="checkbox"] {
       width: 30px;
@@ -2661,6 +2729,12 @@ section.trusted {
     input[type="text"] {
       border: none;
       color: $primary;
+    }
+  }
+  @include breakpoint('desktop') {
+    .alerts-notice {
+      margin-bottom: 1em;
+      padding-right: 350px;
     }
   }
 }
@@ -2778,6 +2852,12 @@ section.trusted {
           color: $primary;
           text-decoration: underline;
         }
+        .password {
+          margin-left: 1.5em;
+          em {
+            color: $primary;
+          }
+        }
       }
     }
     .referral-list-item {
@@ -2804,211 +2884,6 @@ section.trusted {
         text-transform: none;
         span {
           color: $primary;
-        }
-      }
-    }
-    .listing-list-item {
-      margin: 2em 0;
-      position: relative;
-      justify-content: center;
-      width: 100%;
-      .button {
-        margin: 0;
-      }
-      .right {
-        p {
-          margin-bottom: .5em;
-          line-height: 1.6em;
-          span {
-            margin-right: 1.5em;
-            display: inline-block;
-            &:before {
-              display: block;
-              height: 1em;
-              width: 1em;
-              @include fontawesome(900);
-              color: $primary;
-            }
-          }
-          &.contact {
-            background: $primary;
-            padding: 0 .5em;
-            color: $white;
-            span {
-              margin-right: 0;
-              a {
-                @include link_color( $dark, $white );
-              }
-            }
-          }
-        }
-        span.specsheet {
-          &:before {
-            content: "\f1c1";
-          }
-        }
-        span.time {
-          &:before {
-            content:"\f1da";
-          }
-        }
-        span.landings {
-          &:before {
-            content: "\f5af";
-            margin-right: .3em;
-          }
-        }
-        span.specsheet {
-          &:before {
-            content: "\f1c1";
-          }
-        }
-      }
-      @media only screen and (min-width: 48em) and (max-width: 1280px) {
-        width: 100% !important;
-        max-width: 900px;
-      }
-      @include breakpoint('desktop') {
-        display: flex;
-        width: 50%;
-        min-width: 600px;
-        margin:  0 auto;
-        padding: 0 0 1.5em;
-        .right {
-          border-top: 1px solid $primary;
-          border-bottom: 1px solid $primary;
-          position: relative;
-          margin-right: 2em;
-          padding: 1em;
-          flex-grow: 1;
-          p {
-            margin-bottom: .6em;
-            text-transform: capitalize;
-            span.moreinfo {
-              &:before {
-                content: "\f0c1";
-              }
-            }
-            &.contact {
-              line-height: 1.5em;
-              flex-grow: 1;
-              display: flex;
-              align-items: center;
-              flex-wrap: wrap;
-              .number, .email {
-                font-weight: 300;
-              }
-            }
-          }
-          .contact-wrapper {
-            display: flex;
-            justify-content: space-between;
-          }
-          .logo {
-            height: 3em;
-            width: 100px;
-            margin-left: 1em;
-            @include bgimage( $image: 'ajax-loader.gif', $size: contain, $rep: no-repeat, $pos: center );
-          }
-          &:after {
-            content: "";
-            display: block;
-            position: absolute;
-            height: 3.5em;
-            width:1px;
-            right:0;
-            bottom:0;
-            background: $primary;
-          }
-        }
-      }
-    }
-    .listing-list-item .left a {
-      @include link_color($white, $white);
-      cursor: pointer;
-      display: flex;
-      justify-content: flex-start;
-      flex-direction: column;
-      position: relative;
-      height: 150px;
-      margin-bottom: .5em;
-      .thumb {
-        @include bgimage('bg-kid.jpg', $size: cover, $pos: center );
-        height: 100%;
-        width: 100%;
-        order: 1;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .info {
-        order: 2;
-        margin: 0;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-        display: flex;
-        justify-content: flex-end;
-        align-items: flex-start;
-        p {
-          margin: .5em 1em;
-          &.snreg {
-            span:first-child {
-              &:after {
-                content: " // ";
-                display: inline-block;
-                height: 1em;
-                width: 2em;
-                text-align: center;
-              }
-            }
-          }
-        }
-      }
-      &:hover, &:active, &:focus {
-        .info{
-          background: rgba( $primary, 0.5);
-        }
-      }
-      h3 {
-        position: relative;
-        display: inline-block;
-        &.sn, &.reg {
-          color: $primary;
-          margin-left: 3em;
-          &:before {
-            width: 3em;
-            height: 1em;
-            display: inline-block;
-            content: "//";
-            position: absolute;
-            left: -1.5em;
-          }
-        }
-      }
-      .highlight {
-        @include lightfont;
-        color: $dark;
-      }
-      @include breakpoint('desktop') {
-        @include link_color($white,$white);
-        flex-direction: row;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        max-width: 48em;
-        border-bottom: 1px solid $primary;
-        margin-bottom: 0;
-        .info {
-          flex-shrink: 0;
-          position: absolute;
-          bottom: 0;
-        }
-        .thumb {
-          width: 200px;
-          align-items: center;
         }
       }
     }
@@ -3071,7 +2946,281 @@ section.trusted {
   }
 }
 
+.post-type-archive-listing {
+  #main {
+    .listing-hero {
+      position: relative;
+      height: 300px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2em;
+      @include bgimage( 'bg-listings.jpg' );
+      h1 {
+        position: relative;
+        z-index: 3;
+        margin: 0;
+        color: $white;
+        letter-spacing: .1em;
+      }
+      p {
+        position: relative;
+        text-align: center;
+        z-index: 2;
+        font-size: 1em;
+        padding: 1.5em;
+        margin-top: -2.2em;
+        background: rgba( $primary, 0.9);
+      }
+      @include breakpoint('desktop') {
+        p {
+          padding: 1.5em 7em;
+        }
+      }
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.6);
+        content: "";
+        display: block;
+        z-index: 1;
+      }
+    }
+    .archive {
+      padding: 0;
+      padding-right: 0 !important;
+      padding-bottom: 10em;
+      .the-content {
+        padding: 2em;
+        padding-right: 2em !important;
+        #response {
+          justify-content: center;
+          align-items: flex-start;
+        }
+      }
+    }
+  }
+}
+
 .list-item {
+  &-listing {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: 1em;
+    position: relative;
+    overflow: hidden;
+    &_deleted {
+      display: none;
+    }
+    &:not(.expanded):hover,
+    &:not(.expanded):active,
+    &:not(.expanded):focus {
+      .listing {
+        &-upper {
+          background-position: center 55%;
+          .info a.plane {
+            top: 5px;
+          }
+        }
+      }
+    }
+    .status {
+      display: none;
+      &.sold {
+        background: red;
+        padding: .5em 10em;
+        display: block;
+        transform: rotate(325deg);
+        position: absolute;
+        top: 2em;
+        left: -7em;
+        z-index: 5;
+        h3 {
+          color: $white;
+          margin: 0;
+        }
+      }
+      &.new {
+        display: block;
+        padding: .2em .5em;
+        font-size: 1em;
+        border-bottom: 5px solid #decc82;
+        h3 {
+          color: $dark;
+          @include bodyfont;
+          text-transform: uppercase;
+          font-size: 1.2em;
+        }
+      }
+    }
+    .listing {
+      &-upper {
+        position: relative;
+        @include bgimage('bg-members.jpg');
+        transition: background-position .1s ease-out;
+        padding: 1em;
+        .info {
+          display: flex;
+          justify-content: space-between;
+          position: relative;
+          z-index: 2;
+          min-height: 50px;
+          transition: min-height .1s ease-out;
+          a {
+            position: relative;
+            z-index: 2;
+            @include link_color( $white, $primary );
+            &.plane {
+              position: relative;
+              top: 0;
+              transition: top .1s ease-out;
+              flex-grow: 1;
+              font-size: 1.2em;
+              h3 {
+                color: $white;
+              }
+              .snreg, .time {
+                color: $primary;
+                margin-bottom: 0;
+                position: relative;
+                z-index: 4;
+                span {
+                  margin-right: 1em;
+                  position: relative;
+                  z-index: 4;
+                }
+                &:after {
+                  position: absolute;
+                  z-index: 3;
+                  height: 1.4em;
+                  width: 100%;
+                  display: none;
+                  content: "";
+                  background: rgba( $primary, .8 );
+                  right: 2em;
+                  top: .4em;
+                }
+              }
+              .time {
+                display: none;
+                span {
+                  margin-right: 1.5em;
+                  display: inline-block;
+                  &:before {
+                    margin-right: .5em;
+                    height: 1em;
+                    width: 1em;
+                    @include fontawesome(900);
+                    color: $primary;
+                  }
+                }
+                .landings {
+                  &:before {
+                    content: "\f5af";
+                  }
+                }
+                .hours {
+                  &:before {
+                    content:"\f1da";
+                  }
+                }
+              }
+            }
+            &.jump {
+              font-size: 2.5em;
+              margin-left: .5em;
+              @include link_color( $white, $primary );
+            }
+          }
+        }
+        &:after {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          display: block;
+          content: "";
+          background: rgba(0,0,0,0.6);
+          z-index: 1;
+        }
+      }
+      &-lower {
+        background: $primary;
+        padding: .25em 1em;
+        .little {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          h4 {
+            color: $dark;
+            flex-grow: 1;
+            letter-spacing: .05em;
+          }
+          a {
+            font-size: 1.4em;
+            margin-left: .5em;
+            @include link_color( $dark, $white );
+          }
+        }
+        .big {
+          display: none;
+          flex-wrap: wrap;
+          margin-top: .5em;
+          a {
+            padding: .25em .75em;
+            border-radius: 50px;
+            @include link_color( rgba($white, .8), $primary );
+            @include link_background( $dark, $dark );
+            margin-right: .5em;
+            margin-bottom: .5em;
+          }
+        }
+      }
+    }
+    @include breakpoint('desktop') {
+      width: 600px;
+    }
+    &.expanded {
+      .listing {
+        &-upper {
+          .info {
+            min-height: 300px;
+            transition: min-height .1s ease-out;
+            a.plane {
+              .snreg, .time {
+                color: $dark;
+                display: flex !important;
+                &:after {
+                  display: block !important;
+                }
+                span {
+                  &:before {
+                    color: $dark;
+                  }
+                }
+              }
+            }
+          }
+          &:after {
+            background: rgba(0,0,0,0.2);
+          }
+        }
+        &-lower {
+          .big {
+            display: flex;
+          }
+        }
+      }
+    }
+  }
   &-opportunity {
     width: 100%;
     display: flex;
@@ -3105,13 +3254,21 @@ section.trusted {
           &.appraisals:after { content: "\f651"; }
           &.avionics:after { content: "\f62c"; }
           &.career:after { content: "\f590"; }
+          &.catering:after { content: "\f86b"; }
           &.charter:after { content: "\f5c1"; }
+          &.chauffeur:after { content: "\f1b9"; } // PILOT v.6 e2c0
           &.consulting:after { content: "\f075"; }
+          &.fbo:after { content: "\f5af"; }
+          &.finance:after { content: "\f873"; }
           &.fuel:after { content: "\f52f"; }
+          &.hangarage:after { content: "\f494"; }
+          &.leasing:after { content: "\f657"; }
           &.legal:after { content: "\f02d"; }
           &.marketing:after { content: "\f02b"; }
           &.maintenance:after { content: "\f0ad"; }
           &.management:after { content: "\f508"; }
+          &.modifications:after { content: "\f013"; }
+          &.parts:after { content: "\f7d9"; }
           &.tools:after { content: "\f552"; }
           &.training:after { content: "\f04b"; }
           &.other:after { content: "\f0c6"; }
@@ -3171,10 +3328,76 @@ section.trusted {
       }
     }
   }
+  &-feature {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $primary;
+    margin: 1em;
+    .inner {
+      display: flex;
+      width: 100%;
+      .logo {
+        height: auto;
+        width: 150px;
+        min-width: 150px;
+        margin: 0 1em;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center center;
+      }
+      .info-wrapper {
+        flex-grow: 1;
+        padding: .5em 1em 1em 0;
+      }
+    }
+    h5 {
+      background: $dark;
+      color: $white;
+      padding: .2em .5em .25em;
+      margin-bottom: .5em;
+    }
+    h3 {
+      color: $primary;
+    }
+    p {
+      color: $dark;
+      &.membersince {
+        margin-right: 2em;
+        margin-bottom: .5em;
+        padding-bottom: .5em;
+        border-bottom: 1px solid $primary;
+      }
+      &.blurb {
+        font-size: 1em;
+        margin-bottom: .5em;
+      }
+    }
+    .cta {
+      margin-top: 0;
+      border-radius: 100px;
+      font-size: 1em;
+      @include headlinefont;
+      letter-spacing: .1em;
+      &:after {
+        display: inline-block;
+        content: "";
+        height: 1em;
+        width: 1em;
+        @include fontawesome(900);
+        content: "\f061";
+        margin-left: .5em;
+      }
+    }
+    @include breakpoint('desktop') {
+      width: 600px;
+    }
+  }
 }
 
 .searchwrapper {
   position: relative;
+  z-index: 3;
   .search {
     background: none;
     border: 3px solid $white;
@@ -3348,13 +3571,21 @@ section.trusted {
         &.appraisals:after { content: "\f651"; }
         &.avionics:after { content: "\f62c"; }
         &.career:after { content: "\f590"; }
+        &.catering:after { content: "\f86b"; }
         &.charter:after { content: "\f5c1"; }
+        &.chauffeur:after { content: "\f1b9"; } // PILOT v.6 e2c0
         &.consulting:after { content: "\f075"; }
+        &.fbo:after { content: "\f5af"; }
+        &.finance:after { content: "\f873"; }
         &.fuel:after { content: "\f52f"; }
+        &.hangarage:after { content: "\f494"; }
+        &.leasing:after { content: "\f657"; }
         &.legal:after { content: "\f02d"; }
         &.marketing:after { content: "\f02b"; }
         &.maintenance:after { content: "\f0ad"; }
         &.management:after { content: "\f508"; }
+        &.modifications:after { content: "\f013"; }
+        &.parts:after { content: "\f7d9"; }
         &.tools:after { content: "\f552"; }
         &.training:after { content: "\f04b"; }
         &.other:after { content: "\f0c6"; }
@@ -3408,80 +3639,55 @@ body.archive.post-type-archive-opportunity {
   }
 }
 
-.listing-list-item.ad {
-  display: flex !important;
-  a {
-    display: block;
-    margin-right: 2em;
-    width: 100%;
-    @include link_color( $dark, $white );
-  }
-  .inner {
-    background: $primary;
-    border: 1px solid $primary;
-    border-top-width: 2px;
-    width: 100%;
-    position: relative;
-    &:before {
-      @include fontawesome(900);
-      content: '\f672';
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
-      padding-top: 5px;
-      position: absolute;
-      top: -8px;
-      right: 25px;
-      width: 50px;
-      height: 50px;
-      background: $dark;
-      border: 2px solid $primary;
-      color: $white;
-      border-radius: 50px;
-    }
-  }
-  h5 {
-    width: 100%;
+.tooltip {
+  position: absolute;
+  right: 0;
+  top: -2em;
+  &_content {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    right: 2.5em;
+    top: -5em;
     background: $dark;
-    padding: .5em;
-    color: white;
-    @include headlinefont;
-    font-size: 1em;
-    font-weight: 700;
-    &:before {
-      @include fontawesome(900);
-      content: "\f2b5";
-      display: inline-block;
-      align-items: center;
-      justify-content: center;
-      height: 1em;
-      width: 1em;
-      margin-right: .5em;
+    color: $light;
+    width: 400px;
+    font-size: .9em;
+    padding: 1.5em;
+    h3 {
+      margin-bottom: .5em;
+    }
+    p {
+      i {
+        margin: 0 .25em;
+      }
+      &:last-child {
+        margin: 0;
+      }
+    }
+    span {
+      @include headlinefont;
+      letter-spacing: .1em;
+      margin-left: .25em;
+      font-weight: 700;
+      color: $primary;
+    }
+    &:after {
+      position: absolute;
+      right:-1em;
+      top: 4.8em;
+      width: 0;
+      height: 0;
+      border-top: 1em solid transparent;
+      border-left: 1em solid $dark;
+      border-bottom: 1em solid transparent;
+      display: block;
+      content:"";
     }
   }
-  h3 {
-    margin: .5em 1em 0;
-  }
-  p {
-    margin: 0 1.5em 1em;
-  }
-  .button {
-    margin-top: .5em !important;
-  }
-  &.dealer {
-    // a {
-    //   @include link_color( $primary, $white );
-    // }
-    // .inner {
-    //   background: $dark;
-    // }
-    h5 {
-      &:before {
-        content: "\f072";
-      }
-      // background: $primary;
-      // color: $dark;
+  &:hover, &:focus, &:active, &.active {
+    .tooltip_content {
+      display: block;
     }
   }
 }
@@ -3531,7 +3737,7 @@ body.archive.post-type-archive-opportunity {
           margin: 0;
           li {
             display: inline-block;
-            margin: 0 .3em 0 0;
+            margin: 0 .3em .3em 0;
             padding: .2em .75em;
             background: $primary;
             border-radius: 50px;

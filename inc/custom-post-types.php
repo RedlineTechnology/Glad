@@ -391,7 +391,7 @@ $rewrite = array(
  		'description'           => __( 'GLADA Text Alerts', '_glad' ),
  		'labels'                => $labels,
  		'supports'              => array( 'title', 'author', 'editor', 'custom-fields', 'comments' ),
- 		'taxonomies'            => array( 'category', 'post_tag' ),
+ 		'taxonomies'            => array( 'alerttype' ),
  		'hierarchical'          => false,
  		'public'                => true,
  		'show_ui'               => true,
@@ -895,6 +895,29 @@ function register_custom_taxonomies() {
     'show_tagcloud'              => true,
   );
   register_taxonomy( 'coupontype', array( 'coupons' ), $args );
+
+  $labels = array(
+    'name'                       => _x( 'Alert Type', 'Taxonomy General Name', '_glad' ),
+    'singular_name'              => _x( 'Alert Type', 'Taxonomy Singular Name', '_glad' ),
+    'menu_name'                  => __( 'Alert Type', '_glad' ),
+    'all_items'                  => __( 'All Types', '_glad' ),
+    'new_item_name'              => __( 'New Type', '_glad' ),
+    'add_new_item'               => __( 'Add New Type', '_glad' ),
+  );
+  $args = array(
+    'labels'                     => $labels,
+    'hierarchical'               => true,
+    'rewrite'                    => array(
+      'slug' => 'alerttype',
+      'with_front' => false
+    ),
+    'public'                     => true,
+    'show_ui'                    => true,
+    'show_admin_column'          => true,
+    'show_in_nav_menus'          => true,
+    'show_tagcloud'              => true,
+  );
+  register_taxonomy( 'alerttype', array( 'alert' ), $args );
 
 }
 add_action( 'init', 'register_custom_taxonomies', 0 );

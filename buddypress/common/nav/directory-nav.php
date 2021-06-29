@@ -33,7 +33,7 @@
 			<?php endwhile; ?>
 
 			<li>
-				<a class="print" target="_blank" href="https://www.glada.aero/members/print-directory/"><i class="fas fa-print"></i> Printable List</a>
+				<a class="print" target="_blank" href="https://www.glada.aero/members/print-directory/"><i class="fas fa-print"></i> Printable List <span class="spinner"><img src="<?php echo get_stylesheet_directory_uri() . '/images/ajax-loader.gif'; ?>"></span></a>
 			</li>
 
 		</ul><!-- .component-navigation -->
@@ -59,10 +59,13 @@ jQuery(document).ready(function($){
 			.appendTo('body')
 			.contents().find('body')
 			.load( $post_link, function() {
-				window.frames['myiframe'].focus();
-				window.frames['myiframe'].print();
 
-				$(".print").removeClass('loading');
+				setTimeout(() => {
+					window.frames['myiframe'].focus();
+					window.frames['myiframe'].print();
+					$(".print").removeClass('loading');
+				}, 1000);
+
 				setTimeout(() => { $("#printMe").remove(); }, 1000);
 			} );
 

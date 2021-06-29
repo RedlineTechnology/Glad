@@ -22,7 +22,15 @@
         'post_type'			=> 'alert',
         'orderby'       =>  'date',
         'order'         =>  'DESC',
-        'nopaging'			=> 	true
+        'nopaging'			=> 	true,
+        // 'tax_query'     => array(
+        // array(
+        //   'taxonomy' => 'alerttype',
+        //   'terms'    => 'service',
+        //   'field'    => 'slug',
+        //   'operator' => 'NOT IN',
+        //   )
+        // )
       );
 
       $alerts_query = new WP_Query( $args );
@@ -35,9 +43,10 @@
           $fname = get_the_author_meta('first_name');
   				$lname = get_the_author_meta('last_name');
 
-          $link = bp_core_get_user_domain( $user_id ); ?>
+          $link = bp_core_get_user_domain( $user_id );
+          $type = get_the_terms( $post->ID, 'alerttype' ); ?>
 
-          <div class="g_alert<?php if( $user_id == get_current_user_id() ){ echo ' mine'; } ?>">
+          <div class="g_alert<?php if( $user_id == get_current_user_id() ){ echo ' mine'; } if( $type ){ echo ' ' . $type['slug']; } ?>">
             <div class="sender">
               <a href="<?php echo $link; ?>"><?php echo $fname . ' ' . $lname; ?></a>
             </div>
@@ -45,6 +54,9 @@
               <?php echo get_the_date('M j'); ?>
             </div>
             <div class="message">
+              <?php if( $type && $type['slug'] == 'charter' ) {
+                echo '<h5>Charter Alert</h5>';
+              } ?>
               <p><strong><?php echo get_the_title(); ?></strong></p>
               <?php the_content(); ?>
             </div>
@@ -61,7 +73,7 @@
 
 ?>
 
-<?php if ( current_user_can('mepr-active','membership:19,232,580,588,1268,1499,1307') ): ?>
+<?php if ( is_dealer() ): ?>
   <div class="lower">
       <form action="#" method="POST" id="alert-form" enctype="multipart/form-data">
         <input type="hidden" name="action" value="sendalert">

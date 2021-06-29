@@ -1295,6 +1295,11 @@ textarea:focus {
   .autocomplete-active {
     background-color: #efefef; }
 
+.searchwrapper .autocomplete-items {
+  top: 2.2em;
+  width: 80%;
+  left: 1.8em; }
+
 .form-hero {
   display: -webkit-flex;
   display: flex;
@@ -1623,13 +1628,95 @@ body.edit,
       font-weight: 900;
       content: '\f00c'; }
 
-#page-wrapper .buddypress-wrap .subnav-search {
-  float: none; }
-  #page-wrapper .buddypress-wrap .subnav-search .bp-search, #page-wrapper .buddypress-wrap .subnav-search form {
+#page-wrapper .buddypress-wrap .dir-navs .component-navigation .spinner {
+  display: none;
+  padding: 0; }
+  #page-wrapper .buddypress-wrap .dir-navs .component-navigation .spinner img {
+    height: 1em;
+    width: 1em;
+    margin: 0 0 0 .5em;
+    position: relative;
+    top: 2px; }
+
+#page-wrapper .buddypress-wrap .dir-navs .component-navigation a.loading .spinner {
+  display: inline-block; }
+
+#page-wrapper .buddypress-wrap .subnav-filters {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+          justify-content: space-between; }
+  #page-wrapper .buddypress-wrap .subnav-filters:before, #page-wrapper .buddypress-wrap .subnav-filters:after {
+    display: none; }
+  #page-wrapper .buddypress-wrap .subnav-filters .subnav-search, #page-wrapper .buddypress-wrap .subnav-filters .dir-filters {
     float: none; }
-  #page-wrapper .buddypress-wrap .subnav-search button {
-    margin: 0;
-    padding: 0; }
+
+#page-wrapper .buddypress-wrap .subnav-search .bp-search {
+  border: 1px solid #decc82;
+  border-radius: 50px; }
+  #page-wrapper .buddypress-wrap .subnav-search .bp-search form {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+            align-items: center;
+    -webkit-justify-content: space-between;
+            justify-content: space-between;
+    padding-left: 10px;
+    border: none; }
+
+#page-wrapper .buddypress-wrap .subnav-search input {
+  line-height: 1em; }
+  #page-wrapper .buddypress-wrap .subnav-search input:focus {
+    outline: none; }
+
+#page-wrapper .buddypress-wrap .subnav-search button {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+          align-items: center;
+  margin: 0;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  padding: 5px 10px; }
+  #page-wrapper .buddypress-wrap .subnav-search button span {
+    line-height: 1.2em;
+    font-size: 1.2em;
+    width: auto;
+    height: auto; }
+
+#page-wrapper .buddypress-wrap .component-filters:after {
+  display: none; }
+
+#page-wrapper .buddypress-wrap .component-filters .filter {
+  position: relative !important;
+  float: none;
+  background: none;
+  width: auto;
+  height: auto;
+  opacity: 1; }
+
+#page-wrapper .buddypress-wrap .component-filters .select-wrap {
+  border: 1px solid #decc82; }
+  #page-wrapper .buddypress-wrap .component-filters .select-wrap select {
+    padding: .5em 2.5em .5em .75em;
+    text-indent: 0;
+    border-radius: 0; }
+    #page-wrapper .buddypress-wrap .component-filters .select-wrap select:focus {
+      outline: none; }
+  #page-wrapper .buddypress-wrap .component-filters .select-wrap .select-arrow {
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
+    font-style: normal;
+    margin-right: .75em; }
+    #page-wrapper .buddypress-wrap .component-filters .select-wrap .select-arrow:before {
+      content: "\f078";
+      color: #444444; }
 
 #page-wrapper .buddypress-wrap .item-body .screen-heading {
   font-size: 1.25em;
@@ -2943,12 +3030,6 @@ nav ul {
   #page-wrapper .bp-navs.bp-subnavs .subnav-filters {
     margin: 0; }
 
-#page-wrapper .bp-search {
-  width: 100%; }
-  #page-wrapper .bp-search button[type='submit'] {
-    margin: 0;
-    padding: 0; }
-
 #page-wrapper .buddypress-wrap #item-body {
   margin-top: 0; }
 
@@ -3029,7 +3110,6 @@ nav ul {
       width: 100%; } }
 
 .members-nav, #mobilenav {
-  height: 100%;
   background: #444444; }
   .members-nav img, #mobilenav img {
     margin-top: 10px;
@@ -3124,6 +3204,7 @@ nav ul {
   display: inline-block;
   margin: 0 auto;
   text-align: left;
+  height: 100%;
   width: 100%;
   max-width: 100%; }
 
@@ -3605,7 +3686,7 @@ nav.accordion-tabs {
       display: block; }
       html.no-cssgrid .front-page-hero > div {
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         position: relative !important; }
         html.no-cssgrid .front-page-hero > div div, html.no-cssgrid .front-page-hero > div img, html.no-cssgrid .front-page-hero > div section {
           max-height: 100%;
@@ -3815,7 +3896,7 @@ nav.accordion-tabs {
       display: block; }
       html.no-cssgrid .about-us > div {
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         position: relative !important; }
         html.no-cssgrid .about-us > div div, html.no-cssgrid .about-us > div img, html.no-cssgrid .about-us > div section {
           max-height: 100%;
@@ -4056,7 +4137,7 @@ section.trusted {
       display: block; }
       html.no-cssgrid .about-lower > div {
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         position: relative !important; }
         html.no-cssgrid .about-lower > div div, html.no-cssgrid .about-lower > div img, html.no-cssgrid .about-lower > div section {
           max-height: 100%;
@@ -4098,7 +4179,7 @@ section.trusted {
       display: block; }
       html.no-cssgrid .values > div {
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         position: relative !important; }
         html.no-cssgrid .values > div div, html.no-cssgrid .values > div img, html.no-cssgrid .values > div section {
           max-height: 100%;
@@ -4195,7 +4276,7 @@ section.trusted {
       display: block; }
       html.no-cssgrid .footer-hero > div {
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         position: relative !important; }
         html.no-cssgrid .footer-hero > div div, html.no-cssgrid .footer-hero > div img, html.no-cssgrid .footer-hero > div section {
           max-height: 100%;
@@ -4294,23 +4375,13 @@ section.trusted {
 /* ////////////////////////////////////////////////////////////////////////// */
 /*                           PAGE & POST TEMPLATE                             */
 /* ////////////////////////////////////////////////////////////////////////// */
-.page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) header,
-.post header, .single header, .archive header {
-  position: fixed;
-  bottom: 0; }
-  .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) header.unstuck,
-  .post header.unstuck, .single header.unstuck, .archive header.unstuck {
-    position: static; }
-
 .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) .content-area,
-.post .content-area, .single .content-area, .archive .content-area {
-  margin-bottom: 4.5em; }
-  .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) .content-area.unstuck,
-  .post .content-area.unstuck, .single .content-area.unstuck, .archive .content-area.unstuck {
-    margin-bottom: 0; }
+.archive .content-area, .single .content-area, .post .content-area {
+  -webkit-order: 2;
+          order: 2; }
 
 .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) .hero,
-.post .hero, .single .hero, .archive .hero {
+.archive .hero, .single .hero, .post .hero {
   background-image: url("/wp-content/themes/Glad/images/http://placekitten.com/1200/400");
   background-position: center center;
   background-repeat: no-repeat;
@@ -4323,39 +4394,39 @@ section.trusted {
   position: relative;
   padding: 3em 2em; }
   .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) .hero h1,
-  .post .hero h1, .single .hero h1, .archive .hero h1 {
+  .archive .hero h1, .single .hero h1, .post .hero h1 {
     color: white;
     margin: 0;
     letter-spacing: .1em; }
 
 .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) .content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) .single-post, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) .archive,
-.post .content,
-.post .single-post,
-.post .archive, .single .content, .single .single-post, .single .archive, .archive .content, .archive .single-post, .archive .archive {
+.archive .content,
+.archive .single-post,
+.archive .archive, .single .content, .single .single-post, .single .archive, .post .content, .post .single-post, .post .archive {
   padding: 2em;
   min-height: 100vh;
   position: relative; }
 
 @media only screen and (min-width: 48em) {
   .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper,
-  .post #page-wrapper, .single #page-wrapper, .archive #page-wrapper {
+  .archive #page-wrapper, .single #page-wrapper, .post #page-wrapper {
     display: grid;
     grid-template-columns: [left] 25% [leftmid] 25% [midline] 25% [rightmid] 25% [right];
     grid-template-rows: [top] 20% [row-2] 20% [row-3] 20% [row-4] 20% [row-5] 20% [bottom];
     width: 100%;
     min-height: 100vh;
     height: 100vh; }
-    html.no-cssgrid .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper, html.no-cssgrid .post #page-wrapper, html.no-cssgrid .single #page-wrapper, html.no-cssgrid .archive #page-wrapper {
+    html.no-cssgrid .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper, html.no-cssgrid .archive #page-wrapper, html.no-cssgrid .single #page-wrapper, html.no-cssgrid .post #page-wrapper {
       display: block; }
-      html.no-cssgrid .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper > div, html.no-cssgrid .post #page-wrapper > div, html.no-cssgrid .single #page-wrapper > div, html.no-cssgrid .archive #page-wrapper > div {
+      html.no-cssgrid .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper > div, html.no-cssgrid .archive #page-wrapper > div, html.no-cssgrid .single #page-wrapper > div, html.no-cssgrid .post #page-wrapper > div {
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         position: relative !important; }
-        html.no-cssgrid .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper > div div, html.no-cssgrid .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper > div img, html.no-cssgrid .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper > div section, html.no-cssgrid .post #page-wrapper > div div, html.no-cssgrid .post #page-wrapper > div img, html.no-cssgrid .post #page-wrapper > div section, html.no-cssgrid .single #page-wrapper > div div, html.no-cssgrid .single #page-wrapper > div img, html.no-cssgrid .single #page-wrapper > div section, html.no-cssgrid .archive #page-wrapper > div div, html.no-cssgrid .archive #page-wrapper > div img, html.no-cssgrid .archive #page-wrapper > div section {
+        html.no-cssgrid .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper > div div, html.no-cssgrid .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper > div img, html.no-cssgrid .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page-wrapper > div section, html.no-cssgrid .archive #page-wrapper > div div, html.no-cssgrid .archive #page-wrapper > div img, html.no-cssgrid .archive #page-wrapper > div section, html.no-cssgrid .single #page-wrapper > div div, html.no-cssgrid .single #page-wrapper > div img, html.no-cssgrid .single #page-wrapper > div section, html.no-cssgrid .post #page-wrapper > div div, html.no-cssgrid .post #page-wrapper > div img, html.no-cssgrid .post #page-wrapper > div section {
           max-height: 100%;
           position: relative !important; }
   .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) .hero,
-  .post .hero, .single .hero, .archive .hero {
+  .archive .hero, .single .hero, .post .hero {
     grid-column: left / right;
     grid-row: top / row-2;
     -webkit-justify-content: flex-start;
@@ -4364,63 +4435,63 @@ section.trusted {
             align-items: center;
     padding: 0 3em; }
     .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) .hero .title-wrapper,
-    .post .hero .title-wrapper, .single .hero .title-wrapper, .archive .hero .title-wrapper {
+    .archive .hero .title-wrapper, .single .hero .title-wrapper, .post .hero .title-wrapper {
       max-width: 100%; }
     .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) .hero h1,
-    .post .hero h1, .single .hero h1, .archive .hero h1 {
+    .archive .hero h1, .single .hero h1, .post .hero h1 {
       display: inline-block;
       font-size: 7em;
       letter-spacing: .2em;
       white-space: nowrap; }
   .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #post, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #archive,
-  .post #page,
-  .post #post,
-  .post #archive, .single #page, .single #post, .single #archive, .archive #page, .archive #post, .archive #archive {
+  .archive #page,
+  .archive #post,
+  .archive #archive, .single #page, .single #post, .single #archive, .post #page, .post #post, .post #archive {
     grid-column: left / right;
     grid-row: row-2 / bottom;
     margin: 0; }
     .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page #main, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page .content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page .single-post, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page .archive, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page .the-content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #post #main, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #post .content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #post .single-post, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #post .archive, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #post .the-content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #archive #main, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #archive .content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #archive .single-post, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #archive .archive, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #archive .the-content,
-    .post #page #main,
-    .post #page .content,
-    .post #page .single-post,
-    .post #page .archive,
-    .post #page .the-content,
-    .post #post #main,
-    .post #post .content,
-    .post #post .single-post,
-    .post #post .archive,
-    .post #post .the-content,
-    .post #archive #main,
-    .post #archive .content,
-    .post #archive .single-post,
-    .post #archive .archive,
-    .post #archive .the-content, .single #page #main, .single #page .content, .single #page .single-post, .single #page .archive, .single #page .the-content, .single #post #main, .single #post .content, .single #post .single-post, .single #post .archive, .single #post .the-content, .single #archive #main, .single #archive .content, .single #archive .single-post, .single #archive .archive, .single #archive .the-content, .archive #page #main, .archive #page .content, .archive #page .single-post, .archive #page .archive, .archive #page .the-content, .archive #post #main, .archive #post .content, .archive #post .single-post, .archive #post .archive, .archive #post .the-content, .archive #archive #main, .archive #archive .content, .archive #archive .single-post, .archive #archive .archive, .archive #archive .the-content {
+    .archive #page #main,
+    .archive #page .content,
+    .archive #page .single-post,
+    .archive #page .archive,
+    .archive #page .the-content,
+    .archive #post #main,
+    .archive #post .content,
+    .archive #post .single-post,
+    .archive #post .archive,
+    .archive #post .the-content,
+    .archive #archive #main,
+    .archive #archive .content,
+    .archive #archive .single-post,
+    .archive #archive .archive,
+    .archive #archive .the-content, .single #page #main, .single #page .content, .single #page .single-post, .single #page .archive, .single #page .the-content, .single #post #main, .single #post .content, .single #post .single-post, .single #post .archive, .single #post .the-content, .single #archive #main, .single #archive .content, .single #archive .single-post, .single #archive .archive, .single #archive .the-content, .post #page #main, .post #page .content, .post #page .single-post, .post #page .archive, .post #page .the-content, .post #post #main, .post #post .content, .post #post .single-post, .post #post .archive, .post #post .the-content, .post #archive #main, .post #archive .content, .post #archive .single-post, .post #archive .archive, .post #archive .the-content {
       height: 100%; }
     .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page .content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page .single-post, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page .archive, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #post .content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #post .single-post, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #post .archive, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #archive .content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #archive .single-post, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #archive .archive,
-    .post #page .content,
-    .post #page .single-post,
-    .post #page .archive,
-    .post #post .content,
-    .post #post .single-post,
-    .post #post .archive,
-    .post #archive .content,
-    .post #archive .single-post,
-    .post #archive .archive, .single #page .content, .single #page .single-post, .single #page .archive, .single #post .content, .single #post .single-post, .single #post .archive, .single #archive .content, .single #archive .single-post, .single #archive .archive, .archive #page .content, .archive #page .single-post, .archive #page .archive, .archive #post .content, .archive #post .single-post, .archive #post .archive, .archive #archive .content, .archive #archive .single-post, .archive #archive .archive {
+    .archive #page .content,
+    .archive #page .single-post,
+    .archive #page .archive,
+    .archive #post .content,
+    .archive #post .single-post,
+    .archive #post .archive,
+    .archive #archive .content,
+    .archive #archive .single-post,
+    .archive #archive .archive, .single #page .content, .single #page .single-post, .single #page .archive, .single #post .content, .single #post .single-post, .single #post .archive, .single #archive .content, .single #archive .single-post, .single #archive .archive, .post #page .content, .post #page .single-post, .post #page .archive, .post #post .content, .post #post .single-post, .post #post .archive, .post #archive .content, .post #archive .single-post, .post #archive .archive {
       min-height: auto;
       min-width: 0;
       padding-right: 1em;
       position: static; }
     .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #page .the-content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #post .the-content, .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) #archive .the-content,
-    .post #page .the-content,
-    .post #post .the-content,
-    .post #archive .the-content, .single #page .the-content, .single #post .the-content, .single #archive .the-content, .archive #page .the-content, .archive #post .the-content, .archive #archive .the-content {
+    .archive #page .the-content,
+    .archive #post .the-content,
+    .archive #archive .the-content, .single #page .the-content, .single #post .the-content, .single #archive .the-content, .post #page .the-content, .post #post .the-content, .post #archive .the-content {
       overflow: hidden;
       padding-bottom: 2em;
       padding-right: 1em;
       max-width: 1000px;
       margin: 0 auto; }
   .page:not(.home):not(.page-aboutus):not(.page-members):not(.page-directory):not(.page-account):not(.page-library) header,
-  .post header, .single header, .archive header {
+  .archive header, .single header, .post header {
     grid-column: midline / right;
     grid-row: top / top;
     align-self: end;
@@ -4914,43 +4985,14 @@ section.trusted {
 /* ////////////////////////////////////////////////////////////////////////// */
 /*                           MEMBERS CHILD PAGES                              */
 /* ////////////////////////////////////////////////////////////////////////// */
-.page-members header,
-.page-directory header,
-.page-account header,
-.page-library header,
-.post-type-archive-opportunity header,
-.groups header {
-  position: fixed;
-  bottom: 0; }
-  .page-members header.unstuck,
-  .page-directory header.unstuck,
-  .page-account header.unstuck,
-  .page-library header.unstuck,
-  .post-type-archive-opportunity header.unstuck,
-  .groups header.unstuck {
-    position: static; }
-
-.page-members .content-area,
-.page-directory .content-area,
-.page-account .content-area,
-.page-library .content-area,
-.post-type-archive-opportunity .content-area,
-.groups .content-area {
-  margin-bottom: 4.5em; }
-  .page-members .content-area.unstuck,
-  .page-directory .content-area.unstuck,
-  .page-account .content-area.unstuck,
-  .page-library .content-area.unstuck,
-  .post-type-archive-opportunity .content-area.unstuck,
-  .groups .content-area.unstuck {
-    margin-bottom: 0; }
-
 .page-members .hero,
 .page-directory .hero,
 .page-account .hero,
 .page-library .hero,
 .post-type-archive-opportunity .hero,
-.groups .hero {
+.groups .hero,
+.single .hero,
+.post .hero {
   background-image: url("/wp-content/themes/Glad/images/http://placekitten.com/1200/400");
   background-position: center center;
   background-repeat: no-repeat;
@@ -4968,7 +5010,9 @@ section.trusted {
   .page-account .hero h1,
   .page-library .hero h1,
   .post-type-archive-opportunity .hero h1,
-  .groups .hero h1 {
+  .groups .hero h1,
+  .single .hero h1,
+  .post .hero h1 {
     color: white;
     margin: 0;
     letter-spacing: .1em; }
@@ -4988,7 +5032,13 @@ section.trusted {
 .post-type-archive-opportunity .archive,
 .groups .content,
 .groups .single-post,
-.groups .archive {
+.groups .archive,
+.single .content,
+.single .single-post,
+.single .archive,
+.post .content,
+.post .single-post,
+.post .archive {
   padding: 2em;
   min-height: 100vh;
   position: relative;
@@ -5000,20 +5050,22 @@ section.trusted {
   .page-account #page-wrapper,
   .page-library #page-wrapper,
   .post-type-archive-opportunity #page-wrapper,
-  .groups #page-wrapper {
+  .groups #page-wrapper,
+  .single #page-wrapper,
+  .post #page-wrapper {
     display: grid;
     grid-template-columns: [left] 25% [leftmid] 25% [midline] 25% [rightmid] 25% [right];
     grid-template-rows: [nav] 50px [top] 100px [row-1] 10% [row-2] 20% [row-3] 20% [row-4] 20% [row-5] 20% [bottom];
     width: 100%;
     min-height: 100vh;
-    height: 100vh; }
-    html.no-cssgrid .page-members #page-wrapper, html.no-cssgrid .page-directory #page-wrapper, html.no-cssgrid .page-account #page-wrapper, html.no-cssgrid .page-library #page-wrapper, html.no-cssgrid .post-type-archive-opportunity #page-wrapper, html.no-cssgrid .groups #page-wrapper {
+    min-height: 100vh; }
+    html.no-cssgrid .page-members #page-wrapper, html.no-cssgrid .page-directory #page-wrapper, html.no-cssgrid .page-account #page-wrapper, html.no-cssgrid .page-library #page-wrapper, html.no-cssgrid .post-type-archive-opportunity #page-wrapper, html.no-cssgrid .groups #page-wrapper, html.no-cssgrid .single #page-wrapper, html.no-cssgrid .post #page-wrapper {
       display: block; }
-      html.no-cssgrid .page-members #page-wrapper > div, html.no-cssgrid .page-directory #page-wrapper > div, html.no-cssgrid .page-account #page-wrapper > div, html.no-cssgrid .page-library #page-wrapper > div, html.no-cssgrid .post-type-archive-opportunity #page-wrapper > div, html.no-cssgrid .groups #page-wrapper > div {
+      html.no-cssgrid .page-members #page-wrapper > div, html.no-cssgrid .page-directory #page-wrapper > div, html.no-cssgrid .page-account #page-wrapper > div, html.no-cssgrid .page-library #page-wrapper > div, html.no-cssgrid .post-type-archive-opportunity #page-wrapper > div, html.no-cssgrid .groups #page-wrapper > div, html.no-cssgrid .single #page-wrapper > div, html.no-cssgrid .post #page-wrapper > div {
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         position: relative !important; }
-        html.no-cssgrid .page-members #page-wrapper > div div, html.no-cssgrid .page-members #page-wrapper > div img, html.no-cssgrid .page-members #page-wrapper > div section, html.no-cssgrid .page-directory #page-wrapper > div div, html.no-cssgrid .page-directory #page-wrapper > div img, html.no-cssgrid .page-directory #page-wrapper > div section, html.no-cssgrid .page-account #page-wrapper > div div, html.no-cssgrid .page-account #page-wrapper > div img, html.no-cssgrid .page-account #page-wrapper > div section, html.no-cssgrid .page-library #page-wrapper > div div, html.no-cssgrid .page-library #page-wrapper > div img, html.no-cssgrid .page-library #page-wrapper > div section, html.no-cssgrid .post-type-archive-opportunity #page-wrapper > div div, html.no-cssgrid .post-type-archive-opportunity #page-wrapper > div img, html.no-cssgrid .post-type-archive-opportunity #page-wrapper > div section, html.no-cssgrid .groups #page-wrapper > div div, html.no-cssgrid .groups #page-wrapper > div img, html.no-cssgrid .groups #page-wrapper > div section {
+        html.no-cssgrid .page-members #page-wrapper > div div, html.no-cssgrid .page-members #page-wrapper > div img, html.no-cssgrid .page-members #page-wrapper > div section, html.no-cssgrid .page-directory #page-wrapper > div div, html.no-cssgrid .page-directory #page-wrapper > div img, html.no-cssgrid .page-directory #page-wrapper > div section, html.no-cssgrid .page-account #page-wrapper > div div, html.no-cssgrid .page-account #page-wrapper > div img, html.no-cssgrid .page-account #page-wrapper > div section, html.no-cssgrid .page-library #page-wrapper > div div, html.no-cssgrid .page-library #page-wrapper > div img, html.no-cssgrid .page-library #page-wrapper > div section, html.no-cssgrid .post-type-archive-opportunity #page-wrapper > div div, html.no-cssgrid .post-type-archive-opportunity #page-wrapper > div img, html.no-cssgrid .post-type-archive-opportunity #page-wrapper > div section, html.no-cssgrid .groups #page-wrapper > div div, html.no-cssgrid .groups #page-wrapper > div img, html.no-cssgrid .groups #page-wrapper > div section, html.no-cssgrid .single #page-wrapper > div div, html.no-cssgrid .single #page-wrapper > div img, html.no-cssgrid .single #page-wrapper > div section, html.no-cssgrid .post #page-wrapper > div div, html.no-cssgrid .post #page-wrapper > div img, html.no-cssgrid .post #page-wrapper > div section {
           max-height: 100%;
           position: relative !important; }
   .page-members .footer-logo,
@@ -5021,14 +5073,18 @@ section.trusted {
   .page-account .footer-logo,
   .page-library .footer-logo,
   .post-type-archive-opportunity .footer-logo,
-  .groups .footer-logo {
+  .groups .footer-logo,
+  .single .footer-logo,
+  .post .footer-logo {
     bottom: 50px; }
   .page-members header,
   .page-directory header,
   .page-account header,
   .page-library header,
   .post-type-archive-opportunity header,
-  .groups header {
+  .groups header,
+  .single header,
+  .post header {
     grid-column: midline / right;
     grid-row: top / row-2;
     align-self: start;
@@ -5038,7 +5094,9 @@ section.trusted {
   .page-account .hero,
   .page-library .hero,
   .post-type-archive-opportunity .hero,
-  .groups .hero {
+  .groups .hero,
+  .single .hero,
+  .post .hero {
     grid-column: left / right;
     grid-row: top / row-1;
     -webkit-justify-content: flex-start;
@@ -5052,14 +5110,18 @@ section.trusted {
     .page-account .hero .title-wrapper,
     .page-library .hero .title-wrapper,
     .post-type-archive-opportunity .hero .title-wrapper,
-    .groups .hero .title-wrapper {
+    .groups .hero .title-wrapper,
+    .single .hero .title-wrapper,
+    .post .hero .title-wrapper {
       max-width: 100%; }
     .page-members .hero h1,
     .page-directory .hero h1,
     .page-account .hero h1,
     .page-library .hero h1,
     .post-type-archive-opportunity .hero h1,
-    .groups .hero h1 {
+    .groups .hero h1,
+    .single .hero h1,
+    .post .hero h1 {
       display: inline-block;
       font-size: 7em;
       letter-spacing: .2em;
@@ -5079,7 +5141,13 @@ section.trusted {
   .post-type-archive-opportunity #archive,
   .groups #page,
   .groups #post,
-  .groups #archive {
+  .groups #archive,
+  .single #page,
+  .single #post,
+  .single #archive,
+  .post #page,
+  .post #post,
+  .post #archive {
     grid-column: left / right;
     grid-row: row-1 / bottom;
     margin: 0; }
@@ -5158,7 +5226,37 @@ section.trusted {
     .groups #archive .content,
     .groups #archive .single-post,
     .groups #archive .archive,
-    .groups #archive .the-content {
+    .groups #archive .the-content,
+    .single #page #main,
+    .single #page .content,
+    .single #page .single-post,
+    .single #page .archive,
+    .single #page .the-content,
+    .single #post #main,
+    .single #post .content,
+    .single #post .single-post,
+    .single #post .archive,
+    .single #post .the-content,
+    .single #archive #main,
+    .single #archive .content,
+    .single #archive .single-post,
+    .single #archive .archive,
+    .single #archive .the-content,
+    .post #page #main,
+    .post #page .content,
+    .post #page .single-post,
+    .post #page .archive,
+    .post #page .the-content,
+    .post #post #main,
+    .post #post .content,
+    .post #post .single-post,
+    .post #post .archive,
+    .post #post .the-content,
+    .post #archive #main,
+    .post #archive .content,
+    .post #archive .single-post,
+    .post #archive .archive,
+    .post #archive .the-content {
       height: 100%; }
     .page-members #page .content, .page-members #page .single-post, .page-members #page .archive, .page-members #post .content, .page-members #post .single-post, .page-members #post .archive, .page-members #archive .content, .page-members #archive .single-post, .page-members #archive .archive,
     .page-directory #page .content,
@@ -5205,10 +5303,29 @@ section.trusted {
     .groups #post .archive,
     .groups #archive .content,
     .groups #archive .single-post,
-    .groups #archive .archive {
+    .groups #archive .archive,
+    .single #page .content,
+    .single #page .single-post,
+    .single #page .archive,
+    .single #post .content,
+    .single #post .single-post,
+    .single #post .archive,
+    .single #archive .content,
+    .single #archive .single-post,
+    .single #archive .archive,
+    .post #page .content,
+    .post #page .single-post,
+    .post #page .archive,
+    .post #post .content,
+    .post #post .single-post,
+    .post #post .archive,
+    .post #archive .content,
+    .post #archive .single-post,
+    .post #archive .archive {
       min-height: auto;
       padding-right: 1em;
-      position: static; }
+      position: static;
+      width: 100%; }
     .page-members #page .the-content, .page-members #post .the-content, .page-members #archive .the-content,
     .page-directory #page .the-content,
     .page-directory #post .the-content,
@@ -5224,7 +5341,13 @@ section.trusted {
     .post-type-archive-opportunity #archive .the-content,
     .groups #page .the-content,
     .groups #post .the-content,
-    .groups #archive .the-content {
+    .groups #archive .the-content,
+    .single #page .the-content,
+    .single #post .the-content,
+    .single #archive .the-content,
+    .post #page .the-content,
+    .post #post .the-content,
+    .post #archive .the-content {
       overflow: hidden;
       padding-bottom: 2em;
       padding-right: 1em; } }
@@ -5377,6 +5500,15 @@ section.trusted {
       background: #decc82; }
       .page-members .alerts-sidebar .g_alert.mine:after {
         border-top: 10px solid #decc82; }
+    .page-members .alerts-sidebar .g_alert.charter {
+      background: rgba(222, 204, 130, 0.4); }
+      .page-members .alerts-sidebar .g_alert.charter:after {
+        border-top: 10px solid rgba(222, 204, 130, 0.4); }
+      .page-members .alerts-sidebar .g_alert.charter h5 {
+        text-align: left;
+        font-size: 1em;
+        color: white;
+        font-weight: 700; }
   .page-members .alerts-sidebar #alert-form input {
     width: 100%;
     margin-bottom: 5px; }
@@ -5418,20 +5550,10 @@ section.trusted {
   display: block;
   margin: 1em 0; }
 
-.page-members .mylistings h3:hover span:hover, .page-members .mylistings h3:hover span:active, .page-members .mylistings h3:hover span:focus, .page-members .mylistings h3:active span:hover, .page-members .mylistings h3:active span:active, .page-members .mylistings h3:active span:focus, .page-members .mylistings h3:focus span:hover, .page-members .mylistings h3:focus span:active, .page-members .mylistings h3:focus span:focus,
-.page-members .myservices h3:hover span:hover,
-.page-members .myservices h3:hover span:active,
-.page-members .myservices h3:hover span:focus,
-.page-members .myservices h3:active span:hover,
-.page-members .myservices h3:active span:active,
-.page-members .myservices h3:active span:focus,
-.page-members .myservices h3:focus span:hover,
-.page-members .myservices h3:focus span:active,
-.page-members .myservices h3:focus span:focus {
+.page-members .manage h3:hover span:hover, .page-members .manage h3:hover span:active, .page-members .manage h3:hover span:focus, .page-members .manage h3:active span:hover, .page-members .manage h3:active span:active, .page-members .manage h3:active span:focus, .page-members .manage h3:focus span:hover, .page-members .manage h3:focus span:active, .page-members .manage h3:focus span:focus {
   cursor: pointer; }
 
-.page-members .mylistings h3 span,
-.page-members .myservices h3 span {
+.page-members .manage h3 span {
   font-family: matrix-ii, serif;
   font-weight: 500;
   font-style: italic;
@@ -5446,41 +5568,71 @@ section.trusted {
   position: relative;
   bottom: 3px; }
 
-.page-members .mylistings .listings,
-.page-members .mylistings .services,
-.page-members .myservices .listings,
-.page-members .myservices .services {
+.page-members .manage h4 {
+  margin-right: 1em;
+  display: inline-block;
+  font-size: .9em;
+  font-weight: 900;
+  letter-spacing: .075em; }
+  .page-members .manage h4 span {
+    color: #decc82; }
+  .page-members .manage h4 a {
+    margin-left: .5em; }
+
+.page-members .manage p {
+  margin-bottom: 0; }
+
+.page-members .manage.myprofile {
+  margin-bottom: 2em; }
+
+.page-members .manage .bubbles {
+  padding: .5em 0; }
+  .page-members .manage .bubbles ul {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+            flex-wrap: wrap;
+    list-style: none;
+    margin: 0; }
+    .page-members .manage .bubbles ul li {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-align-items: center;
+              align-items: center;
+      background: rgba(222, 204, 130, 0.5);
+      border-radius: 50px;
+      padding: .4em 1em .4em .4em;
+      font-family: haboro-soft-condensed, sans-serif;
+      text-transform: uppercase;
+      font-weight: 500;
+      font-style: normal;
+      -webkit-font-smoothing: antialiased;
+      font-weight: 700;
+      letter-spacing: .1em;
+      margin-right: .5em; }
+      .page-members .manage .bubbles ul li span {
+        background: #ffffff;
+        border-radius: 50px;
+        height: 1.5em;
+        line-height: 1.5em;
+        min-width: 1.5em;
+        margin-right: .25em;
+        text-align: center; }
+
+.page-members .manage .listings,
+.page-members .manage .services {
   margin: 0 0 1em;
   border-top: 3px solid #decc82;
   padding: .5em 1em 1em 0;
   position: relative; }
-  .page-members .mylistings .listings h4,
-  .page-members .mylistings .services h4,
-  .page-members .myservices .listings h4,
-  .page-members .myservices .services h4 {
-    margin-right: 1em;
-    display: inline-block;
-    font-size: .9em;
-    font-weight: 900;
-    letter-spacing: .05em; }
-    .page-members .mylistings .listings h4 span,
-    .page-members .mylistings .services h4 span,
-    .page-members .myservices .listings h4 span,
-    .page-members .myservices .services h4 span {
-      color: #decc82; }
 
-.page-members .mylistings .listings .mypost h6,
-.page-members .myservices .listings .mypost h6 {
+.page-members .manage .listings .mypost h6 {
   font-weight: 700; }
 
-.page-members .mylistings .listings .mypost h6, .page-members .mylistings .listings .mypost p, .page-members .mylistings .listings .mypost a.delete:after,
-.page-members .myservices .listings .mypost h6,
-.page-members .myservices .listings .mypost p,
-.page-members .myservices .listings .mypost a.delete:after {
+.page-members .manage .listings .mypost h6, .page-members .manage .listings .mypost p, .page-members .manage .listings .mypost a.delete:after {
   color: #ffffff; }
 
-.page-members .mylistings .listings .mypost a.delete:after,
-.page-members .myservices .listings .mypost a.delete:after {
+.page-members .manage .listings .mypost a.delete:after {
   content: "\f00d"; }
 
 .page-members .morelinks {
@@ -6269,20 +6421,43 @@ section.trusted {
       width: 1em;
       margin: 0 0 0 10px; }
 
-.my-account .alerts-notice,
-.my-account .alerts-vcard, .bp-user .alerts-notice,
-.bp-user .alerts-vcard {
+.my-account .alerts-notice, .bp-user .alerts-notice {
+  margin-bottom: 5em; }
+  .my-account .alerts-notice a, .bp-user .alerts-notice a {
+    font-family: haboro-soft-condensed, sans-serif;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 700;
+    letter-spacing: .05em; }
+
+.my-account .alerts-vcard, .bp-user .alerts-vcard {
   margin-bottom: 0; }
 
 .my-account .dealer-alerts-wrapper, .bp-user .dealer-alerts-wrapper {
   position: relative;
   background: #444444;
   padding: 1em; }
+  .my-account .dealer-alerts-wrapper:after, .bp-user .dealer-alerts-wrapper:after {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: url("/wp-content/themes/Glad/images//ajax-loader.gif") center center no-repeat, rgba(255, 255, 255, 0.8);
+    background-size: 30px;
+    z-index: 999;
+    content: ""; }
+  .my-account .dealer-alerts-wrapper.loading:after, .bp-user .dealer-alerts-wrapper.loading:after {
+    display: block; }
   .my-account .dealer-alerts-wrapper p, .bp-user .dealer-alerts-wrapper p {
     margin: 0;
     line-height: 1.2em;
     padding-bottom: .5em;
-    color: rgba(255, 255, 255, 0.8); }
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2em; }
     .my-account .dealer-alerts-wrapper p a, .my-account .dealer-alerts-wrapper p a:link, .my-account .dealer-alerts-wrapper p a:visited, .bp-user .dealer-alerts-wrapper p a, .bp-user .dealer-alerts-wrapper p a:link, .bp-user .dealer-alerts-wrapper p a:visited {
       color: #ffffff; }
     .my-account .dealer-alerts-wrapper p a:hover, .my-account .dealer-alerts-wrapper p a:focus, .my-account .dealer-alerts-wrapper p a:active, .bp-user .dealer-alerts-wrapper p a:hover, .bp-user .dealer-alerts-wrapper p a:focus, .bp-user .dealer-alerts-wrapper p a:active {
@@ -6293,6 +6468,8 @@ section.trusted {
     -webkit-align-items: center;
             align-items: center;
     margin: 1em; }
+    .my-account .dealer-alerts-wrapper .alert-display:hover, .bp-user .dealer-alerts-wrapper .alert-display:hover {
+      background-color: rgba(255, 255, 255, 0.2); }
     .my-account .dealer-alerts-wrapper .alert-display .alert-display-icon, .bp-user .dealer-alerts-wrapper .alert-display .alert-display-icon {
       height: 30px;
       width: 36px;
@@ -6309,6 +6486,20 @@ section.trusted {
       font-size: .8em; }
       .my-account .dealer-alerts-wrapper .alert-display .alert-display-info h4, .bp-user .dealer-alerts-wrapper .alert-display .alert-display-info h4 {
         margin: 0; }
+        .my-account .dealer-alerts-wrapper .alert-display .alert-display-info h4 span, .bp-user .dealer-alerts-wrapper .alert-display .alert-display-info h4 span {
+          color: #ffffff;
+          font-weight: 700;
+          opacity: .9; }
+    .my-account .dealer-alerts-wrapper .alert-display.enabled .enabled, .bp-user .dealer-alerts-wrapper .alert-display.enabled .enabled {
+      display: block; }
+    .my-account .dealer-alerts-wrapper .alert-display.enabled .disabled, .bp-user .dealer-alerts-wrapper .alert-display.enabled .disabled {
+      display: none; }
+    .my-account .dealer-alerts-wrapper .alert-display:not(.enabled) .alert-display-icon i:before, .bp-user .dealer-alerts-wrapper .alert-display:not(.enabled) .alert-display-icon i:before {
+      content: "\f00d" !important; }
+    .my-account .dealer-alerts-wrapper .alert-display:not(.enabled) .enabled, .bp-user .dealer-alerts-wrapper .alert-display:not(.enabled) .enabled {
+      display: none; }
+    .my-account .dealer-alerts-wrapper .alert-display:not(.enabled) .disabled, .bp-user .dealer-alerts-wrapper .alert-display:not(.enabled) .disabled {
+      display: block; }
   .my-account .dealer-alerts-wrapper .iphone, .bp-user .dealer-alerts-wrapper .iphone {
     position: absolute;
     bottom: -1.5em;
@@ -6324,7 +6515,7 @@ section.trusted {
       margin-right: 0;
       padding: 1em 250px 1em 1em; }
       .my-account .dealer-alerts-wrapper .iphone, .bp-user .dealer-alerts-wrapper .iphone {
-        bottom: -9em;
+        bottom: -4em;
         right: 0;
         max-height: 400px;
         height: 300%;
@@ -6348,13 +6539,17 @@ section.trusted {
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     text-transform: uppercase !important;
-    letter-spacing: .1em !important;
-    margin-left: 35px; }
+    letter-spacing: .1em !important; }
   .my-account .mobile-form input[type="checkbox"], .bp-user .mobile-form input[type="checkbox"] {
     width: 30px; }
   .my-account .mobile-form input[type="text"], .bp-user .mobile-form input[type="text"] {
     border: none;
     color: #decc82; }
+
+@media only screen and (min-width: 48em) {
+  .my-account .alerts-notice, .bp-user .alerts-notice {
+    margin-bottom: 1em;
+    padding-right: 350px; } }
 
 .page .mfp-inline-holder .mfp-content,
 .page .mfp-ajax-holder .mfp-content {
@@ -6478,6 +6673,10 @@ section.trusted {
       margin-left: 10px;
       color: #decc82;
       text-decoration: underline; }
+    #archive article .meeting-list-item p.replay .password {
+      margin-left: 1.5em; }
+      #archive article .meeting-list-item p.replay .password em {
+        color: #decc82; }
 
 #archive article .referral-list-item {
   width: 100%; }
@@ -6502,209 +6701,6 @@ section.trusted {
     #archive article .referral-list-item p.attribution span {
       color: #decc82; }
 
-#archive article .listing-list-item {
-  margin: 2em 0;
-  position: relative;
-  -webkit-justify-content: center;
-          justify-content: center;
-  width: 100%; }
-  #archive article .listing-list-item .button {
-    margin: 0; }
-  #archive article .listing-list-item .right p {
-    margin-bottom: .5em;
-    line-height: 1.6em; }
-    #archive article .listing-list-item .right p span {
-      margin-right: 1.5em;
-      display: inline-block; }
-      #archive article .listing-list-item .right p span:before {
-        display: block;
-        height: 1em;
-        width: 1em;
-        -webkit-font-smoothing: antialiased;
-        display: inline-block;
-        font-style: normal;
-        font-variant: normal;
-        text-rendering: auto;
-        line-height: 1;
-        font-family: "Font Awesome 5 Pro";
-        font-weight: 900;
-        color: #decc82; }
-    #archive article .listing-list-item .right p.contact {
-      background: #decc82;
-      padding: 0 .5em;
-      color: #ffffff; }
-      #archive article .listing-list-item .right p.contact span {
-        margin-right: 0; }
-        #archive article .listing-list-item .right p.contact span a, #archive article .listing-list-item .right p.contact span a:link, #archive article .listing-list-item .right p.contact span a:visited {
-          color: #444444; }
-        #archive article .listing-list-item .right p.contact span a:hover, #archive article .listing-list-item .right p.contact span a:focus, #archive article .listing-list-item .right p.contact span a:active {
-          color: #ffffff; }
-  #archive article .listing-list-item .right span.specsheet:before {
-    content: "\f1c1"; }
-  #archive article .listing-list-item .right span.time:before {
-    content: "\f1da"; }
-  #archive article .listing-list-item .right span.landings:before {
-    content: "\f5af";
-    margin-right: .3em; }
-  #archive article .listing-list-item .right span.specsheet:before {
-    content: "\f1c1"; }
-  @media only screen and (min-width: 48em) and (max-width: 1280px) {
-    #archive article .listing-list-item {
-      width: 100% !important;
-      max-width: 900px; } }
-  @media only screen and (min-width: 48em) {
-    #archive article .listing-list-item {
-      display: -webkit-flex;
-      display: flex;
-      width: 50%;
-      min-width: 600px;
-      margin: 0 auto;
-      padding: 0 0 1.5em; }
-      #archive article .listing-list-item .right {
-        border-top: 1px solid #decc82;
-        border-bottom: 1px solid #decc82;
-        position: relative;
-        margin-right: 2em;
-        padding: 1em;
-        -webkit-flex-grow: 1;
-                flex-grow: 1; }
-        #archive article .listing-list-item .right p {
-          margin-bottom: .6em;
-          text-transform: capitalize; }
-          #archive article .listing-list-item .right p span.moreinfo:before {
-            content: "\f0c1"; }
-          #archive article .listing-list-item .right p.contact {
-            line-height: 1.5em;
-            -webkit-flex-grow: 1;
-                    flex-grow: 1;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-align-items: center;
-                    align-items: center;
-            -webkit-flex-wrap: wrap;
-                    flex-wrap: wrap; }
-            #archive article .listing-list-item .right p.contact .number, #archive article .listing-list-item .right p.contact .email {
-              font-weight: 300; }
-        #archive article .listing-list-item .right .contact-wrapper {
-          display: -webkit-flex;
-          display: flex;
-          -webkit-justify-content: space-between;
-                  justify-content: space-between; }
-        #archive article .listing-list-item .right .logo {
-          height: 3em;
-          width: 100px;
-          margin-left: 1em;
-          background-image: url("/wp-content/themes/Glad/images/ajax-loader.gif");
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: contain; }
-        #archive article .listing-list-item .right:after {
-          content: "";
-          display: block;
-          position: absolute;
-          height: 3.5em;
-          width: 1px;
-          right: 0;
-          bottom: 0;
-          background: #decc82; } }
-#archive article .listing-list-item .left a {
-  cursor: pointer;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-justify-content: flex-start;
-          justify-content: flex-start;
-  -webkit-flex-direction: column;
-          flex-direction: column;
-  position: relative;
-  height: 150px;
-  margin-bottom: .5em; }
-  #archive article .listing-list-item .left a, #archive article .listing-list-item .left a:link, #archive article .listing-list-item .left a:visited {
-    color: #ffffff; }
-  #archive article .listing-list-item .left a:hover, #archive article .listing-list-item .left a:focus, #archive article .listing-list-item .left a:active {
-    color: #ffffff; }
-  #archive article .listing-list-item .left a .thumb {
-    background-image: url("/wp-content/themes/Glad/images/bg-kid.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-    -webkit-order: 1;
-            order: 1;
-    overflow: hidden;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-            align-items: center;
-    -webkit-justify-content: center;
-            justify-content: center; }
-  #archive article .listing-list-item .left a .info {
-    -webkit-order: 2;
-            order: 2;
-    margin: 0;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    display: -webkit-flex;
-    display: flex;
-    -webkit-justify-content: flex-end;
-            justify-content: flex-end;
-    -webkit-align-items: flex-start;
-            align-items: flex-start; }
-    #archive article .listing-list-item .left a .info p {
-      margin: .5em 1em; }
-      #archive article .listing-list-item .left a .info p.snreg span:first-child:after {
-        content: " // ";
-        display: inline-block;
-        height: 1em;
-        width: 2em;
-        text-align: center; }
-  #archive article .listing-list-item .left a:hover .info, #archive article .listing-list-item .left a:active .info, #archive article .listing-list-item .left a:focus .info {
-    background: rgba(222, 204, 130, 0.5); }
-  #archive article .listing-list-item .left a h3 {
-    position: relative;
-    display: inline-block; }
-    #archive article .listing-list-item .left a h3.sn, #archive article .listing-list-item .left a h3.reg {
-      color: #decc82;
-      margin-left: 3em; }
-      #archive article .listing-list-item .left a h3.sn:before, #archive article .listing-list-item .left a h3.reg:before {
-        width: 3em;
-        height: 1em;
-        display: inline-block;
-        content: "//";
-        position: absolute;
-        left: -1.5em; }
-  #archive article .listing-list-item .left a .highlight {
-    font-family: matrix-ii, serif;
-    font-weight: 400;
-    font-style: italic;
-    -webkit-font-smoothing: antialiased;
-    color: #444444; }
-  @media only screen and (min-width: 48em) {
-    #archive article .listing-list-item .left a {
-      -webkit-flex-direction: row;
-              flex-direction: row;
-      -webkit-justify-content: center;
-              justify-content: center;
-      width: 100%;
-      height: 100%;
-      max-width: 48em;
-      border-bottom: 1px solid #decc82;
-      margin-bottom: 0; }
-      #archive article .listing-list-item .left a, #archive article .listing-list-item .left a:link, #archive article .listing-list-item .left a:visited {
-        color: #ffffff; }
-      #archive article .listing-list-item .left a:hover, #archive article .listing-list-item .left a:focus, #archive article .listing-list-item .left a:active {
-        color: #ffffff; }
-      #archive article .listing-list-item .left a .info {
-        -webkit-flex-shrink: 0;
-                flex-shrink: 0;
-        position: absolute;
-        bottom: 0; }
-      #archive article .listing-list-item .left a .thumb {
-        width: 200px;
-        -webkit-align-items: center;
-                align-items: center; } }
 #archive .button {
   width: 100%;
   margin: .5em 0; }
@@ -6756,6 +6752,261 @@ section.trusted {
       -webkit-align-items: flex-start;
               align-items: flex-start; }
 
+.post-type-archive-listing #main .listing-hero {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  padding: 2em;
+  background-image: url("/wp-content/themes/Glad/images/bg-listings.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover; }
+  .post-type-archive-listing #main .listing-hero h1 {
+    position: relative;
+    z-index: 3;
+    margin: 0;
+    color: #ffffff;
+    letter-spacing: .1em; }
+  .post-type-archive-listing #main .listing-hero p {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+    font-size: 1em;
+    padding: 1.5em;
+    margin-top: -2.2em;
+    background: rgba(222, 204, 130, 0.9); }
+  @media only screen and (min-width: 48em) {
+    .post-type-archive-listing #main .listing-hero p {
+      padding: 1.5em 7em; } }
+  .post-type-archive-listing #main .listing-hero:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    content: "";
+    display: block;
+    z-index: 1; }
+
+.post-type-archive-listing #main .archive {
+  padding: 0;
+  padding-right: 0 !important;
+  padding-bottom: 10em; }
+  .post-type-archive-listing #main .archive .the-content {
+    padding: 2em;
+    padding-right: 2em !important; }
+    .post-type-archive-listing #main .archive .the-content #response {
+      -webkit-justify-content: center;
+              justify-content: center;
+      -webkit-align-items: flex-start;
+              align-items: flex-start; }
+
+.list-item-listing {
+  width: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-flex-wrap: nowrap;
+          flex-wrap: nowrap;
+  margin: 1em;
+  position: relative;
+  overflow: hidden; }
+  .list-item-listing_deleted {
+    display: none; }
+  .list-item-listing:not(.expanded):hover .listing-upper, .list-item-listing:not(.expanded):active .listing-upper, .list-item-listing:not(.expanded):focus .listing-upper {
+    background-position: center 55%; }
+    .list-item-listing:not(.expanded):hover .listing-upper .info a.plane, .list-item-listing:not(.expanded):active .listing-upper .info a.plane, .list-item-listing:not(.expanded):focus .listing-upper .info a.plane {
+      top: 5px; }
+  .list-item-listing .status {
+    display: none; }
+    .list-item-listing .status.sold {
+      background: red;
+      padding: .5em 10em;
+      display: block;
+      -webkit-transform: rotate(325deg);
+              transform: rotate(325deg);
+      position: absolute;
+      top: 2em;
+      left: -7em;
+      z-index: 5; }
+      .list-item-listing .status.sold h3 {
+        color: #ffffff;
+        margin: 0; }
+    .list-item-listing .status.new {
+      display: block;
+      padding: .2em .5em;
+      font-size: 1em;
+      border-bottom: 5px solid #decc82; }
+      .list-item-listing .status.new h3 {
+        color: #444444;
+        font-family: matrix-ii, serif;
+        font-weight: 500;
+        font-style: italic;
+        -webkit-font-smoothing: antialiased;
+        font-size: .9em;
+        text-transform: uppercase;
+        font-size: 1.2em; }
+  .list-item-listing .listing-upper {
+    position: relative;
+    background-image: url("/wp-content/themes/Glad/images/bg-members.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: background-position .1s ease-out;
+    padding: 1em; }
+    .list-item-listing .listing-upper .info {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: space-between;
+              justify-content: space-between;
+      position: relative;
+      z-index: 2;
+      min-height: 50px;
+      transition: min-height .1s ease-out; }
+      .list-item-listing .listing-upper .info a {
+        position: relative;
+        z-index: 2; }
+        .list-item-listing .listing-upper .info a, .list-item-listing .listing-upper .info a:link, .list-item-listing .listing-upper .info a:visited {
+          color: #ffffff; }
+        .list-item-listing .listing-upper .info a:hover, .list-item-listing .listing-upper .info a:focus, .list-item-listing .listing-upper .info a:active {
+          color: #decc82; }
+        .list-item-listing .listing-upper .info a.plane {
+          position: relative;
+          top: 0;
+          transition: top .1s ease-out;
+          -webkit-flex-grow: 1;
+                  flex-grow: 1;
+          font-size: 1.2em; }
+          .list-item-listing .listing-upper .info a.plane h3 {
+            color: #ffffff; }
+          .list-item-listing .listing-upper .info a.plane .snreg, .list-item-listing .listing-upper .info a.plane .time {
+            color: #decc82;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 4; }
+            .list-item-listing .listing-upper .info a.plane .snreg span, .list-item-listing .listing-upper .info a.plane .time span {
+              margin-right: 1em;
+              position: relative;
+              z-index: 4; }
+            .list-item-listing .listing-upper .info a.plane .snreg:after, .list-item-listing .listing-upper .info a.plane .time:after {
+              position: absolute;
+              z-index: 3;
+              height: 1.4em;
+              width: 100%;
+              display: none;
+              content: "";
+              background: rgba(222, 204, 130, 0.8);
+              right: 2em;
+              top: .4em; }
+          .list-item-listing .listing-upper .info a.plane .time {
+            display: none; }
+            .list-item-listing .listing-upper .info a.plane .time span {
+              margin-right: 1.5em;
+              display: inline-block; }
+              .list-item-listing .listing-upper .info a.plane .time span:before {
+                margin-right: .5em;
+                height: 1em;
+                width: 1em;
+                -webkit-font-smoothing: antialiased;
+                display: inline-block;
+                font-style: normal;
+                font-variant: normal;
+                text-rendering: auto;
+                line-height: 1;
+                font-family: "Font Awesome 5 Pro";
+                font-weight: 900;
+                color: #decc82; }
+            .list-item-listing .listing-upper .info a.plane .time .landings:before {
+              content: "\f5af"; }
+            .list-item-listing .listing-upper .info a.plane .time .hours:before {
+              content: "\f1da"; }
+        .list-item-listing .listing-upper .info a.jump {
+          font-size: 2.5em;
+          margin-left: .5em; }
+          .list-item-listing .listing-upper .info a.jump, .list-item-listing .listing-upper .info a.jump:link, .list-item-listing .listing-upper .info a.jump:visited {
+            color: #ffffff; }
+          .list-item-listing .listing-upper .info a.jump:hover, .list-item-listing .listing-upper .info a.jump:focus, .list-item-listing .listing-upper .info a.jump:active {
+            color: #decc82; }
+    .list-item-listing .listing-upper:after {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: block;
+      content: "";
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1; }
+  .list-item-listing .listing-lower {
+    background: #decc82;
+    padding: .25em 1em; }
+    .list-item-listing .listing-lower .little {
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: space-between;
+              justify-content: space-between;
+      -webkit-align-items: center;
+              align-items: center; }
+      .list-item-listing .listing-lower .little h4 {
+        color: #444444;
+        -webkit-flex-grow: 1;
+                flex-grow: 1;
+        letter-spacing: .05em; }
+      .list-item-listing .listing-lower .little a {
+        font-size: 1.4em;
+        margin-left: .5em; }
+        .list-item-listing .listing-lower .little a, .list-item-listing .listing-lower .little a:link, .list-item-listing .listing-lower .little a:visited {
+          color: #444444; }
+        .list-item-listing .listing-lower .little a:hover, .list-item-listing .listing-lower .little a:focus, .list-item-listing .listing-lower .little a:active {
+          color: #ffffff; }
+    .list-item-listing .listing-lower .big {
+      display: none;
+      -webkit-flex-wrap: wrap;
+              flex-wrap: wrap;
+      margin-top: .5em; }
+      .list-item-listing .listing-lower .big a {
+        padding: .25em .75em;
+        border-radius: 50px;
+        margin-right: .5em;
+        margin-bottom: .5em; }
+        .list-item-listing .listing-lower .big a, .list-item-listing .listing-lower .big a:link, .list-item-listing .listing-lower .big a:visited {
+          color: rgba(255, 255, 255, 0.8); }
+        .list-item-listing .listing-lower .big a:hover, .list-item-listing .listing-lower .big a:focus, .list-item-listing .listing-lower .big a:active {
+          color: #decc82; }
+        .list-item-listing .listing-lower .big a, .list-item-listing .listing-lower .big a:link, .list-item-listing .listing-lower .big a:visited {
+          background-color: #444444; }
+        .list-item-listing .listing-lower .big a:hover, .list-item-listing .listing-lower .big a:focus, .list-item-listing .listing-lower .big a:active {
+          background-color: #444444; }
+  @media only screen and (min-width: 48em) {
+    .list-item-listing {
+      width: 600px; } }
+  .list-item-listing.expanded .listing-upper .info {
+    min-height: 300px;
+    transition: min-height .1s ease-out; }
+    .list-item-listing.expanded .listing-upper .info a.plane .snreg, .list-item-listing.expanded .listing-upper .info a.plane .time {
+      color: #444444;
+      display: -webkit-flex !important;
+      display: flex !important; }
+      .list-item-listing.expanded .listing-upper .info a.plane .snreg:after, .list-item-listing.expanded .listing-upper .info a.plane .time:after {
+        display: block !important; }
+      .list-item-listing.expanded .listing-upper .info a.plane .snreg span:before, .list-item-listing.expanded .listing-upper .info a.plane .time span:before {
+        color: #444444; }
+  .list-item-listing.expanded .listing-upper:after {
+    background: rgba(0, 0, 0, 0.2); }
+  .list-item-listing.expanded .listing-lower .big {
+    display: -webkit-flex;
+    display: flex; }
+
 .list-item-opportunity {
   width: 100%;
   display: -webkit-flex;
@@ -6798,12 +7049,24 @@ section.trusted {
       content: "\f62c"; }
     .list-item-opportunity .opp-sidebar i.career:after {
       content: "\f590"; }
+    .list-item-opportunity .opp-sidebar i.catering:after {
+      content: "\f86b"; }
     .list-item-opportunity .opp-sidebar i.charter:after {
       content: "\f5c1"; }
+    .list-item-opportunity .opp-sidebar i.chauffeur:after {
+      content: "\f1b9"; }
     .list-item-opportunity .opp-sidebar i.consulting:after {
       content: "\f075"; }
+    .list-item-opportunity .opp-sidebar i.fbo:after {
+      content: "\f5af"; }
+    .list-item-opportunity .opp-sidebar i.finance:after {
+      content: "\f873"; }
     .list-item-opportunity .opp-sidebar i.fuel:after {
       content: "\f52f"; }
+    .list-item-opportunity .opp-sidebar i.hangarage:after {
+      content: "\f494"; }
+    .list-item-opportunity .opp-sidebar i.leasing:after {
+      content: "\f657"; }
     .list-item-opportunity .opp-sidebar i.legal:after {
       content: "\f02d"; }
     .list-item-opportunity .opp-sidebar i.marketing:after {
@@ -6812,6 +7075,10 @@ section.trusted {
       content: "\f0ad"; }
     .list-item-opportunity .opp-sidebar i.management:after {
       content: "\f508"; }
+    .list-item-opportunity .opp-sidebar i.modifications:after {
+      content: "\f013"; }
+    .list-item-opportunity .opp-sidebar i.parts:after {
+      content: "\f7d9"; }
     .list-item-opportunity .opp-sidebar i.tools:after {
       content: "\f552"; }
     .list-item-opportunity .opp-sidebar i.training:after {
@@ -6861,8 +7128,78 @@ section.trusted {
         .list-item-opportunity .opp-sidebar i:after {
           margin-bottom: .5em;
           margin-right: 0; } }
+.list-item-feature {
+  width: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  border: 1px solid #decc82;
+  margin: 1em; }
+  .list-item-feature .inner {
+    display: -webkit-flex;
+    display: flex;
+    width: 100%; }
+    .list-item-feature .inner .logo {
+      height: auto;
+      width: 150px;
+      min-width: 150px;
+      margin: 0 1em;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center; }
+    .list-item-feature .inner .info-wrapper {
+      -webkit-flex-grow: 1;
+              flex-grow: 1;
+      padding: .5em 1em 1em 0; }
+  .list-item-feature h5 {
+    background: #444444;
+    color: #ffffff;
+    padding: .2em .5em .25em;
+    margin-bottom: .5em; }
+  .list-item-feature h3 {
+    color: #decc82; }
+  .list-item-feature p {
+    color: #444444; }
+    .list-item-feature p.membersince {
+      margin-right: 2em;
+      margin-bottom: .5em;
+      padding-bottom: .5em;
+      border-bottom: 1px solid #decc82; }
+    .list-item-feature p.blurb {
+      font-size: 1em;
+      margin-bottom: .5em; }
+  .list-item-feature .cta {
+    margin-top: 0;
+    border-radius: 100px;
+    font-size: 1em;
+    font-family: haboro-soft-condensed, sans-serif;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: .1em; }
+    .list-item-feature .cta:after {
+      display: inline-block;
+      content: "";
+      height: 1em;
+      width: 1em;
+      -webkit-font-smoothing: antialiased;
+      display: inline-block;
+      font-style: normal;
+      font-variant: normal;
+      text-rendering: auto;
+      line-height: 1;
+      font-family: "Font Awesome 5 Pro";
+      font-weight: 900;
+      content: "\f061";
+      margin-left: .5em; }
+  @media only screen and (min-width: 48em) {
+    .list-item-feature {
+      width: 600px; } }
 .searchwrapper {
-  position: relative; }
+  position: relative;
+  z-index: 3; }
   .searchwrapper .search {
     background: none;
     border: 3px solid #ffffff;
@@ -7031,12 +7368,24 @@ section.trusted {
           content: "\f62c"; }
         #postbox .inner ul.tags li.career:after {
           content: "\f590"; }
+        #postbox .inner ul.tags li.catering:after {
+          content: "\f86b"; }
         #postbox .inner ul.tags li.charter:after {
           content: "\f5c1"; }
+        #postbox .inner ul.tags li.chauffeur:after {
+          content: "\f1b9"; }
         #postbox .inner ul.tags li.consulting:after {
           content: "\f075"; }
+        #postbox .inner ul.tags li.fbo:after {
+          content: "\f5af"; }
+        #postbox .inner ul.tags li.finance:after {
+          content: "\f873"; }
         #postbox .inner ul.tags li.fuel:after {
           content: "\f52f"; }
+        #postbox .inner ul.tags li.hangarage:after {
+          content: "\f494"; }
+        #postbox .inner ul.tags li.leasing:after {
+          content: "\f657"; }
         #postbox .inner ul.tags li.legal:after {
           content: "\f02d"; }
         #postbox .inner ul.tags li.marketing:after {
@@ -7045,6 +7394,10 @@ section.trusted {
           content: "\f0ad"; }
         #postbox .inner ul.tags li.management:after {
           content: "\f508"; }
+        #postbox .inner ul.tags li.modifications:after {
+          content: "\f013"; }
+        #postbox .inner ul.tags li.parts:after {
+          content: "\f7d9"; }
         #postbox .inner ul.tags li.tools:after {
           content: "\f552"; }
         #postbox .inner ul.tags li.training:after {
@@ -7107,88 +7460,50 @@ body.archive.post-type-archive-listing .post-response,
 body.archive.post-type-archive-opportunity .post-response {
   text-align: center; }
 
-.listing-list-item.ad {
-  display: -webkit-flex !important;
-  display: flex !important; }
-  .listing-list-item.ad a {
-    display: block;
-    margin-right: 2em;
-    width: 100%; }
-    .listing-list-item.ad a, .listing-list-item.ad a:link, .listing-list-item.ad a:visited {
-      color: #444444; }
-    .listing-list-item.ad a:hover, .listing-list-item.ad a:focus, .listing-list-item.ad a:active {
-      color: #ffffff; }
-  .listing-list-item.ad .inner {
-    background: #decc82;
-    border: 1px solid #decc82;
-    border-top-width: 2px;
-    width: 100%;
-    position: relative; }
-    .listing-list-item.ad .inner:before {
-      -webkit-font-smoothing: antialiased;
-      display: inline-block;
-      font-style: normal;
-      font-variant: normal;
-      text-rendering: auto;
-      line-height: 1;
-      font-family: "Font Awesome 5 Pro";
-      font-weight: 900;
-      content: '\f672';
-      display: -webkit-flex;
-      display: flex;
-      -webkit-align-items: center;
-              align-items: center;
-      -webkit-justify-content: center;
-              justify-content: center;
-      font-size: 30px;
-      padding-top: 5px;
-      position: absolute;
-      top: -8px;
-      right: 25px;
-      width: 50px;
-      height: 50px;
-      background: #444444;
-      border: 2px solid #decc82;
-      color: #ffffff;
-      border-radius: 50px; }
-  .listing-list-item.ad h5 {
-    width: 100%;
+.tooltip {
+  position: absolute;
+  right: 0;
+  top: -2em; }
+  .tooltip_content {
+    display: none;
+    position: absolute;
+    z-index: 9999;
+    right: 2.5em;
+    top: -5em;
     background: #444444;
-    padding: .5em;
-    color: white;
-    font-family: haboro-soft-condensed, sans-serif;
-    text-transform: uppercase;
-    font-weight: 500;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    font-size: 1em;
-    font-weight: 700; }
-    .listing-list-item.ad h5:before {
-      -webkit-font-smoothing: antialiased;
-      display: inline-block;
+    color: #efefef;
+    width: 400px;
+    font-size: .9em;
+    padding: 1.5em; }
+    .tooltip_content h3 {
+      margin-bottom: .5em; }
+    .tooltip_content p i {
+      margin: 0 .25em; }
+    .tooltip_content p:last-child {
+      margin: 0; }
+    .tooltip_content span {
+      font-family: haboro-soft-condensed, sans-serif;
+      text-transform: uppercase;
+      font-weight: 500;
       font-style: normal;
-      font-variant: normal;
-      text-rendering: auto;
-      line-height: 1;
-      font-family: "Font Awesome 5 Pro";
-      font-weight: 900;
-      content: "\f2b5";
-      display: inline-block;
-      -webkit-align-items: center;
-              align-items: center;
-      -webkit-justify-content: center;
-              justify-content: center;
-      height: 1em;
-      width: 1em;
-      margin-right: .5em; }
-  .listing-list-item.ad h3 {
-    margin: .5em 1em 0; }
-  .listing-list-item.ad p {
-    margin: 0 1.5em 1em; }
-  .listing-list-item.ad .button {
-    margin-top: .5em !important; }
-  .listing-list-item.ad.dealer h5:before {
-    content: "\f072"; }
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: .1em;
+      margin-left: .25em;
+      font-weight: 700;
+      color: #decc82; }
+    .tooltip_content:after {
+      position: absolute;
+      right: -1em;
+      top: 4.8em;
+      width: 0;
+      height: 0;
+      border-top: 1em solid transparent;
+      border-left: 1em solid #444444;
+      border-bottom: 1em solid transparent;
+      display: block;
+      content: ""; }
+  .tooltip:hover .tooltip_content, .tooltip:focus .tooltip_content, .tooltip:active .tooltip_content, .tooltip.active .tooltip_content {
+    display: block; }
 
 /* ////////////////////////////////////////////////////////////////////////// */
 /*                                 DIRECTORY                                  */
@@ -7235,7 +7550,7 @@ body.archive.post-type-archive-opportunity .post-response {
         margin: 0; }
         .directory #members-list.bp-list li .item .item-block .services li {
           display: inline-block;
-          margin: 0 .3em 0 0;
+          margin: 0 .3em .3em 0;
           padding: .2em .75em;
           background: #decc82;
           border-radius: 50px;

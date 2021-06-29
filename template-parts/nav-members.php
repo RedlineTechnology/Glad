@@ -8,7 +8,7 @@
  */
 
 // DISPLAY MEMBER LINKS
-if( current_user_can('mepr-active','rule:37') ):
+if( is_member(true) ):
 
 	echo '<nav class="members-nav">';
 		echo '<a href="/"><img src="' . get_stylesheet_directory_uri() . '/images/corner-logo-encircled.png" /></a>';

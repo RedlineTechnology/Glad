@@ -38,7 +38,40 @@ $header_img = has_post_thumbnail() ? get_the_post_thumbnail_url($post->ID, 'full
             //   echo 'Exception: ' . $e->getMessage(), '<br>';
             // }
 
-						echo get_dealers_with_services( 'apprai', 2 );
+						$who = 7;
+						$blurb = "we like pizza";
+						$cta = 'Click Here';
+
+						if( is_numeric( $who ) ) {
+							// get member by ID
+							$user = get_user_meta( $who );
+							if( $user ) {
+								$name = $user['mepr_company'][0];
+								$url  = $user['mepr_company_website'][0];
+								$type = $user['mepr_membership_type'][0];
+								$logo = get_company_logo( $who );
+								$obj = get_userdata( $who );
+								$joined = $obj->user_registered;
+							} else {
+								return 'Error: User does not exist.';
+							}
+						} else {
+							$name = $who;
+							$type = 'industry';
+						}
+
+						echo '<div class="list-item-feature ' . $type . '">
+							<h5>' . ucwords($type) . ' Member Spotlight</h5>';
+							echo '<div class="inner">
+								<div class="logo" style="background-image:url(' . $logo . ');"></div>
+								<div class="info-wrapper">';
+									echo '<h3>' . $name . '</h3>';
+									echo '<p class="membersince">' . ucwords($type) . ' Member since ' . date( "M Y", strtotime( $joined ) ) . '</p>';
+									echo '<p class="blurb">' . $blurb . '</p>';
+									echo '<a class="button cta" target="_blank" href="' . $url . '">' . $cta . '</a>';
+								echo '</div>
+							</div>
+						</div>';
 
 					echo '</div>';
 				endwhile;

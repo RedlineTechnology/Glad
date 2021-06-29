@@ -30,7 +30,7 @@
 
 	<?php bp_nouveau_member_hook( 'before', 'header_meta' ); ?>
 
-	<?php if ( bp_nouveau_member_has_meta() ) : ?>
+	<?php if ( current_user_can('manage_options') && bp_nouveau_member_has_meta() ) : ?>
 		<div class="item-meta">
 
 			<?php bp_nouveau_member_meta(); ?>

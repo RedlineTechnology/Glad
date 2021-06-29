@@ -27,7 +27,7 @@
         <?php
 
         // This whole page needs to be wrapped in a Membership Clause since we are apparently overriding the default Rule with our Template here.
-        if( current_user_can('mepr-active','rule:37') ) { ?>
+        if( is_member(true) ) { ?>
 
           <h2 class="section-title">Member Map</h2>
           <p>Want to let other GLADA Members know where you are? You can add and remove pins on this map at any time to make Aircraft Viewings and Meetings with other members that much easier!</p>

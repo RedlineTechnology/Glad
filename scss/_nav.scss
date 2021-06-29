@@ -269,13 +269,6 @@ nav ul {
       }
     }
   }
-  .bp-search {
-    width: 100%;
-    button[type='submit'] {
-      margin: 0;
-      padding: 0;
-    }
-  }
   .buddypress-wrap #item-body {
     margin-top: 0;
   }
@@ -361,7 +354,6 @@ body {
 }
 
 .members-nav, #mobilenav {
-  height: 100%;
   background: $dark;
   img {
     margin-top: 10px;
@@ -463,6 +455,7 @@ body {
   display: inline-block;
   margin: 0 auto;
   text-align: left;
+  height: 100%;
   width: 100%;
   max-width: 100%;
 }

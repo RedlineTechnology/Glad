@@ -66,7 +66,7 @@
 
     <?php bp_nouveau_before_loop();
 
-    if ( bp_has_members( bp_ajax_querystring( 'members' ) ) ) : ?>
+    if ( bp_has_members( bp_ajax_querystring( 'members' ) . '&per_page=100&type=alphabetical' ) ) : ?>
 
     	<ul id="members-list">
 
@@ -86,8 +86,7 @@
     		<li <?php bp_member_class( array( 'item-entry' ) ); ?> data-bp-item-id="<?php bp_member_user_id(); ?>" data-bp-item-component="members">
     			<div class="item-wrapper">
             <div class="logo">
-  						<?php $cover_image_url = bp_attachments_get_attachment( 'url', array( 'item_id' => bp_get_member_user_id() ) ); ?>
-  						<img src="<?php echo $cover_image_url;?>" />
+  						<img style="-webkit-print-color-adjust: exact;" src="<?php echo get_company_logo( bp_get_member_user_id() ); ?>" />
     				</div>
     				<div class="info">
     					<div class="printable_member">

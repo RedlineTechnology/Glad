@@ -412,6 +412,7 @@
                         <option value="esp9">ESP Silver Lite</option>
                         <option value="fha">FHA</option>
                         <option value="fmp">FMP Maintenance</option>
+                        <option value="ge">GE OnPoint</option>
                         <option value="jssi01">JSSI</option>
                         <option value="jssi02">JSSI - Complete</option>
                         <option value="jssi03">JSSI - Essential</option>
@@ -453,7 +454,8 @@
                     <div class="select-wrapper">
                       <label for="engine_coverage">Program Coverage:</label>
                       <select name="engine_coverage" id="engine_coverage">
-                        <option selected="selected" value="100">100%</option>
+                        <option selected="selected" value="0">None</option>
+                        <option value="100">100%</option>
                         <option value="99">99%</option>
                         <option value="98">98%</option>
                         <option value="97">97%</option>
@@ -881,7 +883,7 @@
     </main><!-- #main -->
     </div><!-- #primary -->
 
-    <?php wp_enqueue_script( 'autocomplete', get_template_directory_uri() . '/js/autocomplete.min.js', array('jquery'), '20210201', true); ?>
+    <?php wp_enqueue_script( 'autocomplete', get_template_directory_uri() . '/js/autocomplete.min.js', array('jquery'), '20210621', true); ?>
 
     <script>
       jQuery(document).ready( function($){

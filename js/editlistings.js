@@ -182,6 +182,19 @@ jQuery(document).ready( function($){
     // console.log( $test );
   });
 
+  $(document).on('click', '.tooltip', function(e){
+    e.preventDefault();
+    $(this).toggleClass('active');
+    return false;
+  });
+  $(document).on('click',function(e){
+    if ( (!$(e.target).closest('.tooltip_content').length) && (!$(e.target).closest('.tooltip').length) ) {
+      if ( $( '.tooltip' ).hasClass( 'active' ) ) {
+        $( '.tooltip' ).removeClass( 'active' );
+      }
+    }
+  });
+
   // Change Uploaded File button to Filename
   $( '.fancyfileinput' ).each( function() {
 

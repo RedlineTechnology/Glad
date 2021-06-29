@@ -156,6 +156,26 @@ function localize_vars() {
 }
 
 /**
+ * MOAR
+ */
+require get_template_directory() . '/inc/template-functions.php';
+require get_template_directory() . '/inc/custom-post-types.php';
+require get_template_directory() . '/inc/customizer.php';
+require get_template_directory() . '/inc/user-profiles.php';
+
+/**
+ * VENDOR SUPPORT
+ */
+require get_template_directory() . '/inc/mepr.php';
+require get_template_directory() . '/inc/Textmagic/textmagic.php';
+
+/**
+ * EMAIL TEMPLATES
+ */
+require get_template_directory() . '/inc/emails.php';
+
+
+/**
  * Enqueue Accordion Tabs, but only when called
  * @link https://github.com/thomashigginbotham/responsive-accordion-tabs
  * Accordion built on jquery ui - only load the necessary components and dependencies
@@ -171,60 +191,6 @@ function load_accordion_tabs() {
 	wp_enqueue_script( 'responsive-accordion-tabs', get_template_directory_uri() . '/js/accordion-tabs.js', array('jquery'), '20190423', true );
   wp_enqueue_script( 'accordion-options', get_template_directory_uri() . '/js/accordion-options.js', array('jquery','responsive-accordion-tabs'), '20190424', true );
 }
-
-function load_leaflet() {
-	/**
-	 * Geocoder
-	 * https://github.com/perliedman/leaflet-control-geocoder
-	 */
-	wp_enqueue_style('leaflet', get_template_directory_uri() . '/vendor/leaflet/leaflet.css' );
-	wp_enqueue_style('geocoder', get_template_directory_uri() . '/vendor/leaflet/geocoder/Control.Geocoder.css' );
-	wp_enqueue_script('leaflet', get_template_directory_uri() . '/vendor/leaflet/leaflet-src.js', array(), '20200921', true);
-	wp_enqueue_script('geocoder', get_template_directory_uri() . '/vendor/leaflet/geocoder/Control.Geocoder.js', array('leaflet'), '20200921', true);
-	wp_enqueue_script('leafletsettings', get_template_directory_uri() . '/js/leaflet-settings.min.js', array('jquery'), '20200930', true);
-	wp_localize_script('leafletsettings', 'themevars', localize_vars() );
-}
-
-/**
- * Functions which enhance the theme by hooking into WordPress.
- */
-require get_template_directory() . '/inc/template-functions.php';
-
-/**
- * Custom Post Types
- */
-require get_template_directory() . '/inc/custom-post-types.php';
-
-/**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
-
-/**
- * User Meta additions.
- */
-require get_template_directory() . '/inc/user-profiles.php';
-
-/**
- * Wild Apricot Integration
- */
-// require get_template_directory() . '/inc/wildapricot.php';
-
-/**
- * Some Memberpress Support functions
- */
-require get_template_directory() . '/inc/mepr.php';
-
-/**
- * TextMagic Integration
- */
-require get_template_directory() . '/inc/Textmagic/textmagic.php';
-
-/**
- * Email Templates
- */
-require get_template_directory() . '/inc/emails.php';
-
 
 // Schedule a daily check on referrals
 // https://developer.wordpress.org/reference/functions/wp_schedule_event/
@@ -248,6 +214,454 @@ function glada_run_cron() {
 		error_log( $e->getMessage() );
 	}
 }
+
+
+/** ********************************************************
+ *                     MEMBER STATUS                       *
+ ********************************************************* */
+
+// Membership Check functions.
+// Optionally includes FreeTrial members.
+// Returns true or false
+
+function is_applicant() {
+	$check = false;
+	if( current_user_can('mepr-active','membership:157') && !(current_user_can('mepr-active','rule:37')) ) {
+		$check = true;
+	}
+	return $check;
+}
+
+function is_member( $freetrial = false ) {
+	$check = current_user_can('mepr-active','rule:37');
+	if( !$check && $freetrial ) {
+		$checktwice = current_user_can('mepr-active','membership:1416');
+		return $checktwice;
+	}
+	return $check;
+}
+
+function is_dealer( $freetrial = false ) {
+	$check = current_user_can('mepr-active','membership:19,232,580,588,1268,1499,1307');
+	if( !$check && $freetrial ) {
+		$checktwice = current_user_can('mepr-active','membership:1416');
+		return $checktwice;
+	}
+	return $check;
+}
+
+function is_industry( $freetrial = false ) {
+	$check = current_user_can('mepr-active','membership:20,247,587,589,1020');
+	if( !$check && $freetrial ) {
+		$checktwice = current_user_can('mepr-active','membership:1416');
+		return $checktwice;
+	}
+	return $check;
+}
+
+// Managed Account Permissions. In the Loop.
+function can_edit() {
+	global $post;
+	// Get User Info
+	$current_user = wp_get_current_user();
+	$user = get_userdata( $current_user->ID );
+	$user_roles = $user->roles;
+	// Get Author ID
+	$author_id = $post->post_author;
+
+	if ( $author_id == $current_user->ID ) {
+		// User is Author. Can edit.
+		return true;
+	} elseif ( in_array( 'managed', $user_roles, true ) ) {
+
+		// MANAGED ACCOUNT. Compare to Author
+		$author = get_userdata( $author_id );
+		$author_email = $author->user_email;
+
+		$manager = get_user_meta( $current_user->ID, 'mepr__managed', true );
+
+		if( $manager ) {
+			// User has the "_managed" field properly set. Use it!
+			if( $author_email == $manager ) {
+				// This account is managed by the author. Bingo!
+				return true;
+			} else {
+				// This account is managed, but not by the author.
+				return false;
+			}
+		} else {
+			// The user doesn't have anything set in the "_managed" field.
+			// Compare emails.
+			$user_email = $user->user_email;
+			$author_domain = explode('@', $author_email)[1];
+			$user_domain = explode('@', $user_email)[1];
+
+			// Compare Email Domain Names
+			if( $author_domain == $user_domain ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+	} else {
+		// User is not Author or Managed. Can not edit.
+		return false;
+	}
+
+}
+
+// Get Author and Managed User IDs. Outside the Loop.
+function icanhaz() {
+	$current_user = wp_get_current_user();
+	$user = get_userdata( $current_user->ID );
+
+	// Instanciate the array and add the User to it
+	$author_array = array();
+	$author_array[] = $current_user->ID;
+
+	// Check Roles
+	$user_roles = $user->roles;
+	if( in_array( 'managed', $user_roles, true ) ) {
+
+		// This is a Managed account. Get the Manager ID
+		$manager = get_user_by( 'email', get_user_meta( $current_user->ID, 'mepr__managed', true ) );
+		// Add the Manager to the Array
+		$author_array[] = $manager->ID;
+
+	} else {
+		// This Account is a Primary. We're done here.
+	}
+	return $author_array;
+}
+
+
+ /** ********************************************************
+  *              ARCHIVES - POSTS - LISTINGS                *
+  ********************************************************* */
+
+// Ajax Handler for LoadMore
+function loadmore_ajax_handler(){
+
+	// is this a full query search or have we already done that?
+	if( $_POST['manual'] ) {
+		$args = array(
+			'post_type'		=> $_POST['manual'],
+			'post__in' 		=> $_POST['posts'],
+			'orderby'	 		=> 'post__in',
+			'paged'		 		=> $_POST['page'] + 1
+		);
+		// we can add 'tag__not_in'	=> array('29'),
+		// only if we convert the original search into a proper wp_query, Otherwise
+		// pagination will break
+	} else {
+		// prepare our arguments for the query
+		$args = json_decode( stripslashes( $_POST['posts'] ), true );
+		$args['paged'] = $_POST['page'] + 1; // we need next page to be loaded
+		$args['post_status'] = 'publish';
+	}
+
+	// it is always better to use WP_Query but not here
+	query_posts( $args );
+
+	if( have_posts() ) :
+
+		$posttype = $args['post_type'];
+
+		// run the loop
+		while ( have_posts() ) : the_post();
+
+			$tags = get_the_tags($post->ID);
+			$tag = $tags ? $tags[0]->slug : '';
+
+			if ( $posttype === 'listing' || $posttype === 'opportunity' ) {
+				echo '<div class="list-item-' . $posttype . $tag . '">';
+					get_template_part('template-parts/' . $posttype);
+			} else {
+				echo '<div class="' . $posttype . '-list-item">';
+					// something goes here
+			}
+			echo '</div>';
+
+		endwhile;
+
+	endif;
+	die; // here we exit the script and even no wp_reset_query() required!
+}
+add_action('wp_ajax_loadmore', 'loadmore_ajax_handler'); // wp_ajax_{action}
+add_action('wp_ajax_nopriv_loadmore', 'loadmore_ajax_handler'); // wp_ajax_nopriv_{action}
+
+/**
+ * Very very Custom Search.
+ * We are bypassing the WP Query altogether and going to the DB with our own SQL Query.
+ * This will not return any query arguments, rather it will return an array of Post objects
+ */
+
+// EXCLUDING tag _deleted is NOT WORKING.  For now, I'm just hiding them in CSS as a stop-gap.
+// Yay for Permanent Temporary Solutions
+ function search_posts( $value, $posttype = 'opportunity' ) {
+    global $wpdb;
+    $value = '%'.$wpdb->esc_like($value).'%';
+		$deleted = '_deleted';
+
+		switch( $posttype ) {
+			case 'listing':
+				$taxonomy = 'aircraft';
+				$metakey = 'make';
+				break;
+			case 'opportunity':
+				$taxonomy = 'opptype';
+				$metakey = 'services';
+				break;
+			default:
+				$taxonomy = 'category';
+				$metakey = 'type';
+		}
+
+    $sql = $wpdb->prepare("SELECT p.ID
+        FROM {$wpdb->prefix}posts p
+        LEFT JOIN {$wpdb->prefix}postmeta m ON m.post_id = p.ID
+        LEFT JOIN {$wpdb->prefix}term_relationships r ON r.object_id = p.ID
+        LEFT JOIN {$wpdb->prefix}term_taxonomy tt ON tt.term_taxonomy_id = r.term_taxonomy_id AND tt.taxonomy = %s
+        LEFT JOIN {$wpdb->prefix}terms t ON t.term_id = tt.term_id
+        LEFT JOIN {$wpdb->prefix}term_relationships cr ON cr.object_id = p.ID
+				LEFT JOIN {$wpdb->prefix}term_taxonomy ct ON ct.term_taxonomy_id = cr.term_taxonomy_id AND ct.taxonomy = 'post_tag'
+				LEFT JOIN {$wpdb->prefix}terms c ON c.term_id = ct.term_id
+        WHERE p.post_status = 'publish' AND p.post_type = %s
+            AND ((m.meta_key = %s AND m.meta_value LIKE %s)
+                OR (t.name LIKE %s)
+							  OR (t.slug LIKE %s)
+							  OR (p.post_content LIKE %s)
+							  OR (p.post_title LIKE %s))
+						AND ( COALESCE(c.name,'') NOT LIKE %s )
+        GROUP BY p.ID", $taxonomy, $posttype, $metakey, $value, $value, $value, $value, $value, $deleted);
+    $ids = $wpdb->get_col($sql);
+    if (is_array($ids) && count($ids) > 0)
+        return $ids;
+    else
+        return []; // or whatever you like
+ }
+
+ // We're Going to Use these custom filters to help make the default Wordpress
+ // Search a little better.
+ // https://wordpress.stackexchange.com/questions/99849/search-that-will-look-in-custom-field-post-title-and-post-content
+
+ // These will also search the meta key "services" belonging to Opportunity Types
+ // function add_join_wpse_99849($joins) {
+	//  global $wpdb;
+	//  return $joins . " INNER JOIN {$wpdb->postmeta} ON ({$wpdb->posts}.ID = {$wpdb->postmeta}.post_id)";
+	// }
+ //
+	// function alter_search_opportunity($search,$qry) {
+	//  global $wpdb;
+	//  $add = $wpdb->prepare("({$wpdb->postmeta}.meta_key = 'services' AND CAST({$wpdb->postmeta}.meta_value AS CHAR) LIKE '%%%s%%')",$qry->get('s'));
+	//  $pat = '|\(\((.+)\)\)|';
+	//  $search = preg_replace($pat,'(($1 OR '.$add.'))',$search);
+	//  return $search;
+	// }
+
+ function listing_search() {
+
+	 $vars = json_decode( stripslashes( $_POST['posts'] ), true);
+	 $args = array();
+
+	 foreach( $vars as $key => $var) {
+		 if( $var ) {
+			 $args[ $key ] = $var;
+		 }
+	 }
+
+	 $posttype = $args['post_type'];
+	 $searchresults = search_posts( $_POST['searchfield'], $posttype );
+	 $posts = array_map('get_post', $searchresults);
+	 $count = count( $posts );
+
+	 if( !$args['nopaging'] ) {
+		 $paged = $args['paged']?: 1;
+		 $perpage = $args['posts_per_page']?: 10;
+		 $maxpage = floor( $count / $perpage );
+	 } else { $maxpage = 1; }
+
+	 ob_start();
+
+	 if( !empty( $posts )) {
+		 while ( list($i, $postobj) = each( $posts ) ) :
+			 global $post;
+			 $post = $postobj;
+			 setup_postdata($post);
+
+			 // TODO
+			 // is this returning drafts? need to check if non-published posts are being returned
+			 // yes it is but we're just going to hide them for now. SQL query is misbehaving (i.e., I don't know what I'm doing)
+
+			 $tags = get_the_tags($post->ID);
+			 $tag = $tags ? $tags[0]->slug : '';
+
+			 echo '<div class="list-item-' . $posttype . $tag . '">';
+				 get_template_part('template-parts/' . $posttype );
+			 echo '</div>';
+		 endwhile;
+		 wp_reset_postdata();
+	 } else {
+		 echo 'No Listings Found for Search Term "' . $_POST['searchfield'] . '"';
+	 }
+
+	 $html = ob_get_contents(); // we pass the posts to variable
+	 ob_end_clean(); // clear the buffer
+
+	 // Get Secondary Content
+	 switch( $posttype ) {
+		 case 'listing':
+			 $secondary = false;
+			 break;
+		 case 'opportunity':
+			 $secondary = get_dealers_with_services( $_POST['searchfield'], 10 );
+			 break;
+		 default:
+			 $secondary = false;
+	 }
+
+	 echo json_encode( array(
+	 	'content' 	=> $html,
+		'secondary' => $secondary,
+ 		'posts' 		=> $searchresults,
+		'count' 		=> $count,
+		'max_page' 	=> $maxpage,
+		'manual'		=> $posttype
+	 ));
+
+	 die();
+ }
+ add_action('wp_ajax_listingsearch', 'listing_search');
+ add_action('wp_ajax_nopriv_listingsearch', 'listing_search');
+
+ function get_dealers_with_services( $service, $number ) {
+	 // Get a List of Dealers and Return them along with their Services
+	 $args = array(
+		 'role__in' => array('Dealer'),
+		 'role__not_in' => array('Managed'),
+		 'number' => $number,
+		 'meta_query' => array(
+			 array(
+				 'key' => 'mepr_services',
+				 'value' => $service,
+				 'compare' => 'LIKE'
+			 )
+		 )
+	 );
+	 $user_query = new WP_User_Query( $args );
+
+	 ob_start();
+
+	 if ( ! empty( $user_query->get_results() ) ) {
+		 foreach ( $user_query->get_results() as $user ) {
+
+			 $id = $user->ID;
+			 $services = get_user_meta( $id, 'mepr_services', true );
+
+			 if( !empty( $services )) {
+				 $logo = get_company_logo( $id );
+				 $url = get_user_meta( $id, 'mepr_company_website', true );
+
+				 echo '<a href="' . $url . '" target="_blank"><div class="dealer_wrapper">
+							 <div class="logo_wrapper"><img src="' . $logo . '"></div>';
+				 echo '<ul>';
+				 foreach( $services as $key => $service ) {
+					 echo '<li>' . ucwords( $key ) . '</li>';
+				 }
+				 echo '</ul>
+							 </div></a>';
+			 }
+		 }
+	 }
+
+	 $html = ob_get_contents(); // we pass the posts to variable
+	 ob_end_clean(); // clear the buffer
+
+	 return $html;
+ }
+
+function expandpost() {
+	global $post;
+	$postid = preg_split( '/-/', $_POST['post'] );
+	$post = get_post( $postid[1] );
+
+	$user_id = $post->post_author;
+	$date = new DateTime( $post->post_date );
+	$user = get_userdata($user_id);
+	$company = get_user_meta($user_id, 'mepr_company', true);
+	$name = get_post_meta( $post->ID, 'contactname', true ) ?: $user->first_name . ' ' . $user->last_name;
+  $phone = get_post_meta( $post->ID, 'contactnumber', true ) ?: get_user_meta( $user_id, 'mepr_phone_number', true );
+  $email = get_post_meta( $post->ID, 'contactemail', true ) ?: $user->user_email;
+
+	ob_start();
+
+	echo '<div class="inner">';
+
+		echo '<a href="#" class="closebox"><i class="fas fa-times"></i></a>';
+		echo '<div>';
+			echo '<h4>' . get_the_title() . '</h4>';
+			echo '<p class="dateposted">posted ' . $date->format('F jS, Y') . '</p>';
+			echo '<p class="thestuff">' . get_the_content() . '</p>';
+
+			echo '<h4>Contact</h4>';
+			echo '<p>' . $name . ' // ' . formatPhoneNumber( $phone ) . '<br><a href="mailto:' . $email . '">' . $email . '</a></p>';
+		echo '</div>';
+		echo '<ul class="tags">';
+	  $types = get_the_terms($post->ID, 'opptype');
+	  foreach( $types as $type ){
+	    echo '<li class="' . $type->slug . '" type="' . $type->slug . '">' . $type->name . '</li>';
+	  }
+		echo '</ul>';
+	echo '</div>';
+
+	$html = ob_get_contents(); // we pass the posts to variable
+	ob_end_clean(); // clear the buffer
+
+	echo json_encode( array(
+	 'content' => $html,
+	));
+
+	die();
+}
+add_action( 'wp_ajax_expandpost', 'expandpost' );
+add_action( 'wp_ajax_nopriv_expandpost', 'expandpost' );
+
+// Insert Ad on Listings Page
+function insert_ad( $who, $blurb, $cta = 'Visit Website', $url = '' ) {
+
+	if( is_numeric( $who ) ) {
+		// get member by ID
+		$user = get_user_meta( $who );
+		if( $user ) {
+			$name = $user['mepr_company'][0];
+			$url  = $user['mepr_company_website'][0];
+			$type = $user['mepr_membership_type'][0];
+			$logo = get_company_logo( $who );
+			$obj = get_userdata( $who );
+			$joined = $obj->user_registered;
+		} else {
+			return 'Error: User does not exist.';
+		}
+	} else {
+		$name = $who;
+		$type = 'industry';
+	}
+
+	echo '<div class="list-item-feature ' . $type . '">
+		<h5>' . ucwords($type) . ' Member Spotlight</h5>';
+		echo '<div class="inner">
+			<div class="logo" style="background-image:url(' . $logo . ');"></div>
+			<div class="info-wrapper">';
+				echo '<h3>' . $name . '</h3>';
+				echo '<p class="membersince">' . ucwords($type) . ' Member since ' . date( "M Y", strtotime( $joined ) ) . '</p>';
+				echo '<p class="blurb">' . $blurb . '</p>';
+				echo '<a class="button cta" target="_blank" href="' . $url . '">' . $cta . '</a>';
+			echo '</div>
+		</div>
+	</div>';
+}
+
 
 /**
  * EDIT LISTINGS
@@ -288,43 +702,6 @@ function glada_run_cron() {
 	//  return $post_args;
  // }
  // add_filter('wpforms_post_submissions_post_args', 'update_existing_listing', 10, 2);
-
-// Ajax Handler for LoadMore
-function loadmore_ajax_handler(){
-
-	// prepare our arguments for the query
-	$args = json_decode( stripslashes( $_POST['query'] ), true );
-	$args['paged'] = $_POST['page'] + 1; // we need next page to be loaded
-	$args['post_status'] = 'publish';
-
-	// it is always better to use WP_Query but not here
-	query_posts( $args );
-
-	if( have_posts() ) :
-
-		$posttype = $args['post_type'];
-
-		// run the loop
-		while ( have_posts() ) : the_post();
-
-			if ( $posttype === 'listing' ) {
-				echo '<div class="' . $posttype . '-list-item">';
-					get_template_part('template-parts/listing');
-			} elseif ( $posttype === 'opportunity' ) {
-				echo '<div class="list-item-' . $posttype . '">';
-					get_template_part('template-parts/opportunity');
-			} else {
-				echo '<div class="' . $posttype . '-list-item">';
-			}
-			echo '</div>';
-
-		endwhile;
-
-	endif;
-	die; // here we exit the script and even no wp_reset_query() required!
-}
-add_action('wp_ajax_loadmore', 'loadmore_ajax_handler'); // wp_ajax_{action}
-add_action('wp_ajax_nopriv_loadmore', 'loadmore_ajax_handler'); // wp_ajax_nopriv_{action}
 
 /**
  * Listings Filter Function
@@ -449,7 +826,7 @@ function listing_filter_function(){
  		ob_start(); // start buffering because we do not need to print the posts now
 
 		while( have_posts() ): the_post();
-			echo '<div class="listing-list-item">';
+			echo '<div class="list-item-listing">';
 				get_template_part('template-parts/listing');
 			echo '</div>';
 		endwhile;
@@ -472,6 +849,8 @@ function listing_filter_function(){
 add_action('wp_ajax_sortlistings', 'listing_filter_function'); // wp_ajax_{ACTION HERE}
 add_action('wp_ajax_nopriv_sortlistings', 'listing_filter_function');
 
+// This function retrieves the existing unique Values for Aircraft Makes
+// to create a dynamic drop-down
 function get_meta_values( $key = '', $type = 'post', $status = 'publish' ) {
 
     global $wpdb;
@@ -490,330 +869,6 @@ function get_meta_values( $key = '', $type = 'post', $status = 'publish' ) {
 		sort($r);
     return $r;
 }
-
-
-/**
- * Very very Custom Search.
- * We are bypassing the WP Query altogether and going to the DB with our own SQL Query.
- * This will not return any query arguments, rather it will return an array of Post objects
- */
-
-// EXCLUDING tag _deleted is NOT WORKING.  For now, I'm just hiding them in CSS as a stop-gap.
-// Yay for Permanent Temporary Solutions
- function search_posts( $value, $posttype = 'opportunity' ) {
-    global $wpdb;
-    $value = '%'.$wpdb->esc_like($value).'%';
-		$deleted = '%deleted%';
-    $sql = $wpdb->prepare("SELECT p.ID
-        FROM {$wpdb->prefix}posts p
-        LEFT JOIN {$wpdb->prefix}postmeta m ON m.post_id = p.ID
-        LEFT JOIN {$wpdb->prefix}term_relationships r ON r.object_id = p.ID
-        LEFT JOIN {$wpdb->prefix}term_taxonomy tt ON tt.term_taxonomy_id = r.term_taxonomy_id AND tt.taxonomy = 'opptype'
-        LEFT JOIN {$wpdb->prefix}terms t ON t.term_id = tt.term_id
-        LEFT JOIN {$wpdb->prefix}term_relationships cr ON cr.object_id = p.ID
-				LEFT JOIN {$wpdb->prefix}term_taxonomy ct ON ct.term_taxonomy_id = cr.term_taxonomy_id AND ct.taxonomy = 'post_tag'
-				LEFT JOIN {$wpdb->prefix}terms c ON c.term_id = ct.term_id
-        WHERE p.post_status = 'publish' AND p.post_type = %s
-            AND ((m.meta_key = 'services' AND m.meta_value LIKE %s)
-                OR (t.name LIKE %s)
-							  OR (t.slug LIKE %s)
-							  OR (p.post_content LIKE %s)
-							  OR (p.post_title LIKE %s))
-						AND ( COALESCE(c.name,'valid') NOT LIKE %s )
-        GROUP BY p.ID", $posttype, $value, $value, $value, $value, $value, $deleted);
-    $ids = $wpdb->get_col($sql);
-    if (is_array($ids) && count($ids) > 0)
-        return array_map('get_post', $ids);
-    else
-        return []; // or whatever you like
- }
-
- // We're Going to Use these custom filters to help make the default Wordpress
- // Search a little better.
- // https://wordpress.stackexchange.com/questions/99849/search-that-will-look-in-custom-field-post-title-and-post-content
-
- // These will also search the meta key "services" belonging to Opportunity Types
- // function add_join_wpse_99849($joins) {
-	//  global $wpdb;
-	//  return $joins . " INNER JOIN {$wpdb->postmeta} ON ({$wpdb->posts}.ID = {$wpdb->postmeta}.post_id)";
-	// }
- //
-	// function alter_search_opportunity($search,$qry) {
-	//  global $wpdb;
-	//  $add = $wpdb->prepare("({$wpdb->postmeta}.meta_key = 'services' AND CAST({$wpdb->postmeta}.meta_value AS CHAR) LIKE '%%%s%%')",$qry->get('s'));
-	//  $pat = '|\(\((.+)\)\)|';
-	//  $search = preg_replace($pat,'(($1 OR '.$add.'))',$search);
-	//  return $search;
-	// }
-
- function opp_search() {
-
-	 $vars = json_decode( stripslashes( $_POST['posts'] ), true);
-	 $args = array();
-
-	 foreach( $vars as $key => $var) {
-		 if( $var ) {
-			 $args[ $key ] = $var;
-		 }
-	 }
-
-	 $posttype = $args['post_type'];
-	 $dealers = get_dealers_with_services( $_POST['searchfield'], 10 );
-	 $customsearch = search_posts( $_POST['searchfield'], $posttype );
-	 $count = count( $customsearch );
-
-	 ob_start();
-
-	 if( !empty( $customsearch )) {
-		 while ( list($i, $postobj) = each( $customsearch ) ) :
-			 global $post;
-			 $post = $postobj;
-			 setup_postdata($post);
-
-			 // TODO
-			 // is this returning drafts? need to check if non-published posts are being returned
-			 // yes it is but we're just going to hide them for now. SQL query is misbehaving (i.e., I don't know what I'm doing)
-
-			 $tags = get_the_tags($post->ID);
-			 $tag = $tags ? $tags[0]->slug : '';
-
-			 echo '<div class="list-item-' . $posttype . $tag . '">';
-				 get_template_part('template-parts/' . $posttype );
-			 echo '</div>';
-		 endwhile;
-		 wp_reset_postdata();
-	 } else {
-		 echo 'No Service Listings for Search Term "' . $_POST['searchfield'] . '"';
-	 }
-
-	 $html = ob_get_contents(); // we pass the posts to variable
-	 ob_end_clean(); // clear the buffer
-
-	 echo json_encode( array(
-	 	'content' => $html,
-		'secondary' => $dealers,
-		'count' => $count
-	 ));
-
-	 die();
- }
- add_action('wp_ajax_oppsearch', 'opp_search');
- add_action('wp_ajax_nopriv_oppsearch', 'opp_search');
-
-
- function get_dealers_with_services( $service, $number ) {
-
-	 // Get a List of Dealers and Return them along with their Services
-	 $args = array(
-		 'role__in' => array('Dealer'),
-		 'role__not_in' => array('Managed'),
-		 'number' => $number,
-		 'meta_query' => array(
-			 array(
-				 'key' => 'mepr_services',
-				 'value' => $service,
-				 'compare' => 'LIKE'
-			 )
-		 )
-	 );
-	 $user_query = new WP_User_Query( $args );
-
-	 ob_start();
-
-	 if ( ! empty( $user_query->get_results() ) ) {
-		 foreach ( $user_query->get_results() as $user ) {
-
-			 $id = $user->ID;
-			 $services = get_user_meta( $id, 'mepr_services', true );
-
-			 if( !empty( $services )) {
-				 $logo = get_company_logo( $id );
-				 $url = get_user_meta( $id, 'mepr_company_website', true );
-
-				 echo '<a href="' . $url . '" target="_blank"><div class="dealer_wrapper">
-							 <div class="logo_wrapper"><img src="' . $logo . '"></div>';
-				 echo '<ul>';
-				 foreach( $services as $key => $service ) {
-					 echo '<li>' . ucwords( $key ) . '</li>';
-				 }
-				 echo '</ul>
-							 </div></a>';
-			 }
-		 }
-	 }
-
-	 $html = ob_get_contents(); // we pass the posts to variable
-	 ob_end_clean(); // clear the buffer
-
-	 return $html;
-
- }
-
-function expandpost() {
-	global $post;
-	$postid = preg_split( '/-/', $_POST['post'] );
-	$post = get_post( $postid[1] );
-
-	$user_id = $post->post_author;
-	$date = new DateTime( $post->post_date );
-	$user = get_userdata($user_id);
-	$company = get_user_meta($user_id, 'mepr_company', true);
-	$name = get_post_meta( $post->ID, 'contactname', true ) ?: $user->first_name . ' ' . $user->last_name;
-  $phone = get_post_meta( $post->ID, 'contactnumber', true ) ?: get_user_meta( $user_id, 'mepr_phone_number', true );
-  $email = get_post_meta( $post->ID, 'contactemail', true ) ?: $user->user_email;
-
-	ob_start();
-
-	echo '<div class="inner">';
-
-		echo '<a href="#" class="closebox"><i class="fas fa-times"></i></a>';
-		echo '<div>';
-			echo '<h4>' . get_the_title() . '</h4>';
-			echo '<p class="dateposted">posted ' . $date->format('F jS, Y') . '</p>';
-			echo '<p class="thestuff">' . get_the_content() . '</p>';
-
-			echo '<h4>Contact</h4>';
-			echo '<p>' . $name . ' // ' . formatPhoneNumber( $phone ) . '<br><a href="mailto:' . $email . '">' . $email . '</a></p>';
-		echo '</div>';
-		echo '<ul class="tags">';
-	  $types = get_the_terms($post->ID, 'opptype');
-	  foreach( $types as $type ){
-	    echo '<li class="' . $type->slug . '" type="' . $type->slug . '">' . $type->name . '</li>';
-	  }
-		echo '</ul>';
-	echo '</div>';
-
-	$html = ob_get_contents(); // we pass the posts to variable
-	ob_end_clean(); // clear the buffer
-
-	echo json_encode( array(
-	 'content' => $html,
-	));
-
-	die();
-}
-add_action( 'wp_ajax_expandpost', 'expandpost' );
-add_action( 'wp_ajax_nopriv_expandpost', 'expandpost' );
-
-// Insert Ad on Listings Page
-function insert_ad( $who, $blurb, $cta = 'Click Here', $url = '' ) {
-
-	if( is_numeric( $who ) ) {
-		// get member by ID
-		$user = get_user_meta( $who );
-		if( $user ) {
-			$name = $user['mepr_company'][0];
-			$url  = $user['mepr_company_website'][0];
-			$type = $user['mepr_membership_type'][0];
-		} else {
-			return 'Error: User does not exist.';
-		}
-	} else {
-		$name = $who;
-		$type = 'industry';
-	}
-
-	echo '<div class="listing-list-item ad dev ' . $type . '">
-		<a target="_blank" href="' . $url . '"><div class="inner">';
-		echo '<h5>' . $type . ' Member Spotlight</h5>';
-		echo '<h3>' . $name . '</h3>';
-		echo '<p>' . $blurb . '</p>';
-		// echo '<a class="button" href="' . $url . '">' . $cta . '</a>';
-		echo '</div></a>
-	</div>';
-
-}
-
-
-// Managed Account Permissions. In the Loop.
-function can_edit() {
-	global $post;
-	// Get User Info
-	$current_user = wp_get_current_user();
-	$user = get_userdata( $current_user->ID );
-	$user_roles = $user->roles;
-	// Get Author ID
-	$author_id = $post->post_author;
-
-	if ( $author_id == $current_user->ID ) {
-		// User is Author. Can edit.
-		return true;
-	} elseif ( in_array( 'managed', $user_roles, true ) ) {
-
-		// MANAGED ACCOUNT. Compare to Author
-		$author = get_userdata( $author_id );
-		$author_email = $author->user_email;
-
-		$manager = get_user_meta( $current_user->ID, 'mepr__managed', true );
-
-		if( $manager ) {
-			// User has the "_managed" field properly set. Use it!
-			if( $author_email == $manager ) {
-				// This account is managed by the author. Bingo!
-				return true;
-			} else {
-				// This account is managed, but not by the author.
-				return false;
-			}
-		} else {
-			// The user doesn't have anything set in the "_managed" field.
-			// Compare emails.
-			$user_email = $user->user_email;
-			$author_domain = explode('@', $author_email)[1];
-			$user_domain = explode('@', $user_email)[1];
-
-			// Compare Email Domain Names
-			if( $author_domain == $user_domain ) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-	} else {
-		// User is not Author or Managed. Can not edit.
-		return false;
-	}
-
-}
-
-// Get Author and Managed User IDs. Outside the Loop.
-function icanhaz() {
-	$current_user = wp_get_current_user();
-	$user = get_userdata( $current_user->ID );
-
-	// Instanciate the array and add the User to it
-	$author_array = array();
-	$author_array[] = $current_user->ID;
-
-	// Check Roles
-	$user_roles = $user->roles;
-	if( in_array( 'managed', $user_roles, true ) ) {
-
-		// This is a Managed account. Get the Manager ID
-		$manager = get_user_by( 'email', get_user_meta( $current_user->ID, 'mepr__managed', true ) );
-		// Add the Manager to the Array
-		$author_array[] = $manager->ID;
-
-	} else {
-		// This Account is a Primary. We're done here.
-	}
-	return $author_array;
-}
-
-
-// Achievement Get! (user has gotten the GLAD logo)
-function achievementget() {
-
-	$user = $_POST['user_id'];
-
-	update_user_meta( $user, 'achievementget', true );
-
-	die();
-}
-add_action( 'wp_ajax_achievementget', 'achievementget' );
-add_action( 'wp_ajax_nopriv_achievementget', 'achievementget' );
-
 
 // When a user makes edits to their posts on the members dashboard,
 // The dynamic forms call this function to save information
@@ -942,6 +997,11 @@ function update_listing_function() {
 }
 add_action( 'wp_ajax_updatelisting', 'update_listing_function' );
 add_action( 'wp_ajax_nopriv_updatelisting', 'update_listing_function' );
+
+
+/** ********************************************************
+ *                         COMPS                           *
+ ********************************************************* */
 
 // Submit or Update Comp
 function comp_function() {
@@ -1134,49 +1194,32 @@ add_action( 'wp_ajax_nopriv_updatecomp', 'comp_function' );
 
 // Sort Comps
 function sort_comps() {
-	$column = $_POST['column'];
-	$order = strtoupper( $_POST['sort'] );
+
+	$args = json_decode( stripslashes( $_POST['posts'] ), true );
+
+	// paginate?
 	$page = $_POST['page'] ? intval($_POST['page']) : 1;
 	$dir = $_POST['dir'] ? $_POST['dir'] : false;
-
-	if( $dir && $dir == 'next') {
-		$page++;
-	} elseif( $dir && $page >= 2 ) {
-		$page--;
-	}
-
-	// When pressing NEXT and PREV, we don't want to FLIP the order, so let's flip the flip in order to be correct.
-	// There's probably a better way, but eh. This works.
-	if( $dir && $column != 'default' ) {
-		switch( $order ) {
-			case 'ASC':
-				$order = 'DESC';
-				break;
-			case 'DESC':
-				$order = 'ASC';
-				break;
+	if( $dir ) {
+		// Since we're paging, we don't want to flip the order as if the column was pressed.
+		// Ignore the FLIPPED order and just retain ORDER arg from _POSTS
+		if( $dir == 'next') {
+			$page++;
+		} elseif( $page >= 2 ) {
+			$page--;
 		}
-	}
-
-	$args = array(
-		'post_type'				=> 'comp',
-		'order'         	=> $order,
-		'posts_per_page' 	=> 10,
-		'paged'						=> $page,
-		'tag__not_in'   	=> array('29')
-	);
-
-	if( $column == 'default' ) {
-		$args['orderby'] = 'date';
 	} else {
-		$args['meta_query'] = array(
-			'order_clause' => array(
-				'key'	=> $column,
-				'compare' => 'EXISTS',
-			)
-		);
-		$args['orderby'] = 'order_clause';
+		$args['order'] = strtoupper( $_POST['sort'] );
 	}
+	$args['paged'] = $page;
+
+	$args['meta_query'] = array(
+		'order_clause' => array(
+			'key'	=> $_POST['column'],
+			'compare' => 'EXISTS',
+			'type' => 'NUMERIC',
+		)
+	);
 
 	$comp_query = new WP_Query( $args );
 
@@ -1201,7 +1244,8 @@ function sort_comps() {
 			'page' => $page,
 			'max_page' => $comp_query->max_num_pages,
 			'found_posts' => $comp_query->found_posts,
-			'content' => $string
+			'posts' => json_encode( $comp_query->query_vars ),
+			'content' => $string,
 		) );
 
 	die();
@@ -1287,6 +1331,7 @@ function get_comp() {
 			'esp9' => 'ESP Silver Lite',
 			'fha' => 'FHA',
 			'fmp' => 'FMP Maintenance',
+			'ge'	=> 'GE OnPoint',
 			'jssi01' => 'JSSI',
 			'jssi02' => 'JSSI - Complete',
 			'jssi03' => 'JSSI - Essential',
@@ -1465,99 +1510,10 @@ function get_comp() {
 add_action( 'wp_ajax_getcomp', 'get_comp' );
 add_action( 'wp_ajax_nopriv_getcomp', 'get_comp' );
 
-// Save Mobile SMS Settings
-function update_sms_settings() {
 
-	$user = $_POST['user_id'];
-	$sms_main = $_POST['mobile'] ?: get_user_meta($user, 'mepr_mobile', true);
-	$sms_main_sanitized = stripPhoneNumber( $sms_main );
-	$optout = $_POST['alert_optout'] ? true : false;
-
-	// TODO need to run a check to see if the main contact has entered an alternate phone number into the system AFTER having previously saved their default number so that we can remove their original number but keep the new one.
-
-	// First, let's update the global Opt-Out status
-	update_user_meta( $user, 'mepr_alert_optout', $optout );
-
-	// Text Magic
-	global $tmApiClient;
-	$list = '1399538'; // This is the Dealer Member List in TMSMS
-
-	if ( $_POST['sms_enabled'] && !$optout ) {
-
-		// Add Main Number to TMSMS List
-		$search = implode( ', ', findContact( $sms_main_sanitized ) );
-		if( $search ) {
-			// IF CONTACT EXISTS, add to LIST
-			$add = addToList( $list, $search );
-		} else {
-			// IF CONTACT DOES NOT EXIST, CREATE WITH LIST
-			$username = get_user_meta($user, 'first_name', true) . get_user_meta($user, 'last_name', true);
-			$newcontact = createContact( $username, $sms_main_sanitized, $list );
-		}
-
-		// Now save this info to Wordpress and Wild Apricot
-		update_user_meta( $user, 'mepr_sms_enabled', true );
-		update_user_meta( $user, 'mepr_sms_main', $sms_main_sanitized );
-
-	} else {
-		update_user_meta( $user, 'mepr_sms_enabled', false );
-	}
-
-	$oldlist = false;
-	$employees = json_decode( get_user_meta( $user, 'mepr_employees', true ), true );
-	sync_with_TextMagic( $user, $oldlist, $employees );
-
-	wp_die( $user );
-
-}
-add_action( 'wp_ajax_updatemobilesettings', 'update_sms_settings' );
-add_action( 'wp_ajax_nopriv_updatemobilesettings', 'update_sms_settings' );
-
-
-// Save Employee Settings
-function update_employees() {
-
-	$user = $_POST['user_id'];
-	$sms_ison = get_user_meta($user, 'mepr_sms_enabled', true);
-	$employees = array();
-
-	$i = 0;
-	foreach( $_POST as $key => $value ) {
-		// Is this a new phone number entry?
-		if( strpos( $key, 'name' ) !== false ) {
-
-			$index = substr( $key, -1 );
-			$emailKey 	= 'email_' . $index;
-			$titleKey 	= 'title_' . $index;
-			$numberKey 	= 'number_' . $index;
-			$smsKey 		= 'sms_enabled_' . $index;
-			$alertKey 	= 'alert_enabled_' . $index;
-
-			// Save Name and Number
-			$employees[ $i ]['name'] = $value;
-			$employees[ $i ]['title'] = $_POST[ $titleKey ] ? : '';
-			$employees[ $i ]['number'] = stripPhoneNumber( $_POST[ $numberKey ] ) ? : '';
-			$employees[ $i ]['email'] = $_POST[ $emailKey ] ? : '';
-			$employees[ $i ]['sms_enabled'] = $_POST[ $smsKey ] ? true : false;
-			$employees[ $i ]['alert_optout'] = $_POST[ $alertKey ] ? true : false;
-			// Is this already a user?
-			$ismember = get_user_by( 'email', $_POST[ $emailKey ] ) ? true : false;
-			$employees[ $i ]['ismember'] = $ismember;
-
-			$i++;
-		}
-	}
-
-	$oldlist = get_user_meta( $user, 'mepr_employees', true );
-	update_user_meta( $user, 'mepr_employees', json_encode( $employees ) );
-	if( $sms_ison ) {
-		sync_with_TextMagic( $user, $oldlist, $employees );
-	}
-	wp_die( $user );
-}
-add_action( 'wp_ajax_updateemployees', 'update_employees' );
-add_action( 'wp_ajax_nopriv_updateemployees', 'update_employees' );
-
+/** ********************************************************
+ *                         ALERTS                          *
+ ********************************************************* */
 
 function sync_with_TextMagic( $user, $oldlistjson, $newlist ) {
 
@@ -1661,25 +1617,39 @@ function get_all_member_emails() {
 	}
 }
 
-// This functions with the OPTOUT status of Alerts
-function get_all_member_names_and_emails() {
+// This functions with optional OPTOUT status
+// OPTOUT can receive alerts, charteralerts, or servicealerts ( email user names )
+function get_all_member_names_and_emails( $optouttype = 'alerts' ) {
 	$members = get_users( array(
 		'role__in' => array( 'administrator', 'dealer', 'industry', 'managed' ),
 		'fields' => array( 'ID', 'user_email' ),
 	) );
 	if( !empty( $members ) ) {
 		$memberarray = array();
+
+		switch( $optouttype ) {
+			case 'charteralerts':
+				$meta = 'charteralert_optout';
+				break;
+			case 'servicealerts':
+				$meta = 'servicealert_optout';
+				break;
+			default:
+				$meta = 'alert_optout';
+		}
+
 		foreach( $members as $member ) {
 			//grab the member's name and email ( with OPTOUT )
-			$optout = get_user_meta($member->ID, 'mepr_alert_optout', true) ? true : false;
-			if( !$optout ) {
+			$alloptout = get_user_meta($member->ID, 'mepr_alert_optout', true) ? true : false;
+			$optout = get_user_meta($member->ID, 'mepr_' . $meta, true) ? true : false;
+			if( !$alloptout && !$optout ) {
 				$name = get_user_meta($member->ID, 'first_name', true) . ' ' . get_user_meta($member->ID, 'last_name', true);
 				$memberarray[] = $name . ' <' . $member->user_email . '>';
 				//now see if we have team members to retrieve
 				$team = json_decode( get_user_meta($member->ID, 'mepr_employees', true), true ) ?: false;
 				if( $team ) {
 					foreach( $team as $teammember ) {
-						if( $teammember['email'] && !$teammember['alert_optout'] ) {
+						if( $teammember['email'] && !$teammember[ $meta ] ) {
 							//add each team member's email to the list if enabled (optout is true, receive is false)
 							$memberarray[] = $teammember['name'] . ' <' . $teammember['email'] . '>';
 						}
@@ -1738,20 +1708,33 @@ function send_alert($post_id, $test = false) {
 	$title = $post->post_title;
 	$message = $post->post_content;
 
+	$type = get_post_meta( $post_id, 'to', true );
+	switch( $type ) {
+		case 'charteralerts':
+			$from = 'GLADA Charter Alerts';
+			break;
+		case 'servicealerts':
+			$from = 'GLADA Service Alerts';
+			break;
+		default:
+			$from = 'GLADA Alerts';
+			$type = 'alerts';
+	}
+
 	$alert = generate_alert_email( $sender, $message, $title );
 
-	if( $test ) {
+	if( $test || $title == 'test' ) {
 		$to_sms = 'dj2896081584467633@textmagic.com';
 		$bcc = $alert['name'] . ' <' . $alert['email'] . '>';
 	} else {
 		$to_sms = 'eh2896081584467959@textmagic.com';
-		$bcc_array = get_all_member_names_and_emails();
+		$bcc_array = get_all_member_names_and_emails( $type );
 		$bcc = implode( ',', $bcc_array );
 	}
 
 	$headers = array(
 		'Content-Type: text/html; charset=UTF-8',
-		'From: GLADA Alerts <alerts@glada.aero>',
+		'From: ' . $from . ' <' . $type . '@glada.aero>',
 		'Reply-To: ' . $alert['name'] . ' <' . $alert['email'] . '>',
 	);
 
@@ -1849,12 +1832,20 @@ function strip_sigs($post, $headers) {
 	$split = preg_split( $matches, $content );
 	$post['post_content'] = $split[0];
 
-	if (array_key_exists('sender', $headers)) {
-		$from = $headers['sender']['mailbox'] . '@' . $headers['sender']['host'];
+	if (array_key_exists('from', $headers)) {
+		$from = $headers['from']['personal'] . '<' . $headers['from']['mailbox'] . '@' . $headers['from']['host'] . '>';
 		$try = update_post_meta( $post['ID'], 'replyto', $from );
   } else {
 		$try = update_post_meta( $post['ID'], 'headers', $headers );
 	}
+
+	$from = $headers['from']['mailbox'] . '@' . $headers['from']['host'];
+
+	$post['meta_input'] = array(
+		'headers' => json_encode( $headers ),
+		'to'			=> $headers['to']['mailbox'],
+		'replyto' => $from
+	);
 
 	return $post;
 }
@@ -1863,6 +1854,28 @@ add_filter('postie_post_before', 'strip_sigs', 10, 2);
 // https://postieplugin.com/extending/
 function send_alert_after_import($post) {
 
+		// Let's set the Type first
+		$type = get_post_meta( $post['ID'], 'to', true );
+		switch( $type ) {
+			case 'charteralerts':
+				$typeid = 80;
+				break;
+			case 'servicealerts':
+				$typeid = 81;
+				break;
+			default:
+				$typeid = false;
+		}
+		if( $typeid ) {
+			$try = wp_set_post_terms( $post['ID'], $typeid, 'alerttype' );
+		}
+
+		// Is this a test?
+		if( $post['post_title'] == 'test' ) {
+			wp_update_post( array( 'ID' => $post['ID'], 'post_status' => 'draft' ) );
+		}
+
+		// Now let's bounce alerts that don't need to be here
 		$bouncereason = '';
 
 		// Membership EXPIRED and NON-MEMBER protection
@@ -1950,7 +1963,7 @@ add_filter('postie_post_after', 'send_alert_after_import');
 
 // Check to see if the Alert Email Sender has an account.
 function alert_emailcheck($email) {
-		$user = get_user_by_email( $email );
+		$user = get_user_by( 'email', $email );
 		if( $user ) {
 			return $email;
 		} else {
@@ -1976,54 +1989,9 @@ function alert_emailcheck($email) {
 add_filter('postie_filter_email', 'alert_emailcheck');
 
 
-// Multidimensional Array Search
-function in_array_r($needle, $haystack, $strict = false) {
-    foreach ($haystack as $item) {
-        if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
-            return true;
-        }
-    }
-    return false;
-}
-
-//Format Phone Numbers
-function formatPhoneNumber($phoneNumber) {
-    $phoneNumber = preg_replace('/[^0-9]/','',$phoneNumber);
-
-    if(strlen($phoneNumber) > 10) {
-        $countryCode = substr($phoneNumber, 0, strlen($phoneNumber)-10);
-        $areaCode = substr($phoneNumber, -10, 3);
-        $nextThree = substr($phoneNumber, -7, 3);
-        $lastFour = substr($phoneNumber, -4, 4);
-
-        $phoneNumber = '+'.$countryCode.' ('.$areaCode.') '.$nextThree.'-'.$lastFour;
-    }
-    else if(strlen($phoneNumber) == 10) {
-        $areaCode = substr($phoneNumber, 0, 3);
-        $nextThree = substr($phoneNumber, 3, 3);
-        $lastFour = substr($phoneNumber, 6, 4);
-
-        $phoneNumber = '('.$areaCode.') '.$nextThree.'-'.$lastFour;
-    }
-    else if(strlen($phoneNumber) == 7) {
-        $nextThree = substr($phoneNumber, 0, 3);
-        $lastFour = substr($phoneNumber, 3, 4);
-
-        $phoneNumber = $nextThree.'-'.$lastFour;
-    }
-    return $phoneNumber;
-}
-
-function stripPhoneNumber( $phoneNumber ) {
-	$phoneNumber = preg_replace('/[^0-9]/','',$phoneNumber);
-	// If we only have 10 digits, add a leading "1"
-	if(strlen($phoneNumber) == 10) {
-		$phoneNumber = sprintf( "%'111d", $phoneNumber );
-	}
-
-	return $phoneNumber;
-}
-
+/** ********************************************************
+ *                    LEAFLET - MAPS                       *
+ ********************************************************* */
 
 // LEAFLET -- SUBMIT AJAX FORM
 function save_my_location() {
@@ -2077,7 +2045,6 @@ function delete_map_node() {
 add_action( 'wp_ajax_deletenode', 'delete_map_node' );
 add_action( 'wp_ajax_nopriv_deletenode', 'delete_map_node' );
 
-
 // All Member Locations
 function memberlocations() {
 	$memberlocations = array();
@@ -2124,82 +2091,84 @@ function memberlocations() {
 	return $memberlocations;
 }
 
-// Create Member Types for Buddypress
-// https://codex.buddypress.org/developer/member-types/
-function register_member_types() {
-    bp_register_member_type( 'dealer', array(
-        'labels' => array(
-            'name'          => 'Dealer Members',
-            'singular_name' => 'Dealer Member',
-        ),
-    ) );
-		bp_register_member_type( 'industry', array(
-        'labels' => array(
-            'name'          => 'Industry Members',
-            'singular_name' => 'Industry Member',
-        ),
-    ) );
-		bp_register_member_type( 'child', array(
-        'labels' => array(
-            'name'          => 'Child Members',
-            'singular_name' => 'Child Member',
-        ),
-    ) );
+function load_leaflet() {
+	/**
+	 * Geocoder
+	 * https://github.com/perliedman/leaflet-control-geocoder
+	 */
+	wp_enqueue_style('leaflet', get_template_directory_uri() . '/vendor/leaflet/leaflet.css' );
+	wp_enqueue_style('geocoder', get_template_directory_uri() . '/vendor/leaflet/geocoder/Control.Geocoder.css' );
+	wp_enqueue_script('leaflet', get_template_directory_uri() . '/vendor/leaflet/leaflet-src.js', array(), '20200921', true);
+	wp_enqueue_script('geocoder', get_template_directory_uri() . '/vendor/leaflet/geocoder/Control.Geocoder.js', array('leaflet'), '20200921', true);
+	wp_enqueue_script('leafletsettings', get_template_directory_uri() . '/js/leaflet-settings.min.js', array('jquery'), '20200930', true);
+	wp_localize_script('leafletsettings', 'themevars', localize_vars() );
 }
-add_action( 'bp_register_member_types', 'register_member_types' );
 
-// FILTER BUDDYPRESS MEMBER LOOP
-function only_members( $retval ) {
-	$retval['member_type'] = array( 'dealer', 'industry' );
-	return $retval;
+
+/** ********************************************************
+ *                        SUPPORT                          *
+ ********************************************************* */
+
+// Multidimensional Array Search
+function in_array_r($needle, $haystack, $strict = false) {
+    foreach ($haystack as $item) {
+        if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
+            return true;
+        }
+    }
+    return false;
 }
-add_filter( 'bp_before_has_members_parse_args', 'only_members' );
 
-// Going to do this for the AJAX Query String as well.
-function modify_members_loop( $qs=false, $object=false ) {
+//Format Phone Numbers
+function formatPhoneNumber($phoneNumber) {
+    $phoneNumber = preg_replace('/[^0-9]/','',$phoneNumber);
 
-  if ( $object != 'members' ) {
-		return $qs;
+    if(strlen($phoneNumber) > 10) {
+        $countryCode = substr($phoneNumber, 0, strlen($phoneNumber)-10);
+        $areaCode = substr($phoneNumber, -10, 3);
+        $nextThree = substr($phoneNumber, -7, 3);
+        $lastFour = substr($phoneNumber, -4, 4);
+
+        $phoneNumber = '+'.$countryCode.' ('.$areaCode.') '.$nextThree.'-'.$lastFour;
+    }
+    else if(strlen($phoneNumber) == 10) {
+        $areaCode = substr($phoneNumber, 0, 3);
+        $nextThree = substr($phoneNumber, 3, 3);
+        $lastFour = substr($phoneNumber, 6, 4);
+
+        $phoneNumber = '('.$areaCode.') '.$nextThree.'-'.$lastFour;
+    }
+    else if(strlen($phoneNumber) == 7) {
+        $nextThree = substr($phoneNumber, 0, 3);
+        $lastFour = substr($phoneNumber, 3, 4);
+
+        $phoneNumber = $nextThree.'-'.$lastFour;
+    }
+    return $phoneNumber;
+}
+
+function stripPhoneNumber( $phoneNumber ) {
+	$phoneNumber = preg_replace('/[^0-9]/','',$phoneNumber);
+	// If we only have 10 digits, add a leading "1"
+	if(strlen($phoneNumber) == 10) {
+		$phoneNumber = sprintf( "%'111d", $phoneNumber );
 	}
 
-  $members =  get_users(
-		array(
-			'fields' => 'ID',
-			'role__in' => array(
-				'industry',
-				'dealer',
-			)
-		) );
-
-	$args = array(
-		'include' => $members,
-		'paged' => false,
-		'per_page' => 50,
-	);
-
-  $qs = build_query($args);
-
-  return $qs;
+	return $phoneNumber;
 }
-add_action( 'bp_ajax_querystring' , 'modify_members_loop', 25, 2 );
 
-// // THE NOUVEAU THEME doesn't use this, so it's worthless. Modified the BP directory-nav.php instead
-// function modify_total_member_count() {
-//
-// 	$members =  get_users(
-// 		array(
-// 			'fields' => ID,
-// 			'role__in' => array(
-// 				'industry',
-// 				'dealer',
-// 			)
-// 		) );
-// 		$count = count( $members );
-//     return $count;
-//
-// }
-// apply_filters( 'bp_get_total_member_count', 'modify_total_member_count', 25, 2 );
-// apply_filters( 'bp_get_active_member_count', 'modify_total_member_count', 25, 2 );
+// Convert a random ascii string into a usable number
+function toNumber($ascii) {
+    if (( $str_array = str_split( $ascii ))) {
+			$num = '';
+			foreach( $str_array as $char ) {
+				$num .= ord($char);
+			}
+			return substr( $num, -5 );
+		} else {
+			return mt_rand(999,99999);
+		}
+}
 
 /**
  * Reporting Tool
@@ -2219,28 +2188,12 @@ function diagnostic_function() {
 			// Let's get MemberPress
 			$member = new MeprUser( $user_id ); // Get Membership User Info
 			//$sub_ids    = $member->current_and_prior_subscriptions(); //returns an array of Product ID's the user has ever been subscribed to
-			//$activesubs = $member->active_product_subscriptions('ids'); // self-explanatory
-
-			// Instanciate Wild Apricot API
-		  // global $waApiClient;
-		  // global $accountUrl;
-			//
-		  // $waApiClient = WaApiClient::getInstance();
-		  // try {
-		  //   $waApiClient->initTokenByApiKey('gnb9yn2costjf4ynocej1qpz80402o');
-		  //   // $waApiClient->initTokenByContactCredentials('admin@yourdomain.com', 'your_password');
-		  // } catch (Exception $e) {
-		  //   $error = $e->getMessage();
-		  // }
-		  // Get API URL using API KEY
-		  // $account = getAccountDetails();
-		  // $accountUrl = $account['Url'];
+			$activesubs = $member->active_product_subscriptions('ids'); // self-explanatory
 
 			echo '<div>';
 				echo '<div class="response-container">';
 
-					$newlogo = bp_attachments_get_attachment( 'url', array( 'item_id' => $user_id ) );
-					echo '<img style="max-width:200px;position:absolute;top:0;right:2em;" src="' . $newlogo . '">';
+					echo '<img style="max-width:200px;position:absolute;top:0;right:2em;" src="' . get_company_logo( $user_id ) . '">';
 					echo '<h1>' . $userMeta['first_name'][0] . ' ' . $userMeta['last_name'][0] . '</h1>';
 
 					$industry = array( 20, 589, 247, 587, 1020 );
@@ -2257,59 +2210,67 @@ function diagnostic_function() {
 						echo '<h3>' . ucwords( $membType ) . ' Member - Sub ID: ' . $memb . '</h3><br>';
 					}
 
-					///////////////////////////////////////////////////////////////
+					// CORPORATE ACCOUNTS
+					echo '<div>';
 
-					// WILD APRICOT MEMBERSHIP
-					// echo '<div class="wa">';
-					// echo '<h4 style="margin-top:1em;">Wild Apricot</h4>';
-					//
-					// sync_memberships( $user_id, $waApiClient, $wa_ID, true );
-					//
-					// echo '</div>';
-					//
-					// /////////////////////////////////////////////////////////////////
-					//
-					// echo '<div class="lower">';
-					// echo '<div>';
-					// echo '<h4 style="margin-top:1em;">Sync Finances</h4>';
-					//
-					// sync_finances( $user_id, $waApiClient, $wa_ID, true );
-					//
-					// echo '</div>';
+						$account = $userMeta['mpca_corporate_account_id'][0] ? 'Corporate' : 'Personal';
+						echo 'Account is ' . $account;
 
-					//////////////////////////////////////////////////////////////
+						$roles = $userObj->roles;
+						if( in_array( 'managed', $roles )) {
+							$child = true;
+						}
+
+						$sub_user_ids = array();
+
+						if($member !== false) {
+						  $transactions = $member->active_product_subscriptions('transactions');
+
+						  if(!empty($transactions)) {
+						    foreach($transactions as $txn) {
+						      if(($sub = $txn->subscription()) !== false) {
+						        //Recurring subscription
+						        $ca = MPCA_Corporate_Account::find_corporate_account_by_obj_id($sub->id, 'subscriptions');
+						      }
+						      else {
+						        //Non Recurring subscription
+						        $ca = MPCA_Corporate_Account::find_corporate_account_by_obj_id($txn->id, 'transactions');
+						      }
+
+						      if(!empty($ca) && isset($ca->id) && !empty($ca->id)) {
+
+						        $url = $ca->sub_account_management_url();
+										$sub_users = $ca->sub_users();
+
+						        foreach($sub_users as $user) {
+						          $sub_user_ids[] = $user->ID;
+						        }
+
+										echo '<br><br>';
+										var_dump( $ca );
+										echo '<br><br>';
+
+						      }
+						    }
+								$sub_user_ids = array_unique($sub_user_ids);
+						  }
+						}
+						if(!empty($sub_user_ids)) {
+						  echo '<h2>Sub Accounts</h2><ul>';
+						  foreach($sub_user_ids as $user_id) {
+						    $subaccount = new MeprUser($user_id);
+						    echo '<li>' . $subaccount->user_login . '</li>';
+						  }
+						  echo '</ul>';
+						}
+
+					echo '</div>';
 
 					//Test some Buddypress Stuff
 					echo '<div>';
 					echo '<h4 style="margin-top:1em;">Sync with Buddypress</h4>';
-					$buddypressKey = array(
-						'Company Name'    => 'mepr_company',
-						'Title'           => 'mepr_title',
-						'Website'         => 'mepr_company_website',
-						'Phone Number'    => 'mepr_phone_number',
-						'Fax Number'      => 'mepr_fax',
-						'Mobile Number'   => 'mepr_mobile',
-						'Industry Type'   => 'mepr_industry_type',
-						'Aviation Association Memberships and Affiliations' => 'mepr_aviation_associations_memberships_and_affiliations',
-					);
 
-					foreach( $buddypressKey as $bp => $wp ) {
-						if ( xprofile_get_field_id_from_name( $bp ) ) {
-							$field_value = $userMeta[ $wp ][0];
-							if( $field_value ) {
-								echo 'Set <span>' . $bp . '</span> to ' . $field_value . '<br>';
-								xprofile_set_field_data($bp, $user_id, $field_value);
-							} else {
-								echo '- No data for ' . $bp . '<br>';
-							}
-						}
-					}
-
-					$roles = $userObj->roles;
-					if( in_array( 'managed', $roles )) {
-						$child = true;
-					}
-
+					wordpress_to_buddypress( $user_id );
 					$appType = strtolower( $userMeta['mepr_membership_type'][0] );
 					$buddypressType = bp_get_member_type( $user_id );
 
@@ -2385,19 +2346,17 @@ function approve_function() {
 add_action( 'wp_ajax_approvemember', 'approve_function' );
 add_action( 'wp_ajax_nopriv_approvemember', 'approve_function' );
 
+// Achievement Get! (user has gotten the GLAD logo)
+function achievementget() {
 
-// Convert a random ascii string into a usable number
-function toNumber($ascii) {
-    if (( $str_array = str_split( $ascii ))) {
-			$num = '';
-			foreach( $str_array as $char ) {
-				$num .= ord($char);
-			}
-			return substr( $num, -5 );
-		} else {
-			return mt_rand(999,99999);
-		}
+	$user = $_POST['user_id'];
+
+	update_user_meta( $user, 'achievementget', true );
+
+	die();
 }
+add_action( 'wp_ajax_achievementget', 'achievementget' );
+add_action( 'wp_ajax_nopriv_achievementget', 'achievementget' );
 
 // Upload for Specsheet
 function upload_specsheet() {
@@ -2459,6 +2418,10 @@ add_action( 'admin_post_upload_featuredimage', 'upload_featuredimage' );
 add_action( 'admin_post_nopriv_upload_featuredimage', 'upload_featuredimage' );
 
 
+/** ********************************************************
+ *                     QUERY FILTERS                       *
+ ********************************************************* */
+
 // Exclude "Deleted" Posts
 function exclude_deleted_posts( $query ) {
     if ( !is_admin() && $query->is_main_query() ) {
@@ -2481,14 +2444,15 @@ function exclude_offmarket_listings( $query ) {
 						)
 				);
     		$query->query_vars['order'] = 'DESC';
-				$query->query_vars['orderby'] = 'year_clause';
-				$query->query_vars['meta_query'] = array(
-					 'year_clause' => array(
-								'key' => 'year',
-								'compare' => 'EXISTS',
-								'type' => 'NUMERIC'
-						)
-				);
+				$query->query_vars['orderby'] = 'date';
+				// $query->query_vars['orderby'] = 'year_clause';
+				// $query->query_vars['meta_query'] = array(
+				// 	 'year_clause' => array(
+				// 				'key' => 'year',
+				// 				'compare' => 'EXISTS',
+				// 				'type' => 'NUMERIC'
+				// 		)
+				// );
     }
 		if ( is_post_type_archive('opportunity') && $query->is_main_query() ) {
 				$query->query_vars['paged'] = false;
@@ -2498,6 +2462,11 @@ function exclude_offmarket_listings( $query ) {
 		}
 }
 add_action( 'pre_get_posts', 'exclude_offmarket_listings' );
+
+
+/** ********************************************************
+ *                         ADMIN                           *
+ ********************************************************* */
 
 // Change Password Reset Timeout
 add_filter( 'password_reset_expiration', function( $expiration ) {
